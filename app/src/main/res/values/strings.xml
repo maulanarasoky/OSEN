@@ -6,4 +6,17 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="class_type">
+        <item>Reguler</item>
+        <item>Non-Reguler</item>
+    </string-array>
+    <string-array name="day_name">
+        <item>Senin</item>
+        <item>Selasa</item>
+        <item>Rabu</item>
+        <item>Kamis</item>
+        <item>Jumat</item>
+        <item>Sabtu</item>
+    </string-array>
 </resources>

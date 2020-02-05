@@ -7,6 +7,9 @@ import android.view.*
 import androidx.fragment.app.Fragment
 
 import com.example.osen.R
+import com.example.osen.activity.AddClassroom
+import kotlinx.android.synthetic.main.fragment_add.*
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -21,5 +24,12 @@ class AddFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add, container, false)
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        addClass.setOnClickListener {
+            startActivity<AddClassroom>()
+        }
+    }
 
 }

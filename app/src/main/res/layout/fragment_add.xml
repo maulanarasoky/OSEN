@@ -28,14 +28,15 @@
         android:textSize="26sp" />
 
     <LinearLayout
+        android:id="@+id/addClass"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:padding="24dp"
+        android:padding="16dp"
         android:orientation="vertical"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="40dp"
         android:gravity="center"
         android:elevation="10dp"
         android:background="@drawable/square_add">
@@ -54,15 +55,16 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/addData"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:padding="24dp"
+        android:padding="16dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="40dp"
         android:elevation="10dp"
         android:background="@drawable/square_add">
         <ImageView
