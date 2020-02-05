@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Osen</string>
+    <string name="home">Home</string>
+    <string name="tambah">Tambah</string>
+    <string name="profil">Profil</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
