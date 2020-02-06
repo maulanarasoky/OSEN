@@ -1,6 +1,7 @@
 package com.example.osen.activity
 
 import android.app.DatePickerDialog
+import android.database.sqlite.SQLiteConstraintException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -8,7 +9,11 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import com.example.osen.R
+import com.example.osen.database.database
+import com.example.osen.model.Classroom
 import kotlinx.android.synthetic.main.activity_add_classroom.*
+import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.toast
 import java.util.*
 
@@ -81,7 +86,7 @@ class AddClassroom : AppCompatActivity() {
             clear()
         }
         submit.setOnClickListener {
-            submit()
+            addClassroom()
         }
     }
 
@@ -95,7 +100,28 @@ class AddClassroom : AppCompatActivity() {
         thirdDay.setSelection(0)
     }
 
-    private fun submit(){
-        toast("Berhasil").show()
+    private fun addClassroom(){
+        val name = className.text.toString()
+        val type = classType.selectedItem.toString()
+        val start = classStart.text.toString()
+        val end = classEnd.text.toString()
+        val day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
+        try {
+            database.use {
+                insert(
+                    Classroom.TABLE_CLASSROOM,
+                    Classroom.CLASS_NAME to name,
+                    Classroom.CLASS_START to start,
+                    Classroom.CLASS_END to end,
+                    Classroom.CLASS_DAY to day,
+                    Classroom.CLASS_TYPE to type,
+                    Classroom.TEACHER_ID to 1)
+            }
+            clear()
+            finish()
+            toast("Kelas berhasil dibuat").show()
+        }catch (e: SQLiteConstraintException){
+            submit.snackbar("Error").show()
+        }
     }
 }
