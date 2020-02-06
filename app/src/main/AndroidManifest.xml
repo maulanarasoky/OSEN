@@ -8,8 +8,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.FullScreen">
-        <activity android:name=".activity.AddClassroom"></activity>
+        android:theme="@style/AppTheme.FullScreen"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:replace="android:icon">
+        <activity android:name=".activity.AddClassroom"/>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

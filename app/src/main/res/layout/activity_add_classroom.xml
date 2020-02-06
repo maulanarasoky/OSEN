@@ -1,245 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.AddClassroom">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolBar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/ic_action_bar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:paddingBottom="24dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:fontFamily="@font/nexabold"
-        android:text="T A M B A H  K E L A S"
-        android:textColor="@android:color/white"
-        android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="@id/toolBar"
-        app:layout_constraintEnd_toEndOf="@id/toolBar"
-        app:layout_constraintStart_toStartOf="@id/toolBar"
-        app:layout_constraintTop_toTopOf="@id/toolBar" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/ic_action_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TableLayout
-        android:id="@+id/table"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/nexabold"
+            android:text="T A M B A H  K E L A S"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toBottomOf="@id/toolBar"
+            app:layout_constraintEnd_toEndOf="@id/toolBar"
+            app:layout_constraintStart_toStartOf="@id/toolBar"
+            app:layout_constraintTop_toTopOf="@id/toolBar" />
 
-        <TableRow>
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:background="@drawable/square_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolBar">
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text="Nama Kelas"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text=" : "
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/className"
+            <TableLayout
+                android:id="@+id/table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/actionBarColor"
-                android:inputType="text"
-                android:fontFamily="@font/firasans"
-                android:textSize="20sp" />
-        </TableRow>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolBar">
 
-        <TableRow
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+                <TableRow>
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text="Jenis Kelas"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Nama Kelas"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text=" : "
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <Spinner
-                android:id="@+id/classType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:theme="@style/Spinner" />
-        </TableRow>
+                    <EditText
+                        android:id="@+id/className"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/actionBarColor"
+                        android:fontFamily="@font/firasans"
+                        android:inputType="text"
+                        android:textSize="20sp" />
+                </TableRow>
 
-        <TableRow
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text="Jadwal Mulai"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Jenis Kelas"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text=" : "
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/classStart"
-                android:text="Pilih"
-                android:fontFamily="@font/firasans"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:background="@drawable/background_button" />
-        </TableRow>
+                    <Spinner
+                        android:id="@+id/classType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+                        android:theme="@style/Spinner" />
+                </TableRow>
 
-        <TableRow
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text="Jadwal Berakhir"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Jadwal Mulai"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text=" : "
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/classEnd"
-                android:text="Pilih"
-                android:fontFamily="@font/firasans"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_button"
-                android:padding="8dp"/>
-        </TableRow>
+                    <Button
+                        android:id="@+id/classStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_button"
+                        android:fontFamily="@font/firasans"
+                        android:padding="8dp"
+                        android:text="Pilih"
+                        android:layout_weight="1.0"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+                </TableRow>
 
-        <TableRow
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text="Hari Pertama"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Jadwal Berakhir"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text=" : "
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <Spinner
-                android:id="@+id/classFirstDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:theme="@style/Spinner" />
-        </TableRow>
+                    <Button
+                        android:id="@+id/classEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/background_button"
+                        android:fontFamily="@font/firasans"
+                        android:padding="8dp"
+                        android:text="Pilih"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+                </TableRow>
 
-        <TableRow
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text="Hari Kedua"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Hari Pertama"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text=" : "
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <Spinner
-                android:id="@+id/classSecondDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:theme="@style/Spinner" />
-        </TableRow>
+                    <Spinner
+                        android:id="@+id/classFirstDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+                        android:theme="@style/Spinner" />
+                </TableRow>
 
-        <TableRow
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text="Hari Ketiga"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Hari Kedua"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <TextView
-                android:fontFamily="@font/firasans"
-                android:text=" : "
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-            <Spinner
-                android:id="@+id/classThirdDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:theme="@style/Spinner" />
-        </TableRow>
+                    <Spinner
+                        android:id="@+id/classSecondDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+                        android:theme="@style/Spinner" />
+                </TableRow>
 
-    </TableLayout>
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
 
-    <Button
-        android:id="@+id/clear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/submit"
-        app:layout_constraintTop_toBottomOf="@id/table"
-        android:text="Kosongkan"
-        android:layout_marginStart="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:padding="@dimen/activity_vertical_margin"
-        android:background="@drawable/background_button_clear"
-        android:fontFamily="@font/firasans" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Hari Ketiga"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/table"
-        android:text="Buat Kelas"
-        android:padding="@dimen/activity_vertical_margin"
-        android:background="@drawable/background_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintStart_toEndOf="@id/clear"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:fontFamily="@font/firasans" />
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <Spinner
+                        android:id="@+id/classThirdDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+                        android:theme="@style/Spinner" />
+                </TableRow>
+
+            </TableLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/background_button_clear"
+            android:fontFamily="@font/firasans"
+            android:padding="@dimen/activity_vertical_margin"
+            android:text="Kosongkan"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/submit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/background" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/background_button"
+            android:fontFamily="@font/firasans"
+            android:padding="@dimen/activity_vertical_margin"
+            android:text="Buat Kelas"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/clear"
+            app:layout_constraintTop_toBottomOf="@id/background" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -39,7 +39,7 @@ dependencies {
     // Appcompat-v7 (hanya Anko Commons)
     implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
 
-    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
 
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

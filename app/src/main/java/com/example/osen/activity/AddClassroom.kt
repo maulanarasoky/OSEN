@@ -2,12 +2,14 @@ package com.example.osen.activity
 
 import android.app.DatePickerDialog
 import android.database.sqlite.SQLiteConstraintException
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.Classroom
@@ -30,6 +32,8 @@ class AddClassroom : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_classroom)
+
+
 
         className = findViewById(R.id.className)
         classType = findViewById(R.id.classType)
@@ -86,7 +90,15 @@ class AddClassroom : AppCompatActivity() {
             clear()
         }
         submit.setOnClickListener {
-            addClassroom()
+            if(className.text == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
+                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                dialog.titleText = "Harap masukkan data secara lengkap dan benar"
+                dialog.setCancelable(false)
+                dialog.show()
+            }else{
+                addClassroom()
+            }
         }
     }
 
@@ -118,10 +130,17 @@ class AddClassroom : AppCompatActivity() {
                     Classroom.TEACHER_ID to 1)
             }
             clear()
-            finish()
-            toast("Kelas berhasil dibuat").show()
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialog.titleText = "Kelas Berhasil Dibuat"
+            dialog.setCancelable(false)
+            dialog.show()
         }catch (e: SQLiteConstraintException){
-            submit.snackbar("Error").show()
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialog.titleText = "Gagal membuat kelas"
+            dialog.setCancelable(false)
+            dialog.show()
         }
     }
 }

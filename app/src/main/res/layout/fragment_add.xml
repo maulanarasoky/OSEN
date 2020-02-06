@@ -37,6 +37,7 @@
         android:padding="16dp"
         android:orientation="vertical"
         android:layout_marginStart="40dp"
+        android:clickable="true"
         android:gravity="center"
         android:elevation="10dp"
         android:background="@drawable/square_add">
