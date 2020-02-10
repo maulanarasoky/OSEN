@@ -103,6 +103,28 @@
 
                     <TextView
                         android:fontFamily="@font/firasans"
+                        android:text="Kategori Kelas"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <Spinner
+                        android:id="@+id/classCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+                        android:theme="@style/Spinner" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
                         android:text="Jadwal Mulai"
                         android:textColor="@android:color/black"
                         android:textSize="20sp" />

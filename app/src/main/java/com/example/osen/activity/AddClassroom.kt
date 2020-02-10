@@ -24,6 +24,7 @@ class AddClassroom : AppCompatActivity() {
 
     lateinit var className: TextView
     lateinit var classType : Spinner
+    lateinit var classCategory: Spinner
     lateinit var classStart : Button
     lateinit var classEnd : Button
     lateinit var firstDay : Spinner
@@ -38,6 +39,7 @@ class AddClassroom : AppCompatActivity() {
 
         className = findViewById(R.id.className)
         classType = findViewById(R.id.classType)
+        classCategory = findViewById(R.id.classCategory)
         classStart = findViewById(R.id.classStart)
         classEnd = findViewById(R.id.classEnd)
         firstDay = findViewById(R.id.classFirstDay)
@@ -47,6 +49,11 @@ class AddClassroom : AppCompatActivity() {
         ArrayAdapter.createFromResource(this, R.array.class_type, R.layout.spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             classType.adapter = adapter
+        }
+
+        ArrayAdapter.createFromResource(this, R.array.category, R.layout.spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            classCategory.adapter = adapter
         }
 
         ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
@@ -116,31 +123,17 @@ class AddClassroom : AppCompatActivity() {
     private fun addClassroom(){
         val name = className.text.toString()
         val type = classType.selectedItem.toString()
+        val category = classCategory.selectedItem.toString()
         val start = classStart.text.toString()
         val end = classEnd.text.toString()
         val day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
         var image = R.drawable.ic_class
-        val split = name.split(" ")
-
-
-        for (i in 0..split.size - 1){
-            when {
-                split[i].equals("Programming", ignoreCase = true) ||  (split[i].equals("Pemrograman", ignoreCase = true)) -> {
-                    image = R.drawable.ic_programming
-                }
-                split[i].equals("Science", ignoreCase = true) || (split[i].equals("Ipa", ignoreCase = true)) -> {
-                    image = R.drawable.ic_science
-                }
-                split[i].equals("Math", ignoreCase = true) || (split[i].equals("Matematika", ignoreCase = true)) -> {
-                    image = R.drawable.ic_class
-                }
-                split[i].equals("Indonesia", ignoreCase = true) -> {
-                    image = R.drawable.ic_indonesia
-                }
-                split[i].equals("English", ignoreCase = true) || (split[i].equals("Inggris", ignoreCase = true)) -> {
-                    image = R.drawable.ic_english
-                }else -> image = R.drawable.ic_science
-            }
+        when(category){
+            "Bahasa Indonesia" -> image = R.drawable.ic_indonesia
+            "Bahasa Inggris" -> image = R.drawable.ic_english
+            "IPA" -> image = R.drawable.ic_science
+            "Matematika" -> image = R.drawable.ic_class
+            "Pemrograman" -> image = R.drawable.ic_programming
         }
 
         try {
@@ -161,8 +154,6 @@ class AddClassroom : AppCompatActivity() {
             dialog.titleText = "Kelas Berhasil Dibuat"
             dialog.setCancelable(false)
             dialog.show()
-
-            Log.d("Image : ", split[1])
         }catch (e: SQLiteConstraintException){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
