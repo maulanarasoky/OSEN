@@ -23,11 +23,12 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
         db?.createTable(
             Classroom.TABLE_CLASSROOM, true,
             Classroom.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            Classroom.CLASS_IMAGE to TEXT,
             Classroom.CLASS_NAME to TEXT,
+            Classroom.CLASS_TYPE to TEXT,
             Classroom.CLASS_START to TEXT,
             Classroom.CLASS_END to TEXT,
             Classroom.CLASS_DAY to TEXT,
-            Classroom.CLASS_TYPE to TEXT,
             Classroom.TEACHER_ID to INTEGER)
     }
 

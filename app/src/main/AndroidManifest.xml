@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:replace="android:icon">
+    tools:replace="android:icon">
         <activity android:name=".activity.AddClassroom"/>
         <activity android:name=".activity.MainActivity">
             <intent-filter>

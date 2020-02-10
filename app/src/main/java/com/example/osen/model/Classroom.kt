@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class Classroom (
     val id: Long?,
+    val classImage: String?,
     val className: String?,
     val classType: String?,
     val classStart: String?,
@@ -16,6 +17,7 @@ class Classroom (
     companion object{
         const val TABLE_CLASSROOM: String = "CLASSROOM"
         const val ID: String = "ID_"
+        const val CLASS_IMAGE: String = "CLASS_IMAGE"
         const val CLASS_NAME: String = "CLASS_NAME"
         const val CLASS_TYPE: String = "CLASS_TYPE"
         const val CLASS_START: String = "CLASS_START"

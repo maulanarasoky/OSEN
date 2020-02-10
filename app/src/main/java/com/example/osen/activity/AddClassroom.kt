@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
@@ -118,11 +119,36 @@ class AddClassroom : AppCompatActivity() {
         val start = classStart.text.toString()
         val end = classEnd.text.toString()
         val day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
+        var image = R.drawable.ic_class
+        val split = name.split(" ")
+
+
+        for (i in 0..split.size - 1){
+            when {
+                split[i].equals("Programming", ignoreCase = true) ||  (split[i].equals("Pemrograman", ignoreCase = true)) -> {
+                    image = R.drawable.ic_programming
+                }
+                split[i].equals("Science", ignoreCase = true) || (split[i].equals("Ipa", ignoreCase = true)) -> {
+                    image = R.drawable.ic_science
+                }
+                split[i].equals("Math", ignoreCase = true) || (split[i].equals("Matematika", ignoreCase = true)) -> {
+                    image = R.drawable.ic_class
+                }
+                split[i].equals("Indonesia", ignoreCase = true) -> {
+                    image = R.drawable.ic_indonesia
+                }
+                split[i].equals("English", ignoreCase = true) || (split[i].equals("Inggris", ignoreCase = true)) -> {
+                    image = R.drawable.ic_english
+                }else -> image = R.drawable.ic_science
+            }
+        }
+
         try {
             database.use {
                 insert(
                     Classroom.TABLE_CLASSROOM,
                     Classroom.CLASS_NAME to name,
+                    Classroom.CLASS_IMAGE to image,
                     Classroom.CLASS_START to start,
                     Classroom.CLASS_END to end,
                     Classroom.CLASS_DAY to day,
@@ -135,6 +161,8 @@ class AddClassroom : AppCompatActivity() {
             dialog.titleText = "Kelas Berhasil Dibuat"
             dialog.setCancelable(false)
             dialog.show()
+
+            Log.d("Image : ", split[1])
         }catch (e: SQLiteConstraintException){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
