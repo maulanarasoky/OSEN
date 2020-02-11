@@ -20,6 +20,7 @@
         <item>Sabtu</item>
     </string-array>
     <string-array name="keterangan_hadir">
+        <item>Keterangan</item>
         <item>Alfa</item>
         <item>Izin</item>
         <item>Hadir</item>

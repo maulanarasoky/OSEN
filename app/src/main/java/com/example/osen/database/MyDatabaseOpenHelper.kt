@@ -2,6 +2,7 @@ package com.example.osen.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.example.osen.model.AbsentOfDay
 import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import com.example.osen.model.Student
@@ -40,7 +41,6 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Student.NAME to TEXT,
             Student.CLASS_NAME to TEXT,
             Student.GENDER to TEXT,
-            Student.KETERANGAN to TEXT,
             Student.SCORE to INTEGER,
             Student.TEACHER_ID to INTEGER)
 
@@ -49,12 +49,22 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Category.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Category.NAME to TEXT,
             Category.TEACHER_ID to INTEGER)
+
+        db?.createTable(
+            AbsentOfDay.TABLE_ABSENTOFDAY, true,
+            AbsentOfDay.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            AbsentOfDay.STUDENT_ID to TEXT,
+            AbsentOfDay.DATE to TEXT,
+            AbsentOfDay.KETERANGAN to TEXT,
+            AbsentOfDay.CLASS to TEXT,
+            AbsentOfDay.TEACHER_ID to INTEGER)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.dropTable(Classroom.TABLE_CLASSROOM, true)
         db?.dropTable(Student.TABLE_STUDENT, true)
         db?.dropTable(Category.TABLE_CATEGORY, true)
+        db?.dropTable(AbsentOfDay.TABLE_ABSENTOFDAY, true)
     }
 }
 val Context.database: MyDatabaseOpenHelper

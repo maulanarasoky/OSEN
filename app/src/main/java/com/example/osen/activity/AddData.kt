@@ -84,7 +84,6 @@ class AddData : AppCompatActivity() {
                     Student.NAME to studentName.text.toString(),
                     Student.CLASS_NAME to className.selectedItem.toString(),
                     Student.GENDER to gender.selectedItem.toString(),
-                    Student.KETERANGAN to "Alfa",
                     Student.SCORE to 0,
                     Student.TEACHER_ID to 1)
             }

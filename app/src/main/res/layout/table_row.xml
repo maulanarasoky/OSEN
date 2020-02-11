@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/tr"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/studentId"
@@ -52,4 +53,4 @@
         android:textColor="@android:color/black"
         android:textSize="16sp" />
 
-</TableRow>
+</LinearLayout>
