@@ -213,7 +213,7 @@ class AddClassroom : AppCompatActivity() {
         }
 
         try {
-            database.use {
+            val result = database.use {
                 insert(
                     Classroom.TABLE_CLASSROOM,
                     Classroom.NAME to name,
@@ -225,12 +225,20 @@ class AddClassroom : AppCompatActivity() {
                     Classroom.CATEGORY to category,
                     Classroom.TEACHER_ID to 1)
             }
-            clear()
-            val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-            dialog.titleText = "Kelas Berhasil Dibuat"
-            dialog.setCancelable(false)
-            dialog.show()
+            if(result > 0){
+                clear()
+                val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                dialog.titleText = "Kelas Berhasil Dibuat"
+                dialog.setCancelable(false)
+                dialog.show()
+            }else{
+                val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                dialog.titleText = "Nama Kelas Sudah Terpakai"
+                dialog.setCancelable(false)
+                dialog.show()
+            }
         }catch (e: SQLiteConstraintException){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")

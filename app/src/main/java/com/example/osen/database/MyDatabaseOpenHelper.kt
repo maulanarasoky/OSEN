@@ -26,7 +26,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Classroom.TABLE_CLASSROOM, true,
             Classroom.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Classroom.IMAGE to TEXT,
-            Classroom.NAME to TEXT,
+            Classroom.NAME to TEXT + UNIQUE,
             Classroom.TYPE to TEXT,
             Classroom.CATEGORY to TEXT,
             Classroom.START to TEXT,
