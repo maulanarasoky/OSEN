@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 
 import com.example.osen.R
 import com.example.osen.activity.AddClassroom
+import com.example.osen.activity.AddData
 import kotlinx.android.synthetic.main.fragment_add.*
 import org.jetbrains.anko.support.v4.startActivity
 
@@ -29,6 +30,10 @@ class AddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         addClass.setOnClickListener {
             startActivity<AddClassroom>()
+        }
+
+        addData.setOnClickListener{
+            startActivity<AddData>()
         }
     }
 

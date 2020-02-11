@@ -5,24 +5,18 @@ import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.Classroom
 import kotlinx.android.synthetic.main.activity_add_classroom.*
 import org.jetbrains.anko.db.insert
-import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.toast
 import java.util.*
 
 class AddClassroom : AppCompatActivity() {
 
-    lateinit var className: TextView
+    lateinit var className: EditText
     lateinit var classType : Spinner
     lateinit var classCategory: Spinner
     lateinit var classStart : Button
@@ -98,7 +92,7 @@ class AddClassroom : AppCompatActivity() {
             clear()
         }
         submit.setOnClickListener {
-            if(className.text == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
+            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialog.titleText = "Harap masukkan data secara lengkap dan benar"
@@ -123,7 +117,12 @@ class AddClassroom : AppCompatActivity() {
     private fun addClassroom(){
         val name = className.text.toString()
         val type = classType.selectedItem.toString()
-        val category = classCategory.selectedItem.toString()
+        var category = ""
+        if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
+            category = "-"
+        }else{
+            category = classCategory.selectedItem.toString()
+        }
         val start = classStart.text.toString()
         val end = classEnd.text.toString()
         val day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
@@ -140,12 +139,13 @@ class AddClassroom : AppCompatActivity() {
             database.use {
                 insert(
                     Classroom.TABLE_CLASSROOM,
-                    Classroom.CLASS_NAME to name,
-                    Classroom.CLASS_IMAGE to image,
-                    Classroom.CLASS_START to start,
-                    Classroom.CLASS_END to end,
-                    Classroom.CLASS_DAY to day,
-                    Classroom.CLASS_TYPE to type,
+                    Classroom.NAME to name,
+                    Classroom.IMAGE to image,
+                    Classroom.START to start,
+                    Classroom.END to end,
+                    Classroom.DAY to day,
+                    Classroom.TYPE to type,
+                    Classroom.CATEGORY to category,
                     Classroom.TEACHER_ID to 1)
             }
             clear()

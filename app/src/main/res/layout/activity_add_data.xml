@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AddData">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="24dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/ic_action_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/nexabold"
+            android:text="T A M B A H  D A T A"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toBottomOf="@id/toolBar"
+            app:layout_constraintEnd_toEndOf="@id/toolBar"
+            app:layout_constraintStart_toStartOf="@id/toolBar"
+            app:layout_constraintTop_toTopOf="@id/toolBar" />
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:background="@drawable/square_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolBar">
+
+            <TableLayout
+                android:id="@+id/table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolBar">
+
+                <TableRow>
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Nama"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/studentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/actionBarColor"
+                        android:fontFamily="@font/firasans"
+                        android:inputType="text"
+                        android:textSize="20sp" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text="Kelas"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <Spinner
+                        android:id="@+id/className"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+                        android:theme="@style/Spinner" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/background_button_clear"
+            android:fontFamily="@font/firasans"
+            android:padding="@dimen/activity_vertical_margin"
+            android:text="Kosongkan"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/submit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/background" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/background_button"
+            android:fontFamily="@font/firasans"
+            android:padding="@dimen/activity_vertical_margin"
+            android:text="Buat Kelas"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/clear"
+            app:layout_constraintTop_toBottomOf="@id/background" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
