@@ -66,7 +66,7 @@ class ClassDetails : AppCompatActivity() {
 
         studentList = findViewById(R.id.recyclerView)
 
-        adapter = StudentList(list)
+        adapter = StudentList(list, classroom.image)
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         studentList.layoutManager = layoutManager

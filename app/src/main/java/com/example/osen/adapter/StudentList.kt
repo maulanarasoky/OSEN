@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
+import com.example.osen.activity.EditData
 import com.example.osen.database.database
+import com.example.osen.model.Absent
 import com.example.osen.model.AbsentOfDay
 import com.example.osen.model.Student
 import kotlinx.android.extensions.LayoutContainer
@@ -19,11 +21,12 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.update
+import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
 
-class StudentList(private val studentItems : List<Student>) : RecyclerView.Adapter<StudentList.ViewHolder>() {
+class StudentList(private val studentItems : List<Student>, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.table_row, parent, false)
@@ -32,7 +35,7 @@ class StudentList(private val studentItems : List<Student>) : RecyclerView.Adapt
     override fun getItemCount() = studentItems.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(studentItems[position])
+        holder.bindItem(studentItems[position], image)
     }
 
     class ViewHolder(override val containerView : View) : RecyclerView.ViewHolder(containerView),
@@ -41,7 +44,7 @@ class StudentList(private val studentItems : List<Student>) : RecyclerView.Adapt
         val list: MutableList<AbsentOfDay> = mutableListOf()
         var keterangan: String = ""
 
-        fun bindItem(student: Student) {
+        fun bindItem(student: Student, image:String) {
 
             studentId.text = student.id.toString()
             studentName.text = student.name
@@ -89,6 +92,14 @@ class StudentList(private val studentItems : List<Student>) : RecyclerView.Adapt
                                     AbsentOfDay.CLASS to student.className,
                                     AbsentOfDay.TEACHER_ID to student.teacher_id
                                 )
+
+                                insert(
+                                    Absent.TABLE_ABSENT,
+                                    Absent.STUDENT_ID to student.id,
+                                    Absent.ALFA to 0,
+                                    Absent.IZIN to 0,
+                                    Absent.HADIR to 0,
+                                    Absent.TEACHER_ID to student.teacher_id)
                             }
                             if(res > 0){
                                 Log.d("keterangan", res.toString())
@@ -112,6 +123,12 @@ class StudentList(private val studentItems : List<Student>) : RecyclerView.Adapt
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
                 }
+            }
+            itemView.setOnClickListener {
+                itemView.context.startActivity<EditData>(
+                    EditData.data to student,
+                    EditData.image to image
+                )
             }
         }
 

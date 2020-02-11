@@ -2,10 +2,7 @@ package com.example.osen.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.example.osen.model.AbsentOfDay
-import com.example.osen.model.Category
-import com.example.osen.model.Classroom
-import com.example.osen.model.Student
+import com.example.osen.model.*
 import org.jetbrains.anko.db.*
 
 class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "FavoriteMatch.db", null, 1) {
@@ -49,6 +46,15 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Category.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Category.NAME to TEXT,
             Category.TEACHER_ID to INTEGER)
+
+        db?.createTable(
+            Absent.TABLE_ABSENT, true,
+            Absent.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            Absent.STUDENT_ID to INTEGER,
+            Absent.ALFA to INTEGER,
+            Absent.IZIN to INTEGER,
+            Absent.HADIR to INTEGER,
+            Absent.TEACHER_ID to INTEGER)
 
         db?.createTable(
             AbsentOfDay.TABLE_ABSENTOFDAY, true,

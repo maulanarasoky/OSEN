@@ -1,5 +1,9 @@
 package com.example.osen.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 class Student (
     val id: Long?,
     val name: String?,
@@ -7,7 +11,7 @@ class Student (
     val gender: String?,
     val score: Int?,
     val teacher_id: Int?
-){
+): Parcelable{
     companion object{
         const val TABLE_STUDENT: String = "STUDENT"
         const val ID: String = "ID_"

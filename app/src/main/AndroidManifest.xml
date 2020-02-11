@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen"
         tools:replace="android:icon">
-        <activity android:name=".activity.ClassDetails"></activity>
+        <activity android:name=".activity.EditData"></activity>
+        <activity android:name=".activity.ClassDetails" />
         <activity android:name=".activity.AddData" />
         <activity android:name=".activity.AddClassroom" />
         <activity android:name=".activity.MainActivity">
