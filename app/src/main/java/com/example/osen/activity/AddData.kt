@@ -31,6 +31,11 @@ class AddData : AppCompatActivity() {
         studentName = findViewById(R.id.studentName)
         className = findViewById(R.id.className)
 
+        ArrayAdapter.createFromResource(this, R.array.gender, R.layout.spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            gender.adapter = adapter
+        }
+
         showClass()
 
         if(list.isNotEmpty()){
@@ -78,6 +83,8 @@ class AddData : AppCompatActivity() {
                     Student.TABLE_STUDENT,
                     Student.NAME to studentName.text.toString(),
                     Student.CLASS_NAME to className.selectedItem.toString(),
+                    Student.GENDER to gender.selectedItem.toString(),
+                    Student.KETERANGAN to "Alfa",
                     Student.SCORE to 0,
                     Student.TEACHER_ID to 1)
             }

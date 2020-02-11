@@ -208,6 +208,27 @@
                         android:textSize="16sp" />
                 </TableRow>
             </TableLayout>
+
+            <TextView
+                android:id="@+id/studentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daftar Siswa"
+                android:fontFamily="@font/firasans"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/table1"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/studentTitle"
+                android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:paddingBottom="230dp"/>
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -4,6 +4,8 @@ class Student (
     val id: Long?,
     val name: String?,
     val className: String?,
+    val gender: String?,
+    val ketereangan: String?,
     val score: Int?,
     val teacher_id: Int?
 ){
@@ -12,6 +14,8 @@ class Student (
         const val ID: String = "ID_"
         const val NAME = "NAME"
         const val CLASS_NAME = "CLASS"
+        const val GENDER = "GENDER"
+        const val KETERANGAN = "KETERANGAN"
         const val SCORE = "SCORE"
         const val TEACHER_ID = "TEACHER_ID"
     }

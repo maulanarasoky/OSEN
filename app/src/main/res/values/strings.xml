@@ -19,4 +19,13 @@
         <item>Jumat</item>
         <item>Sabtu</item>
     </string-array>
+    <string-array name="keterangan_hadir">
+        <item>Alfa</item>
+        <item>Izin</item>
+        <item>Hadir</item>
+    </string-array>
+    <string-array name="gender">
+        <item>Laki-Laki</item>
+        <item>Perempuan</item>
+    </string-array>
 </resources>

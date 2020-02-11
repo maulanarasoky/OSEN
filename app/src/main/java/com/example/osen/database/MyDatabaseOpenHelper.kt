@@ -39,6 +39,8 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Student.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Student.NAME to TEXT,
             Student.CLASS_NAME to TEXT,
+            Student.GENDER to TEXT,
+            Student.KETERANGAN to TEXT,
             Student.SCORE to INTEGER,
             Student.TEACHER_ID to INTEGER)
 
