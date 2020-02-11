@@ -105,21 +105,32 @@ class AddClassroom : AppCompatActivity() {
                     dialog.titleText = "Harap masukkan data secara lengkap dan benar"
                     dialog.setCancelable(false)
                     dialog.show()
+                    return@setOnClickListener
                 }else{
                     addCategory()
                 }
-            }else{
+            }else if(rowNewCategory.visibility == View.VISIBLE){
+                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategoryAdd.text.toString() == ""){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
+                    dialog.setCancelable(false)
+                    dialog.show()
+                    return@setOnClickListener
+                }else{
+                    addCategory()
+                }
+            } else{
                 if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
                     val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                     dialog.titleText = "Harap masukkan data secara lengkap dan benar"
                     dialog.setCancelable(false)
                     dialog.show()
-                }else{
-                    addCategory()
-                    addClassroom()
+                    return@setOnClickListener
                 }
             }
+            addClassroom()
         }
     }
 
