@@ -92,14 +92,6 @@ class StudentList(private val studentItems : List<Student>, private val image: S
                                     AbsentOfDay.CLASS to student.className,
                                     AbsentOfDay.TEACHER_ID to student.teacher_id
                                 )
-
-                                insert(
-                                    Absent.TABLE_ABSENT,
-                                    Absent.STUDENT_ID to student.id,
-                                    Absent.ALFA to 0,
-                                    Absent.IZIN to 0,
-                                    Absent.HADIR to 0,
-                                    Absent.TEACHER_ID to student.teacher_id)
                             }
                             if(res > 0){
                                 Log.d("keterangan", res.toString())

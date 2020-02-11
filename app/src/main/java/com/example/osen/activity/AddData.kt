@@ -10,6 +10,7 @@ import android.widget.Spinner
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
+import com.example.osen.model.Absent
 import com.example.osen.model.Classroom
 import com.example.osen.model.Student
 import kotlinx.android.synthetic.main.activity_add_data.*
@@ -22,6 +23,7 @@ class AddData : AppCompatActivity() {
     lateinit var studentName : EditText
     lateinit var className : Spinner
     private var list: MutableList<Classroom> = mutableListOf()
+    private var listStudent: MutableList<Student> = mutableListOf()
     private var listClass: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +88,16 @@ class AddData : AppCompatActivity() {
                     Student.GENDER to gender.selectedItem.toString(),
                     Student.SCORE to 0,
                     Student.TEACHER_ID to 1)
+
+                getStudentId(className.selectedItem.toString(), 1, studentName.text.toString())
+
+                insert(
+                    Absent.TABLE_ABSENT,
+                    Absent.STUDENT_ID to listStudent[0].id,
+                    Absent.ALFA to 0,
+                    Absent.IZIN to 0,
+                    Absent.HADIR to 0,
+                    Absent.TEACHER_ID to 1)
             }
             clear()
             val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
@@ -111,9 +123,20 @@ class AddData : AppCompatActivity() {
         list.clear()
         database.use {
             val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to 1)
-            val favorite = result.parseList(classParser<Classroom>())
-            if (favorite.isNotEmpty()){
-                list.addAll(favorite)
+            val data = result.parseList(classParser<Classroom>())
+            if (data.isNotEmpty()){
+                list.addAll(data)
+            }
+        }
+    }
+
+    private fun getStudentId(className: String, teacherId: Int, studentName: String){
+        listStudent.clear()
+        database.use {
+            val result = select(Student.TABLE_STUDENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (CLASS = {class_name}) AND (NAME = {student_name}) LIMIT 1", "teacher_id" to teacherId, "class_name" to className, "student_name" to studentName)
+            val data = result.parseList(classParser<Student>())
+            if (data.isNotEmpty()){
+                listStudent.addAll(data)
             }
         }
     }
