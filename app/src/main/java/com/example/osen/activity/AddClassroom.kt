@@ -5,13 +5,18 @@ import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.*
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
+import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import kotlinx.android.synthetic.main.activity_add_classroom.*
+import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.db.select
 import java.util.*
 
 class AddClassroom : AppCompatActivity() {
@@ -19,21 +24,23 @@ class AddClassroom : AppCompatActivity() {
     lateinit var className: EditText
     lateinit var classType : Spinner
     lateinit var classCategory: Spinner
+    lateinit var newCategory: EditText
     lateinit var classStart : Button
     lateinit var classEnd : Button
     lateinit var firstDay : Spinner
     lateinit var secondDay : Spinner
     lateinit var thirdDay : Spinner
 
+    private var listCategory: MutableList<Category> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_classroom)
 
-
-
         className = findViewById(R.id.className)
         classType = findViewById(R.id.classType)
         classCategory = findViewById(R.id.classCategory)
+        newCategory = findViewById(R.id.newCategory)
         classStart = findViewById(R.id.classStart)
         classEnd = findViewById(R.id.classEnd)
         firstDay = findViewById(R.id.classFirstDay)
@@ -45,10 +52,9 @@ class AddClassroom : AppCompatActivity() {
             classType.adapter = adapter
         }
 
-        ArrayAdapter.createFromResource(this, R.array.category, R.layout.spinner_item).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            classCategory.adapter = adapter
-        }
+        showCategorySpinner()
+
+        Log.d("list category", listCategory.size.toString())
 
         ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -92,19 +98,69 @@ class AddClassroom : AppCompatActivity() {
             clear()
         }
         submit.setOnClickListener {
-            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
-                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                dialog.titleText = "Harap masukkan data secara lengkap dan benar"
-                dialog.setCancelable(false)
-                dialog.show()
+            if(newCategory.visibility == View.VISIBLE){
+                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategory.text.toString() == ""){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
+                    dialog.setCancelable(false)
+                    dialog.show()
+                }else{
+                    addCategory()
+                }
             }else{
-                addClassroom()
+                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
+                    dialog.setCancelable(false)
+                    dialog.show()
+                }else{
+                    addCategory()
+                    addClassroom()
+                }
             }
         }
     }
 
+    private fun showCategorySpinner(){
+        showCategory()
+        if(listCategory.isEmpty()){
+            classCategory.visibility = View.GONE
+            newCategory.visibility = View.VISIBLE
+        }else{
+            val categories: MutableList<String> = mutableListOf()
+            for(i in 0 until listCategory.size){
+                categories.add(listCategory[i].name.toString())
+            }
+            categories.add("Tidak ada pilihan")
+            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categories)
+            classCategory.adapter = adapter
+
+            classCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if(classCategory.selectedItem.toString() == "Tidak ada pilihan"){
+                        rowNewCategory.visibility = View.VISIBLE
+                    }else{
+                        rowNewCategory.visibility = View.GONE
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            }
+        }
+
+    }
+
     private fun clear(){
+        showCategorySpinner()
         className.setText("")
         classType.setSelection(0)
         classStart.text = "Pilih"
@@ -112,16 +168,26 @@ class AddClassroom : AppCompatActivity() {
         firstDay.setSelection(0)
         secondDay.setSelection(0)
         thirdDay.setSelection(0)
+        if(listCategory.isNotEmpty()){
+            newCategory.visibility = View.GONE
+            classCategory.visibility = View.VISIBLE
+            classCategory.setSelection(0)
+        }
+        rowNewCategory.visibility = View.GONE
     }
 
     private fun addClassroom(){
         val name = className.text.toString()
         val type = classType.selectedItem.toString()
         var category = ""
-        if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
-            category = "-"
+        if(classCategory.visibility == View.VISIBLE){
+            if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
+                category = newCategoryAdd.text.toString()
+            }else{
+                category = classCategory.selectedItem.toString()
+            }
         }else{
-            category = classCategory.selectedItem.toString()
+            category = newCategory.text.toString()
         }
         val start = classStart.text.toString()
         val end = classEnd.text.toString()
@@ -160,6 +226,35 @@ class AddClassroom : AppCompatActivity() {
             dialog.titleText = "Gagal membuat kelas"
             dialog.setCancelable(false)
             dialog.show()
+        }
+    }
+
+    private fun addCategory(){
+        var category = ""
+        if(rowNewCategory.visibility == View.VISIBLE){
+            category = newCategoryAdd.text.toString()
+        }else{
+            category = newCategory.text.toString()
+        }
+        try {
+            database.use {
+                insert(
+                    Category.TABLE_CATEGORY,
+                    Category.NAME to category,
+                    Category.TEACHER_ID to 1)
+            }
+        }catch (e: SQLiteConstraintException){
+        }
+    }
+
+    private fun showCategory(){
+        listCategory.clear()
+        database.use {
+            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to 1)
+            val category = result.parseList(classParser<Category>())
+            if (category.isNotEmpty()){
+                listCategory.addAll(category)
+            }
         }
     }
 }

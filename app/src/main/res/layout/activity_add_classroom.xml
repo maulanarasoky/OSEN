@@ -119,6 +119,42 @@
                         android:layout_height="wrap_content"
                         android:spinnerMode="dropdown"
                         android:theme="@style/Spinner" />
+
+                    <EditText
+                        android:id="@+id/newCategory"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/actionBarColor"
+                        android:fontFamily="@font/firasans"
+                        android:inputType="text"
+                        android:textSize="20sp" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/rowNewCategory"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/newCategoryAdd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/actionBarColor"
+                        android:fontFamily="@font/firasans"
+                        android:inputType="text"
+                        android:textSize="20sp" />
                 </TableRow>
 
                 <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">

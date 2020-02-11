@@ -2,6 +2,7 @@ package com.example.osen.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import com.example.osen.model.Student
 import org.jetbrains.anko.db.*
@@ -40,11 +41,18 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Student.CLASS_NAME to TEXT,
             Student.SCORE to INTEGER,
             Student.TEACHER_ID to INTEGER)
+
+        db?.createTable(
+            Category.TABLE_CATEGORY, true,
+            Category.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            Category.NAME to TEXT,
+            Category.TEACHER_ID to INTEGER)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.dropTable(Classroom.TABLE_CLASSROOM, true)
         db?.dropTable(Student.TABLE_STUDENT, true)
+        db?.dropTable(Category.TABLE_CATEGORY, true)
     }
 }
 val Context.database: MyDatabaseOpenHelper
