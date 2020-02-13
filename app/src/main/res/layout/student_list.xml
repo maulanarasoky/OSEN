@@ -25,15 +25,6 @@
         android:fontFamily="@font/firasans"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
-    <TextView
-        android:id="@+id/studentGender"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Laki-Laki"
-        android:fontFamily="@font/firasans"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
 
     <Spinner
         android:id="@+id/action"
@@ -52,5 +43,13 @@
         android:fontFamily="@font/firasans"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/deleteStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Hapus"
+        style="@style/Widget.AppCompat.Button.Colored" />
 
 </LinearLayout>

@@ -22,7 +22,7 @@ import com.example.osen.model.Classroom
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.activity_class_details.*
-import kotlinx.android.synthetic.main.table_row.*
+import kotlinx.android.synthetic.main.student_list.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.matchParent

@@ -1,11 +1,13 @@
 package com.example.osen.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.activity.EditData
 import com.example.osen.database.database
@@ -13,11 +15,8 @@ import com.example.osen.model.Absent
 import com.example.osen.model.AbsentOfDay
 import com.example.osen.model.Student
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.table_row.*
-import org.jetbrains.anko.db.classParser
-import org.jetbrains.anko.db.insert
-import org.jetbrains.anko.db.select
-import org.jetbrains.anko.db.update
+import kotlinx.android.synthetic.main.student_list.*
+import org.jetbrains.anko.db.*
 import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,7 +25,7 @@ class StudentList(private val studentItems : List<Student>, private val image: S
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.table_row, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.student_list, parent, false)
         )
 
     override fun getItemCount() = studentItems.size
@@ -48,7 +47,6 @@ class StudentList(private val studentItems : List<Student>, private val image: S
 
             studentId.text = student.id.toString()
             studentName.text = student.name
-            studentGender.text = student.gender
 
             itemView.context.database.use {
                 val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs(
@@ -143,6 +141,27 @@ class StudentList(private val studentItems : List<Student>, private val image: S
                     EditData.data to student,
                     EditData.image to image
                 )
+            }
+            deleteStudent.setOnClickListener {
+                val tempName = student.name
+                val dialogWarningDelete = SweetAlertDialog(itemView.context, SweetAlertDialog.WARNING_TYPE)
+                dialogWarningDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
+                dialogWarningDelete.titleText = "Apakah Anda Yakin Ingin Menghapus " + student.name + " ?"
+                dialogWarningDelete.setCancelable(false)
+                dialogWarningDelete.show()
+                dialogWarningDelete.setConfirmClickListener {
+                    itemView.context.database.use {
+                        val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(ID_) = {student_id}", "student_id" to student.id.toString())
+                        if(queryDeleteStudent > 0){
+                            dialogWarningDelete.dismissWithAnimation()
+                            val dialogSuccessDelete = SweetAlertDialog(itemView.context, SweetAlertDialog.SUCCESS_TYPE)
+                            dialogSuccessDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
+                            dialogSuccessDelete.titleText = "Berhasil Menghapus Data $tempName !"
+                            dialogSuccessDelete.setCancelable(false)
+                            dialogSuccessDelete.show()
+                        }
+                    }
+                }
             }
         }
 
