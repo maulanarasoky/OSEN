@@ -1,7 +1,7 @@
 package com.example.osen.model
 
 data class Absent(
-    val id: Long?,
+    val id: Int?,
     val student_id: Int?,
     val hadir: Int?,
     val izin: Int?,
@@ -12,9 +12,9 @@ data class Absent(
         const val TABLE_ABSENT = "ABSENT"
         const val ID_ = "ID_"
         const val STUDENT_ID = "STUDENT_ID"
-        const val ALFA = "ALFA"
-        const val IZIN = "IZIN"
         const val HADIR = "HADIR"
+        const val IZIN = "IZIN"
+        const val ALFA = "ALFA"
         const val TEACHER_ID = "TEACHER_ID"
     }
 }

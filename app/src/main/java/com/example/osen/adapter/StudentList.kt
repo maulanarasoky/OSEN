@@ -1,14 +1,11 @@
 package com.example.osen.adapter
 
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.activity.EditData
 import com.example.osen.database.database
@@ -23,10 +20,10 @@ import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.update
 import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 class StudentList(private val studentItems : List<Student>, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.table_row, parent, false)
@@ -43,6 +40,9 @@ class StudentList(private val studentItems : List<Student>, private val image: S
 
         val list: MutableList<AbsentOfDay> = mutableListOf()
         var keterangan: String = ""
+
+        val absentData: MutableList<Absent> = mutableListOf()
+
 
         fun bindItem(student: Student, image:String) {
 
@@ -92,17 +92,39 @@ class StudentList(private val studentItems : List<Student>, private val image: S
                                     AbsentOfDay.CLASS to student.className,
                                     AbsentOfDay.TEACHER_ID to student.teacher_id
                                 )
-                            }
-                            if(res > 0){
-                                Log.d("keterangan", res.toString())
-                            }else{
-                                itemView.context.database.use {
-                                    update(AbsentOfDay.TABLE_ABSENTOFDAY,
-                                        AbsentOfDay.DATE to currentDate,
-                                        AbsentOfDay.KETERANGAN to action.selectedItem.toString())
-                                        .whereArgs("(TEACHER_ID = {teacher_id}) AND (ID_ = {student_id})", "teacher_id" to student.teacher_id.toString(), "student_id" to student.id.toString())
+
+                                showAbsentData(student.teacher_id, student.id)
+
+                                val queryUpdate = when(action.selectedItem.toString()){
+                                    "Alfa" ->{
+                                        val totalAlfa = absentData[0].alfa?.plus(1)
+                                        update(Absent.TABLE_ABSENT,
+                                            Absent.ALFA to totalAlfa).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                    }
+                                    "Izin" -> {
+                                        val totalIzin = absentData[0].izin?.plus(1)
+                                        update(Absent.TABLE_ABSENT,
+                                            Absent.IZIN to totalIzin).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                    }
+                                    "Hadir" -> {
+                                        val totalHadir = absentData[0].hadir?.plus(1)
+                                        update(Absent.TABLE_ABSENT,
+                                            Absent.HADIR to totalHadir).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                    }
+                                    else -> error("Error")
                                 }
+                                queryUpdate.exec()
                             }
+//                            if(res.exec() > 0){
+//                                Log.d("keterangan", res.toString())
+//                            }else{
+//                                itemView.context.database.use {
+//                                    update(AbsentOfDay.TABLE_ABSENTOFDAY,
+//                                        AbsentOfDay.DATE to currentDate,
+//                                        AbsentOfDay.KETERANGAN to action.selectedItem.toString())
+//                                        .whereArgs("(TEACHER_ID = {teacher_id}) AND (ID_ = {student_id})", "teacher_id" to student.teacher_id.toString(), "student_id" to student.id.toString())
+//                                }
+//                            }
                             keterangan = action.selectedItem.toString()
                             setSpinnerAdapter()
                             action.visibility = View.GONE
@@ -135,6 +157,16 @@ class StudentList(private val studentItems : List<Student>, private val image: S
 
                 val spinnerPosition = adapter.getPosition(keterangan)
                 action.setSelection(spinnerPosition)
+            }
+        }
+
+        fun showAbsentData(teacherId: Int?, studentId: Int?){
+            itemView.context.database.use {
+                val result = select(Absent.TABLE_ABSENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) LIMIT 1", "teacher_id" to teacherId.toString(), "student_id" to studentId.toString())
+                val data = result.parseList(classParser<Absent>())
+                if (data.isNotEmpty()){
+                    absentData.addAll(data)
+                }
             }
         }
     }

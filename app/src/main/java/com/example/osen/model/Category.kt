@@ -1,7 +1,7 @@
 package com.example.osen.model
 
 class Category (
-    val id: Long?,
+    val id: Int?,
     val name: String?,
     val teacher_id: Int?
 ){

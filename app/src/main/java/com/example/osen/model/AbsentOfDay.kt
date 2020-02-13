@@ -1,8 +1,8 @@
 package com.example.osen.model
 
 class AbsentOfDay(
-    val id: Long?,
-    val studentId: String?,
+    val id: Int?,
+    val studentId: Int?,
     val date: String?,
     val keterangan: String?,
     val className: String?,

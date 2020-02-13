@@ -51,15 +51,15 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Absent.TABLE_ABSENT, true,
             Absent.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Absent.STUDENT_ID to INTEGER,
-            Absent.ALFA to INTEGER,
-            Absent.IZIN to INTEGER,
             Absent.HADIR to INTEGER,
+            Absent.IZIN to INTEGER,
+            Absent.ALFA to INTEGER,
             Absent.TEACHER_ID to INTEGER)
 
         db?.createTable(
             AbsentOfDay.TABLE_ABSENTOFDAY, true,
             AbsentOfDay.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
-            AbsentOfDay.STUDENT_ID to TEXT,
+            AbsentOfDay.STUDENT_ID to INTEGER,
             AbsentOfDay.DATE to TEXT,
             AbsentOfDay.KETERANGAN to TEXT,
             AbsentOfDay.CLASS to TEXT,

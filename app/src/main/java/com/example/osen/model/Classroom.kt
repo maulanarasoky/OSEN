@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Classroom (
-    val id: Long?,
+    val id: Int?,
     val image: String?,
     val name: String?,
     val type: String?,
