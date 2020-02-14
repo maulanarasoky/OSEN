@@ -117,6 +117,7 @@ class AddData : AppCompatActivity() {
     private fun clear(){
         studentName.setText("")
         className.setSelection(0)
+        gender.setSelection(0)
     }
 
     private fun showClass(){
