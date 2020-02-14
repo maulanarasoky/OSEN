@@ -193,8 +193,8 @@ class AddClassroom : AppCompatActivity() {
         classEnd.text = "Pilih"
         firstDay.setSelection(0)
         if(listCategory.isNotEmpty()){
-            newCategory.visibility = View.GONE
-            classCategory.visibility = View.VISIBLE
+            rowFirstCategory.visibility = View.GONE
+            rowOldCategory.visibility = View.VISIBLE
             classCategory.setSelection(0)
         }
         rowNewCategory.visibility = View.GONE
