@@ -21,7 +21,13 @@ import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StudentList(private val studentItems : List<Student>, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
+class StudentList(private val studentItems : MutableList<Student>, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
+
+    fun delete(position: Int){
+        studentItems.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, studentItems.size)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -31,10 +37,10 @@ class StudentList(private val studentItems : List<Student>, private val image: S
     override fun getItemCount() = studentItems.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(studentItems[position], image)
+        holder.bindItem(studentItems[position], image, position)
     }
 
-    class ViewHolder(override val containerView : View) : RecyclerView.ViewHolder(containerView),
+    inner class ViewHolder(override val containerView : View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
         val list: MutableList<AbsentOfDay> = mutableListOf()
@@ -43,7 +49,7 @@ class StudentList(private val studentItems : List<Student>, private val image: S
         val absentData: MutableList<Absent> = mutableListOf()
 
 
-        fun bindItem(student: Student, image:String) {
+        fun bindItem(student: Student, image:String, position: Int) {
 
             studentId.text = student.id.toString()
             studentName.text = student.name
@@ -152,6 +158,7 @@ class StudentList(private val studentItems : List<Student>, private val image: S
                 dialogWarningDelete.setConfirmClickListener {
                     itemView.context.database.use {
                         val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(ID_) = {student_id}", "student_id" to student.id.toString())
+                        delete(position)
                         if(queryDeleteStudent > 0){
                             dialogWarningDelete.dismissWithAnimation()
                             val dialogSuccessDelete = SweetAlertDialog(itemView.context, SweetAlertDialog.SUCCESS_TYPE)
