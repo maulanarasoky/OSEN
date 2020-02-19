@@ -49,6 +49,11 @@ class HomeFragment : Fragment() {
         showClass()
     }
 
+    override fun onResume() {
+        super.onResume()
+        showClass()
+    }
+
     private fun showClass(){
         list.clear()
         context?.database?.use {

@@ -1,9 +1,11 @@
 package com.example.osen.activity
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.Category
@@ -11,6 +13,7 @@ import com.example.osen.model.Classroom
 import kotlinx.android.synthetic.main.activity_edit_class.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
+import org.jetbrains.anko.db.update
 
 class EditClass : AppCompatActivity() {
 
@@ -34,6 +37,7 @@ class EditClass : AppCompatActivity() {
     lateinit var sixthDay : Spinner
 
     private var listCategory: MutableList<Category> = mutableListOf()
+    private var dataClass: MutableList<Classroom> = mutableListOf()
 
     var count = 0
 
@@ -265,6 +269,10 @@ class EditClass : AppCompatActivity() {
         addDay.setOnClickListener {
             addDay()
         }
+        submit.setOnClickListener {
+            checkData()
+            submit()
+        }
     }
 
     private fun addDay(){
@@ -374,6 +382,67 @@ class EditClass : AppCompatActivity() {
             if (category.isNotEmpty()){
                 listCategory.addAll(category)
             }
+        }
+    }
+
+    private fun checkData(){
+        val day = firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " +
+                thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " +
+                fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
+        dataClass.clear()
+        database.use {
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {name}) AND (TYPE = {type}) " +
+                    "AND (CATEGORY = {category}) AND (START_DATE = {start_date}) AND (END_DATE = {end_date}) AND (START_TIME = {start_time}) " +
+                    "AND (END_TIME = {end_time}) AND (DAY = {day})", "name" to className.text, "type" to classType.selectedItem.toString(),
+                "category" to classCategory.selectedItem.toString(), "start_date" to startDate.text, "end_date" to endDate.text,
+                "start_time" to startTime.text, "end_time" to endTime.text, "day" to day)
+            val data = result.parseList(classParser<Classroom>())
+            if (data.isNotEmpty()){
+                dataClass.addAll(data)
+            }
+        }
+    }
+
+    private fun submit(){
+        if(dataClass.isNotEmpty()){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialog.contentText = "Anda Tidak Melakukan Perubahan Apapun"
+            dialog.setCancelable(false)
+            dialog.show()
+        }else{
+            val classroom: Classroom? = intent.getParcelableExtra(data)
+            val name = className.text.toString()
+            val type = classType.selectedItem.toString()
+            val category = classCategory.selectedItem.toString()
+            val startDate = classStart.text.toString()
+            val endDate = classEnd.text.toString()
+            val startTime = timeStart.text.toString()
+            val endTime = timeEnd.text.toString()
+            val day = firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " +
+                    thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " +
+                    fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
+
+            database.use {
+                val queryUpdate = update(
+                    Classroom.TABLE_CLASSROOM,
+                    Classroom.NAME to name,
+                    Classroom.TYPE to type,
+                    Classroom.CATEGORY to category,
+                    Classroom.START_DATE to startDate,
+                    Classroom.END_DATE to endDate,
+                    Classroom.START_TIME to startTime,
+                    Classroom.END_TIME to endTime,
+                    Classroom.DAY to day).whereArgs("(ID_ = {id}) AND (TEACHER_ID = {teacher_id})", "id" to classroom?.id.toString(), "teacher_id" to classroom?.teacher_id.toString())
+
+                queryUpdate.exec()
+            }
+
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialog.contentText = "Perubahan Berhasil Dilakukan"
+            dialog.setCancelable(false)
+            dialog.show()
         }
     }
 }
