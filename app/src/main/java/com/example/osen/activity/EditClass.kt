@@ -49,6 +49,19 @@ class EditClass : AppCompatActivity() {
 
         val classroom: Classroom? = intent.getParcelableExtra(data)
 
+        if(classroom?.type == "Reguler"){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialog.titleText = "Tidak Dapat Merubah Kelas Reguler"
+            dialog.setCancelable(false)
+            dialog.show()
+            dialog.setConfirmClickListener {
+                dialog.dismissWithAnimation()
+                finish()
+            }
+            return
+        }
+
         className.setText(classroom?.name, TextView.BufferType.EDITABLE)
 
         ArrayAdapter.createFromResource(this, R.array.class_type, R.layout.spinner_item).also { adapter ->
