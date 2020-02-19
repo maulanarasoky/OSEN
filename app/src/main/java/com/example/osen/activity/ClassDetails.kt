@@ -30,7 +30,8 @@ class ClassDetails : AppCompatActivity() {
         val data = "data"
     }
 
-    var list: MutableList<Student> = mutableListOf()
+    var listStudent: MutableList<Student> = mutableListOf()
+    var dataClass: MutableList<Classroom> = mutableListOf()
     private lateinit var adapter: StudentList
     private lateinit var studentList: RecyclerView
 
@@ -38,7 +39,7 @@ class ClassDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_class_details)
 
-        val classroom: Classroom? = intent.getParcelableExtra(data)
+        showClass()
 
         val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
         collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(applicationContext, android.R.color.transparent))
@@ -48,24 +49,11 @@ class ClassDetails : AppCompatActivity() {
 
         collapsingToolbar.setContentScrimColor(Color.parseColor("#48cfad"))
 
-        supportActionBar?.title = classroom?.name
+        supportActionBar?.title = dataClass[0].name
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        Glide.with(this).load(resources.getDrawable(classroom?.image!!.toInt())).apply(
-            RequestOptions.overrideOf(500,500)).into(classImage)
-
-        className.text = classroom.name
-        classCategory.text = classroom.category
-        startTime.text = classroom.startTime + " WIB"
-        endTime.text = classroom.endTime + " WIB"
-        startDate.text = classroom.startDate
-        endDate.text = classroom.endDate
-        day.text = classroom.day
-
-        studentList = findViewById(R.id.recyclerView)
-
-        adapter = StudentList(list, classroom.image)
+        initUI()
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         studentList.layoutManager = layoutManager
@@ -73,7 +61,14 @@ class ClassDetails : AppCompatActivity() {
 
         showStudent()
 
-        Log.d("array size", list.size.toString())
+        Log.d("array size", listStudent.size.toString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showClass()
+        initUI()
+        showStudent()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -96,16 +91,45 @@ class ClassDetails : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun initUI(){
+        Glide.with(this).load(resources.getDrawable(dataClass[0].image!!.toInt())).apply(
+            RequestOptions.overrideOf(500,500)).into(classImage)
+
+        className.text = dataClass[0].name
+        classCategory.text = dataClass[0].category
+        startTime.text = dataClass[0].startTime + " WIB"
+        endTime.text = dataClass[0].endTime + " WIB"
+        startDate.text = dataClass[0].startDate
+        endDate.text = dataClass[0].endDate
+        day.text = dataClass[0].day
+
+        studentList = findViewById(R.id.recyclerView)
+
+        adapter = StudentList(listStudent, dataClass[0].image)
+    }
+
     private fun showStudent(){
         val classroom: Classroom? = intent.getParcelableExtra(data)
-        list.clear()
+        listStudent.clear()
         database.use {
             val result = select(Student.TABLE_STUDENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (CLASS = {class}) ORDER BY ID_ ASC", "teacher_id" to 1, "class" to classroom?.name.toString())
             val category = result.parseList(classParser<Student>())
             if (category.isNotEmpty()){
-                list.addAll(category)
+                listStudent.addAll(category)
             }else{
                 textNoData.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun showClass(){
+        val classroom: Classroom? = intent.getParcelableExtra(data)
+        dataClass.clear()
+        database.use {
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(ID_ = {id}) AND (TEACHER_ID = {teacher_id})", "id" to classroom?.id.toString(),"teacher_id" to classroom?.teacher_id.toString())
+            val data = result.parseList(classParser<Classroom>())
+            if (data.isNotEmpty()){
+                dataClass.addAll(data)
             }
         }
     }

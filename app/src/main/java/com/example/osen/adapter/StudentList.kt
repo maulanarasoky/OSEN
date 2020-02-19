@@ -21,7 +21,7 @@ import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StudentList(private val studentItems : MutableList<Student>, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
+class StudentList(private val studentItems: MutableList<Student>, private val image: String?) : RecyclerView.Adapter<StudentList.ViewHolder>() {
 
     fun delete(position: Int){
         studentItems.removeAt(position)
@@ -37,7 +37,9 @@ class StudentList(private val studentItems : MutableList<Student>, private val i
     override fun getItemCount() = studentItems.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(studentItems[position], image, position)
+        if (image != null) {
+            holder.bindItem(studentItems[position], image, position)
+        }
     }
 
     inner class ViewHolder(override val containerView : View) : RecyclerView.ViewHolder(containerView),
