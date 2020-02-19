@@ -69,11 +69,13 @@
 
                     <EditText
                         android:id="@+id/studentName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="195dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/actionBarColor"
                         android:fontFamily="@font/firasans"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
+                        android:maxLines="2"
+                        android:layout_weight="1"
                         android:textSize="20sp" />
                 </TableRow>
 

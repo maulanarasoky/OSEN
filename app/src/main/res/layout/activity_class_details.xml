@@ -58,158 +58,191 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/linear2"
+                android:id="@+id/linear1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:background="@drawable/rounded_details"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
-                <TextView
-                    android:id="@+id/className"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linear2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/firasans"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingBottom="24dp">
+
+                    <TextView
+                        android:id="@+id/className"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/firasans"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        tools:text="Nama Kelas" />
+
+                    <TextView
+                        android:id="@+id/classCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/firasans"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        android:textStyle="italic"
+                        tools:text="Kategori Kelas" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TableLayout
+                        android:id="@+id/table1"
+                        android:padding="@dimen/activity_vertical_margin"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content">
+                        <TableRow>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Mulai"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=" : "
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/startTime"
+                                android:text="Dummy"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+                        </TableRow>
+                        <TableRow
+                            android:layout_marginTop="@dimen/activity_vertical_margin">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Berakhir"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=" : "
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/endTime"
+                                android:text="Dummy"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+                        </TableRow>
+                    </TableLayout>
+                    <TableLayout
+                        android:padding="@dimen/activity_vertical_margin"
+                        android:layout_width="195dp"
+                        android:layout_height="wrap_content">
+                        <TableRow>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Mulai"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=" : "
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/startDate"
+                                android:text="Dummy"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+                        </TableRow>
+                        <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Berakhir"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:text=" : "
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/endDate"
+                                android:text="Dummy"
+                                android:fontFamily="@font/firasans"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textSize="24sp"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    tools:text="Nama Kelas" />
-
-                <TextView
-                    android:id="@+id/classCategory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="Hari"
                     android:fontFamily="@font/firasans"
-                    android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black"
-                    android:textStyle="italic"
-                    tools:text="Kategori Kelas" />
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:textColor="@android:color/black" />
             </LinearLayout>
-            <TableLayout
-                android:id="@+id/table1"
-                android:layout_below="@id/linear2"
-                android:padding="@dimen/activity_vertical_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TableRow>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Jenis"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" : "
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/classType"
-                        android:text="Dummy"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-                </TableRow>
-                <TableRow
-                    android:layout_marginTop="@dimen/activity_vertical_margin">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Mulai"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" : "
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/classStart"
-                        android:text="Dummy"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-                </TableRow>
-            </TableLayout>
-            <TableLayout
-                android:layout_below="@id/linear2"
-                android:padding="@dimen/activity_vertical_margin"
-                android:layout_width="wrap_content"
-                android:layout_toEndOf="@id/table1"
-                android:layout_height="wrap_content">
-                <TableRow>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Berakhir"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" : "
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/classEnd"
-                        android:text="Dummy"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-                </TableRow>
-                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Jadwal"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:text=" : "
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/classDay"
-                        android:text="Dummy"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-                </TableRow>
-            </TableLayout>
 
             <TextView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:id="@+id/studentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -218,7 +251,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/table1"
+                android:layout_below="@id/linear1"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -229,6 +262,19 @@
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
                 android:paddingBottom="230dp"/>
+
+            <TextView
+                android:id="@+id/textNoData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Belum ada murid"
+                android:fontFamily="@font/firasans"
+                android:textSize="20sp"
+                android:layout_below="@id/studentTitle"
+                android:gravity="center"
+                android:visibility="gone"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="@dimen/activity_vertical_margin" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 

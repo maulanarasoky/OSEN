@@ -11,15 +11,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen"
         tools:replace="android:icon">
-        <activity android:name=".activity.EditData"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ClassDetails"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AddData"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AddClassroom"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.MainActivity"
+        <activity android:name=".activity.EditClass"></activity>
+        <activity
+            android:name=".activity.EditData"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ClassDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddData"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddClassroom"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

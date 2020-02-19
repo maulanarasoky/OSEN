@@ -1,16 +1,14 @@
 package com.example.osen.activity
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginStart
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,11 +20,9 @@ import com.example.osen.model.Classroom
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.activity_class_details.*
-import kotlinx.android.synthetic.main.student_list.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
-import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.wrapContent
+import org.jetbrains.anko.startActivity
 
 class ClassDetails : AppCompatActivity() {
 
@@ -50,6 +46,8 @@ class ClassDetails : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
 
+        collapsingToolbar.setContentScrimColor(Color.parseColor("#48cfad"))
+
         supportActionBar?.title = classroom?.name
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -59,10 +57,11 @@ class ClassDetails : AppCompatActivity() {
 
         className.text = classroom.name
         classCategory.text = classroom.category
-        classType.text = classroom.type
-        classStart.text = classroom.start
-        classEnd.text = classroom.end
-        classDay.text = classroom.day
+        startTime.text = classroom.startTime + " WIB"
+        endTime.text = classroom.endTime + " WIB"
+        startDate.text = classroom.startDate
+        endDate.text = classroom.endDate
+        day.text = classroom.day
 
         studentList = findViewById(R.id.recyclerView)
 
@@ -77,6 +76,26 @@ class ClassDetails : AppCompatActivity() {
         Log.d("array size", list.size.toString())
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.details_class_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home -> {
+                finish()
+            }
+            R.id.editClass -> {
+                val classroom: Classroom? = intent.getParcelableExtra(data)
+                startActivity<EditClass>(
+                    EditClass.data to classroom
+                )
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun showStudent(){
         val classroom: Classroom? = intent.getParcelableExtra(data)
         list.clear()
@@ -85,6 +104,8 @@ class ClassDetails : AppCompatActivity() {
             val category = result.parseList(classParser<Student>())
             if (category.isNotEmpty()){
                 list.addAll(category)
+            }else{
+                textNoData.visibility = View.VISIBLE
             }
         }
     }

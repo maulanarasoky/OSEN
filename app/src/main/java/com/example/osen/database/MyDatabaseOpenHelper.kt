@@ -27,8 +27,10 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Classroom.NAME to TEXT + UNIQUE,
             Classroom.TYPE to TEXT,
             Classroom.CATEGORY to TEXT,
-            Classroom.START to TEXT,
-            Classroom.END to TEXT,
+            Classroom.START_DATE to TEXT,
+            Classroom.END_DATE to TEXT,
+            Classroom.START_TIME to TEXT,
+            Classroom.END_TIME to TEXT,
             Classroom.DAY to TEXT,
             Classroom.TEACHER_ID to INTEGER)
 

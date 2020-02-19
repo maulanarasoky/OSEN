@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -191,6 +190,8 @@ class AddClassroom : AppCompatActivity() {
         classType.setSelection(0)
         classStart.text = "Pilih"
         classEnd.text = "Pilih"
+        timeStart.text = "Pilih"
+        timeEnd.text = "Pilih"
         firstDay.setSelection(0)
         if(listCategory.isNotEmpty()){
             rowFirstCategory.visibility = View.GONE
@@ -214,8 +215,19 @@ class AddClassroom : AppCompatActivity() {
     }
 
     private fun submit(){
+        val countWords = className.text.toString().split("")
+        if(countWords.size > 17){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialog.titleText = "Judul terlalu panjang"
+            dialog.contentText = "Judul terdiri dari 1-15 huruf"
+            dialog.setCancelable(false)
+            dialog.show()
+            return
+        }
+
         if(rowFirstCategory.visibility == View.VISIBLE){
-            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategory.text.toString() == ""){
+            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategory.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialog.titleText = "Harap masukkan data secara lengkap dan benar"
@@ -225,7 +237,7 @@ class AddClassroom : AppCompatActivity() {
                 addCategory()
             }
         }else if(rowNewCategory.visibility == View.VISIBLE){
-            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategoryAdd.text.toString() == ""){
+            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategoryAdd.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialog.titleText = "Harap masukkan data secara lengkap dan benar"
@@ -294,8 +306,10 @@ class AddClassroom : AppCompatActivity() {
         }else{
             category = newCategory.text.toString()
         }
-        val start = classStart.text.toString()
-        val end = classEnd.text.toString()
+        val startDate = classStart.text.toString()
+        val endDate = classEnd.text.toString()
+        val startTime = timeStart.text.toString()
+        val endTime = timeEnd.text.toString()
         var day = ""
         when(count){
             1 ->{
@@ -337,8 +351,10 @@ class AddClassroom : AppCompatActivity() {
                     Classroom.TABLE_CLASSROOM,
                     Classroom.NAME to name,
                     Classroom.IMAGE to image,
-                    Classroom.START to start,
-                    Classroom.END to end,
+                    Classroom.START_DATE to startDate,
+                    Classroom.END_DATE to endDate,
+                    Classroom.START_TIME to startTime,
+                    Classroom.END_TIME to endTime,
                     Classroom.DAY to day,
                     Classroom.TYPE to type,
                     Classroom.CATEGORY to category,
