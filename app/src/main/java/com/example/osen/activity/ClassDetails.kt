@@ -92,29 +92,27 @@ class ClassDetails : AppCompatActivity() {
             }
             R.id.deleteClass -> {
                 val temp = dataClass[0].name.toString()
-                val dialogSuccessDelete = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 val dialogWarningDelete = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialogWarningDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialogWarningDelete.titleText = "Apakah Anda Yakin Ingin Menghapus " + dataClass[0].name + " dan " + studentList.size + " Murid didalamnya ?"
-                dialogWarningDelete.setCancelable(false)
-                dialogWarningDelete.show()
+                dialogWarningDelete.confirmText = "Yes, Delete it !"
+                dialogWarningDelete.cancelText = "Cancel"
+                dialogWarningDelete.showCancelButton(true)
                 dialogWarningDelete.setConfirmClickListener {
-                    dialogWarningDelete.dismissWithAnimation()
                     database.use {
-                        val deleteClassQuery = delete(Classroom.TABLE_CLASSROOM, "(ID_ = {class_id})", "class_id" to dataClass[0].id.toString())
-                        val deleteStudentQuery = delete(Student.TABLE_STUDENT, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
-                        if (deleteClassQuery > 0 && deleteStudentQuery > 0){
-                            dialogSuccessDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
-                            dialogSuccessDelete.titleText = "Berhasil menghapus $temp"
-                            dialogSuccessDelete.setCancelable(false)
-                            dialogSuccessDelete.show()
-                            dialogSuccessDelete.setConfirmClickListener {
-                                dialogSuccessDelete.dismissWithAnimation()
-                                finish()
-                            }
-                        }
+                        delete(Classroom.TABLE_CLASSROOM, "(ID_ = {class_id})", "class_id" to dataClass[0].id.toString())
+                        delete(Student.TABLE_STUDENT, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
                     }
-                }
+                    dialogWarningDelete.titleText = "Berhasil Menghapus $temp"
+                    dialogWarningDelete.confirmText = "OK"
+                    dialogWarningDelete.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                    dialogWarningDelete.showCancelButton(false)
+                    dialogWarningDelete.setCancelable(false)
+                    dialogWarningDelete.setConfirmClickListener {
+                        dialogWarningDelete.dismissWithAnimation()
+                        finish()
+                    }
+                }.show()
             }
         }
         return super.onOptionsItemSelected(item)

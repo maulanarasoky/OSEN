@@ -86,7 +86,7 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
                         position: Int,
                         id: Long
                     ) {
-                        if(action.selectedItem.toString() != "Keterangan"){
+                        if(action.selectedItem.toString() != "-"){
                             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
                             val currentDate = sdf.format(Date())
                             val res = itemView.context.database.use {
@@ -121,16 +121,6 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
                                 }
                                 queryUpdate.exec()
                             }
-//                            if(res.exec() > 0){
-//                                Log.d("keterangan", res.toString())
-//                            }else{
-//                                itemView.context.database.use {
-//                                    update(AbsentOfDay.TABLE_ABSENTOFDAY,
-//                                        AbsentOfDay.DATE to currentDate,
-//                                        AbsentOfDay.KETERANGAN to action.selectedItem.toString())
-//                                        .whereArgs("(TEACHER_ID = {teacher_id}) AND (ID_ = {student_id})", "teacher_id" to student.teacher_id.toString(), "student_id" to student.id.toString())
-//                                }
-//                            }
                             keterangan = action.selectedItem.toString()
                             setSpinnerAdapter()
                             action.visibility = View.GONE
