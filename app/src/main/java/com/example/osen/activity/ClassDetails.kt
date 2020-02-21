@@ -9,8 +9,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.osen.R
@@ -21,6 +23,7 @@ import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.activity_class_details.*
 import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.startActivity
 
@@ -86,6 +89,32 @@ class ClassDetails : AppCompatActivity() {
                 startActivity<EditClass>(
                     EditClass.data to classroom
                 )
+            }
+            R.id.deleteClass -> {
+                val temp = dataClass[0].name.toString()
+                val dialogSuccessDelete = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                val dialogWarningDelete = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                dialogWarningDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
+                dialogWarningDelete.titleText = "Apakah Anda Yakin Ingin Menghapus " + dataClass[0].name + " dan " + studentList.size + " Murid didalamnya ?"
+                dialogWarningDelete.setCancelable(false)
+                dialogWarningDelete.show()
+                dialogWarningDelete.setConfirmClickListener {
+                    dialogWarningDelete.dismissWithAnimation()
+                    database.use {
+                        val deleteClassQuery = delete(Classroom.TABLE_CLASSROOM, "(ID_ = {class_id})", "class_id" to dataClass[0].id.toString())
+                        val deleteStudentQuery = delete(Student.TABLE_STUDENT, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
+                        if (deleteClassQuery > 0 && deleteStudentQuery > 0){
+                            dialogSuccessDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
+                            dialogSuccessDelete.titleText = "Berhasil menghapus $temp"
+                            dialogSuccessDelete.setCancelable(false)
+                            dialogSuccessDelete.show()
+                            dialogSuccessDelete.setConfirmClickListener {
+                                dialogSuccessDelete.dismissWithAnimation()
+                                finish()
+                            }
+                        }
+                    }
+                }
             }
         }
         return super.onOptionsItemSelected(item)
