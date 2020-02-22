@@ -1,5 +1,6 @@
 package com.example.osen.activity
 
+import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import kotlinx.android.synthetic.main.activity_edit_class.*
 import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.update
 
@@ -37,6 +39,7 @@ class EditClass : AppCompatActivity() {
     lateinit var sixthDay : Spinner
 
     private var listCategory: MutableList<Category> = mutableListOf()
+    private var checkCategory: MutableList<Category> = mutableListOf()
     private var checkDataClass: MutableList<Classroom> = mutableListOf()
     private var dataClass: MutableList<Classroom> = mutableListOf()
 
@@ -398,6 +401,17 @@ class EditClass : AppCompatActivity() {
         }
     }
 
+    private fun checkAvailableCategory(categoryName: String){
+        checkCategory.clear()
+        database.use {
+            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id}) AND (NAME = {category_name})", "teacher_id" to 1, "category_name" to categoryName)
+            val category = result.parseList(classParser<Category>())
+            if (category.isNotEmpty()){
+                checkCategory.addAll(category)
+            }
+        }
+    }
+
     private fun checkData(){
         var day = ""
         when(count){
@@ -495,6 +509,10 @@ class EditClass : AppCompatActivity() {
                 "Matematika" -> image = R.drawable.ic_class
                 "Pemrograman" -> image = R.drawable.ic_programming
             }
+            checkAvailableCategory(category)
+            if(checkCategory.isEmpty()){
+                addCategory(category)
+            }
             val startDate = classStart.text.toString()
             val endDate = classEnd.text.toString()
             val startTime = timeStart.text.toString()
@@ -522,6 +540,18 @@ class EditClass : AppCompatActivity() {
                 dialog.dismissWithAnimation()
                 finish()
             }.show()
+        }
+    }
+
+    private fun addCategory(categoryName: String){
+        try {
+            database.use {
+                insert(
+                    Category.TABLE_CATEGORY,
+                    Category.NAME to categoryName,
+                    Category.TEACHER_ID to 1)
+            }
+        }catch (e: SQLiteConstraintException){
         }
     }
 
