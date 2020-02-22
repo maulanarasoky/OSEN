@@ -37,6 +37,7 @@ class EditClass : AppCompatActivity() {
     lateinit var sixthDay : Spinner
 
     private var listCategory: MutableList<Category> = mutableListOf()
+    private var checkDataClass: MutableList<Classroom> = mutableListOf()
     private var dataClass: MutableList<Classroom> = mutableListOf()
 
     var count = 0
@@ -46,10 +47,9 @@ class EditClass : AppCompatActivity() {
         setContentView(R.layout.activity_edit_class)
 
         initUI()
+        showDataClass()
 
-        val classroom: Classroom? = intent.getParcelableExtra(data)
-
-        if(classroom?.type == "Reguler"){
+        if(dataClass[0].type == "Reguler"){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Tidak Dapat Merubah Kelas Reguler"
@@ -62,23 +62,23 @@ class EditClass : AppCompatActivity() {
             return
         }
 
-        className.setText(classroom?.name, TextView.BufferType.EDITABLE)
+        className.setText(dataClass[0].name, TextView.BufferType.EDITABLE)
 
         ArrayAdapter.createFromResource(this, R.array.class_type, R.layout.spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             classType.adapter = adapter
 
-            val classPosition = adapter.getPosition(classroom?.type)
+            val classPosition = adapter.getPosition(dataClass[0].type)
             classType.setSelection(classPosition)
         }
 
-        showCategorySpinner(classroom?.category)
-        startDate.text = classroom?.startDate
-        endDate.text = classroom?.endDate
-        startTime.text = classroom?.startTime
-        endTime.text = classroom?.endTime
+        showCategorySpinner(dataClass[0].category)
+        startDate.text = dataClass[0].startDate
+        endDate.text = dataClass[0].endDate
+        startTime.text = dataClass[0].startTime
+        endTime.text = dataClass[0].endTime
 
-        val split = classroom?.day?.split(", ")
+        val split = dataClass[0].day?.split(", ")
         count = split?.size!!
 
         when(split.size){
@@ -426,7 +426,7 @@ class EditClass : AppCompatActivity() {
             }
         }
 
-        dataClass.clear()
+        checkDataClass.clear()
         database.use {
             val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {name}) AND (TYPE = {type}) " +
                     "AND (CATEGORY = {category}) AND (START_DATE = {start_date}) AND (END_DATE = {end_date}) AND (START_TIME = {start_time}) " +
@@ -435,13 +435,13 @@ class EditClass : AppCompatActivity() {
                 "start_time" to startTime.text, "end_time" to endTime.text, "day" to day)
             val data = result.parseList(classParser<Classroom>())
             if (data.isNotEmpty()){
-                dataClass.addAll(data)
+                checkDataClass.addAll(data)
             }
         }
     }
 
     private fun submit(){
-        if(dataClass.isNotEmpty()){
+        if(checkDataClass.isNotEmpty()){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.contentText = "Anda Tidak Melakukan Perubahan Apapun"
@@ -513,6 +513,18 @@ class EditClass : AppCompatActivity() {
                 dialog.dismissWithAnimation()
                 finish()
             }.show()
+        }
+    }
+
+    private fun showDataClass(){
+        val classroom: Classroom? = intent.getParcelableExtra(data)
+        dataClass.clear()
+        database.use {
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(ID_ = {id}) AND (TEACHER_ID = {teacher_id})", "id" to classroom?.id.toString(),"teacher_id" to classroom?.teacher_id.toString())
+            val data = result.parseList(classParser<Classroom>())
+            if (data.isNotEmpty()){
+                dataClass.addAll(data)
+            }
         }
     }
 }
