@@ -477,7 +477,16 @@ class EditClass : AppCompatActivity() {
             val classroom: Classroom? = intent.getParcelableExtra(data)
             val name = className.text.toString()
             val type = classType.selectedItem.toString()
-            val category = classCategory.selectedItem.toString()
+            var category = ""
+            if(rowOldCategory.visibility == View.VISIBLE){
+                if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
+                    category = newCategoryAdd.text.toString()
+                }else{
+                    category = classCategory.selectedItem.toString()
+                }
+            }else{
+                category = newCategory.text.toString()
+            }
             var image = R.drawable.ic_class
             when(category){
                 "Bahasa Indonesia" -> image = R.drawable.ic_indonesia
