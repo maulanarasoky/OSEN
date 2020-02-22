@@ -399,9 +399,33 @@ class EditClass : AppCompatActivity() {
     }
 
     private fun checkData(){
-        val day = firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " +
-                thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " +
-                fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
+        var day = ""
+        when(count){
+            1 ->{
+                day = "" + firstDay.selectedItem.toString()
+            }
+            2 -> {
+                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString()
+            }
+
+            3 -> {
+                day = "" + firstDay.selectedItem.toString() + ", " +secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
+            }
+
+            4 -> {
+                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString()
+            }
+
+            5 -> {
+                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString()
+            }
+
+            6 -> {
+                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
+
+            }
+        }
+
         dataClass.clear()
         database.use {
             val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {name}) AND (TYPE = {type}) " +
@@ -424,22 +448,53 @@ class EditClass : AppCompatActivity() {
             dialog.setCancelable(false)
             dialog.show()
         }else{
+            var day = ""
+            when(count){
+                1 ->{
+                    day = "" + firstDay.selectedItem.toString()
+                }
+                2 -> {
+                    day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString()
+                }
+
+                3 -> {
+                    day = "" + firstDay.selectedItem.toString() + ", " +secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
+                }
+
+                4 -> {
+                    day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString()
+                }
+
+                5 -> {
+                    day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString()
+                }
+
+                6 -> {
+                    day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
+
+                }
+            }
             val classroom: Classroom? = intent.getParcelableExtra(data)
             val name = className.text.toString()
             val type = classType.selectedItem.toString()
             val category = classCategory.selectedItem.toString()
+            var image = R.drawable.ic_class
+            when(category){
+                "Bahasa Indonesia" -> image = R.drawable.ic_indonesia
+                "Bahasa Inggris" -> image = R.drawable.ic_english
+                "IPA" -> image = R.drawable.ic_science
+                "Matematika" -> image = R.drawable.ic_class
+                "Pemrograman" -> image = R.drawable.ic_programming
+            }
             val startDate = classStart.text.toString()
             val endDate = classEnd.text.toString()
             val startTime = timeStart.text.toString()
             val endTime = timeEnd.text.toString()
-            val day = firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " +
-                    thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " +
-                    fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
-
             database.use {
                 val queryUpdate = update(
                     Classroom.TABLE_CLASSROOM,
                     Classroom.NAME to name,
+                    Classroom.IMAGE to image,
                     Classroom.TYPE to type,
                     Classroom.CATEGORY to category,
                     Classroom.START_DATE to startDate,
@@ -450,12 +505,14 @@ class EditClass : AppCompatActivity() {
 
                 queryUpdate.exec()
             }
-
             val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.contentText = "Perubahan Berhasil Dilakukan"
             dialog.setCancelable(false)
-            dialog.show()
+            dialog.setConfirmClickListener {
+                dialog.dismissWithAnimation()
+                finish()
+            }.show()
         }
     }
 }
