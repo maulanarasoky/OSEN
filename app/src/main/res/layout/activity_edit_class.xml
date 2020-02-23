@@ -180,7 +180,7 @@
                         android:textSize="20sp" />
 
                     <EditText
-                        android:id="@+id/newCategoryAdd"
+                        android:id="@+id/firstCategoryAdd"
                         android:layout_width="195dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/actionBarColor"

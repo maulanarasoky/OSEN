@@ -494,7 +494,7 @@ class EditClass : AppCompatActivity() {
             var category = ""
             if(rowOldCategory.visibility == View.VISIBLE){
                 if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
-                    category = newCategoryAdd.text.toString()
+                    category = firstCategoryAdd.text.toString()
                 }else{
                     category = classCategory.selectedItem.toString()
                 }

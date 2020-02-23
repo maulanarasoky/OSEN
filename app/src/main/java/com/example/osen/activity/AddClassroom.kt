@@ -37,6 +37,7 @@ class AddClassroom : AppCompatActivity() {
     var count = 1
 
     private var listCategory: MutableList<Category> = mutableListOf()
+    private var checkCategory: MutableList<Category> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -234,17 +235,23 @@ class AddClassroom : AppCompatActivity() {
                 dialog.setCancelable(false)
                 dialog.show()
             }else{
-                addCategory()
+                checkAvailableCategory(newCategory.text.toString())
+                if(checkCategory.isEmpty()){
+                    addCategory()
+                }
             }
         }else if(rowNewCategory.visibility == View.VISIBLE){
-            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategoryAdd.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
+            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || firstCategoryAdd.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialog.titleText = "Harap masukkan data secara lengkap dan benar"
                 dialog.setCancelable(false)
                 dialog.show()
             }else{
-                addCategory()
+                checkAvailableCategory(firstCategoryAdd.text.toString())
+                if(checkCategory.isEmpty()){
+                    addCategory()
+                }
             }
         } else{
             if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
@@ -299,7 +306,7 @@ class AddClassroom : AppCompatActivity() {
         var category = ""
         if(rowOldCategory.visibility == View.VISIBLE){
             if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
-                category = newCategoryAdd.text.toString()
+                category = firstCategoryAdd.text.toString()
             }else{
                 category = classCategory.selectedItem.toString()
             }
@@ -386,7 +393,7 @@ class AddClassroom : AppCompatActivity() {
     private fun addCategory(){
         var category = ""
         if(rowNewCategory.visibility == View.VISIBLE){
-            category = newCategoryAdd.text.toString()
+            category = firstCategoryAdd.text.toString()
         }else{
             category = newCategory.text.toString()
         }
@@ -408,6 +415,17 @@ class AddClassroom : AppCompatActivity() {
             val category = result.parseList(classParser<Category>())
             if (category.isNotEmpty()){
                 listCategory.addAll(category)
+            }
+        }
+    }
+
+    private fun checkAvailableCategory(categoryName: String){
+        checkCategory.clear()
+        database.use {
+            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id}) AND (NAME = {category_name})", "teacher_id" to 1, "category_name" to categoryName)
+            val category = result.parseList(classParser<Category>())
+            if (category.isNotEmpty()){
+                checkCategory.addAll(category)
             }
         }
     }
