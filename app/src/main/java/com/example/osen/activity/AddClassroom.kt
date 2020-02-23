@@ -127,7 +127,17 @@ class AddClassroom : AppCompatActivity() {
 
     private fun initTimeStart(hour: Int, minute: Int){
         val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
-            val text = "$hourOfDay : $minutes"
+            val formatHours: String = if(hourOfDay < 10){
+                "0$hourOfDay"
+            }else{
+                hourOfDay.toString()
+            }
+            val formatMinutes: String = if(minutes < 10){
+                "0$minutes"
+            }else {
+                minutes.toString()
+            }
+            val text = "$formatHours : $formatMinutes"
             timeStart.text = text
         }, hour, minute, true)
         timePickerDialog.show()
@@ -135,7 +145,17 @@ class AddClassroom : AppCompatActivity() {
 
     private fun initTimeEnd(hour: Int, minute: Int){
         val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
-            val text = "$hourOfDay : $minutes"
+            val formatHours: String = if(hourOfDay < 10){
+                "0$hourOfDay"
+            }else{
+                hourOfDay.toString()
+            }
+            val formatMinutes: String = if(minutes < 10){
+                "0$minutes"
+            }else {
+                minutes.toString()
+            }
+            val text = "$formatHours : $formatMinutes"
             timeEnd.text = text
         }, hour, minute, true)
         timePickerDialog.show()
