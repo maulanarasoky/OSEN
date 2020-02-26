@@ -1,5 +1,7 @@
 package com.example.osen.adapter
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
+import com.example.osen.activity.ClassDetails
 import com.example.osen.activity.EditData
 import com.example.osen.database.database
 import com.example.osen.model.Absent
@@ -19,6 +22,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.student_list.*
 import org.jetbrains.anko.db.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -149,8 +153,8 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
             dialogWarningDelete.showCancelButton(true)
             dialogWarningDelete.setConfirmClickListener {
                 itemView.context.database.use {
-                    val queryDeleteAbsentStudent = delete(Absent.TABLE_ABSENT, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
-                    val queryDeleteDailyAbsent = delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
+                    delete(Absent.TABLE_ABSENT, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
+                    delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
                     val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(ID_ = {student_id}) AND (CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "class_name" to student.className.toString(), "teacher_id" to student.teacher_id.toString())
                     if(queryDeleteStudent > 0){
                         delete(position)

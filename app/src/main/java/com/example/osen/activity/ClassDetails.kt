@@ -70,18 +70,6 @@ class ClassDetails : AppCompatActivity() {
         showStudent()
     }
 
-    fun checkTodayAbsent(){
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val currentDate = sdf.format(Date())
-        database.use {
-            val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs("(DATE = {todayDate})", "todayDate" to currentDate)
-            val data = result.parseList(classParser<AbsentOfDay>())
-            if (data.isNotEmpty()){
-                absentOfDay.addAll(data)
-            }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         showClass()
@@ -117,9 +105,9 @@ class ClassDetails : AppCompatActivity() {
                     database.use {
                         val queryDeleteClass = delete(Classroom.TABLE_CLASSROOM, "(ID_ = {class_id})", "class_id" to dataClass[0].id.toString())
                         val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
-                        val queryDeleteAbsent = delete(Absent.TABLE_ABSENT, "(CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
-                        val queryDeleteDailyAbsent = delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
-                        if(queryDeleteClass > 0 && queryDeleteStudent > 0){
+                        delete(Absent.TABLE_ABSENT, "(CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
+                        delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
+                        if(queryDeleteClass > 0){
                             dialogWarningDelete.titleText = "Berhasil Menghapus $temp"
                             dialogWarningDelete.confirmText = "OK"
                             dialogWarningDelete.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
