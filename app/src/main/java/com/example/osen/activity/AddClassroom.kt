@@ -109,7 +109,17 @@ class AddClassroom : AppCompatActivity() {
 
     private fun initDateStart(year: Int, month: Int, day: Int){
         val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
-            val text = "" + mDay + "/" + (mMonth + 1) + "/" + mYear
+            val formatDay = if(mDay < 10){
+                "0$mDay"
+            }else{
+                mDay.toString()
+            }
+            val formatMonth = if((mMonth + 1) < 10){
+                "0" + (mMonth + 1)
+            }else{
+                (mMonth + 1).toString()
+            }
+            val text = "$formatDay/$formatMonth/$mYear"
             classStart.text = text
         }, year, month, day)
 
@@ -118,7 +128,17 @@ class AddClassroom : AppCompatActivity() {
 
     private fun initDateEnd(year: Int, month: Int, day: Int){
         val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
-            val text = "" + mDay + "/" + (mMonth + 1) + "/" + mYear
+            val formatDay = if(mDay < 10){
+                "0$mDay"
+            }else{
+                mDay.toString()
+            }
+            val formatMonth = if((mMonth + 1) < 10){
+                "0" + (mMonth + 1)
+            }else{
+                (mMonth+1).toString()
+            }
+            val text = "$formatDay/$formatMonth/$mYear"
             classEnd.text = text
         }, year, month, day)
 

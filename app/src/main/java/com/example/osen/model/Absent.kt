@@ -6,6 +6,7 @@ data class Absent(
     val hadir: Int?,
     val izin: Int?,
     val alfa: Int?,
+    val class_name: String?,
     val teacher_id: Int?
 ){
     companion object{
@@ -15,6 +16,7 @@ data class Absent(
         const val HADIR = "HADIR"
         const val IZIN = "IZIN"
         const val ALFA = "ALFA"
+        const val CLASS = "CLASS"
         const val TEACHER_ID = "TEACHER_ID"
     }
 }

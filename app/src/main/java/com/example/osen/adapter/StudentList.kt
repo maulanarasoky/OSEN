@@ -1,6 +1,7 @@
 package com.example.osen.adapter
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,10 +46,11 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
     inner class ViewHolder(override val containerView : View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
-        val list: MutableList<AbsentOfDay> = mutableListOf()
+        private val list: MutableList<AbsentOfDay> = mutableListOf()
         var keterangan: String = ""
 
         val absentData: MutableList<Absent> = mutableListOf()
+        val absentOfDay: MutableList<AbsentOfDay> = mutableListOf()
 
 
         fun bindItem(student: Student, image:String, position: Int) {
@@ -56,29 +58,23 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
             studentId.text = student.id.toString()
             studentName.text = student.name
 
-            itemView.context.database.use {
-                val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs(
-                    "(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) LIMIT 1",
-                    "teacher_id" to student.teacher_id.toString(),
-                    "student_id" to student.id.toString()
-                )
-                val data = result.parseList(classParser<AbsentOfDay>())
-                if (data.isNotEmpty()) {
-                    list.addAll(data)
-                    keterangan = list[0].keterangan.toString()
-                    action.visibility = View.GONE
-                    done.visibility = View.VISIBLE
-                    done.text = keterangan
-                }else{
-                    ArrayAdapter.createFromResource(
-                        itemView.context,
-                        R.array.keterangan_hadir,
-                        R.layout.spinner_item
-                    ).also { adapter ->
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        action.adapter = adapter
-                    }
-                }
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val currentDate = sdf.format(Date())
+
+            checkTodayAbsent(student.teacher_id, student.className, currentDate, student.id)
+            Log.d("coba", absentOfDay.size.toString())
+
+            if(absentOfDay.isNotEmpty()){
+                action.visibility = View.GONE
+                done.visibility = View.VISIBLE
+                done.text = absentOfDay[0].keterangan
+            }else{
+                Log.d("kosong", "array")
+                initSpinnerKehadiran()
+                action.visibility = View.VISIBLE
+                action.setSelection(0)
+                done.visibility = View.GONE
+
                 action.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
                         parent: AdapterView<*>?,
@@ -87,9 +83,7 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
                         id: Long
                     ) {
                         if(action.selectedItem.toString() != "-"){
-                            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-                            val currentDate = sdf.format(Date())
-                            val res = itemView.context.database.use {
+                            itemView.context.database.use {
                                 insert(
                                     AbsentOfDay.TABLE_ABSENTOFDAY,
                                     AbsentOfDay.DATE to currentDate,
@@ -122,7 +116,6 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
                                 queryUpdate.exec()
                             }
                             keterangan = action.selectedItem.toString()
-                            setSpinnerAdapter()
                             action.visibility = View.GONE
                             done.visibility = View.VISIBLE
                             done.text = keterangan
@@ -140,31 +133,41 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
                     EditData.image to image
                 )
             }
+
             deleteStudent.setOnClickListener {
-                val tempName = student.name
-                val dialogWarningDelete = SweetAlertDialog(itemView.context, SweetAlertDialog.WARNING_TYPE)
-                dialogWarningDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
-                dialogWarningDelete.titleText = "Apakah Anda Yakin Ingin Menghapus " + student.name + " ?"
-                dialogWarningDelete.setCancelable(false)
-                dialogWarningDelete.show()
-                dialogWarningDelete.setConfirmClickListener {
-                    itemView.context.database.use {
-                        val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(ID_) = {student_id}", "student_id" to student.id.toString())
-                        delete(position)
-                        if(queryDeleteStudent > 0){
-                            dialogWarningDelete.dismissWithAnimation()
-                            val dialogSuccessDelete = SweetAlertDialog(itemView.context, SweetAlertDialog.SUCCESS_TYPE)
-                            dialogSuccessDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
-                            dialogSuccessDelete.titleText = "Berhasil Menghapus Data $tempName !"
-                            dialogSuccessDelete.setCancelable(false)
-                            dialogSuccessDelete.show()
-                        }
-                    }
-                }
+                deleteRow(student, position)
             }
         }
 
-        fun setSpinnerAdapter(){
+        fun deleteRow(student: Student, position: Int){
+            val tempName = student.name
+            val dialogWarningDelete = SweetAlertDialog(itemView.context, SweetAlertDialog.WARNING_TYPE)
+            dialogWarningDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialogWarningDelete.titleText = "Apakah Anda Yakin Ingin Menghapus " + student.name + " ?"
+            dialogWarningDelete.confirmText = "Hapus"
+            dialogWarningDelete.cancelText = "Batalkan"
+            dialogWarningDelete.showCancelButton(true)
+            dialogWarningDelete.setConfirmClickListener {
+                itemView.context.database.use {
+                    val queryDeleteAbsentStudent = delete(Absent.TABLE_ABSENT, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
+                    val queryDeleteDailyAbsent = delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
+                    val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(ID_ = {student_id}) AND (CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "class_name" to student.className.toString(), "teacher_id" to student.teacher_id.toString())
+                    if(queryDeleteStudent > 0){
+                        delete(position)
+                        dialogWarningDelete.titleText = "Berhasil Menghapus $tempName"
+                        dialogWarningDelete.confirmText = "OK"
+                        dialogWarningDelete.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                        dialogWarningDelete.showCancelButton(false)
+                        dialogWarningDelete.setCancelable(false)
+                        dialogWarningDelete.setConfirmClickListener {
+                            dialogWarningDelete.dismissWithAnimation()
+                        }
+                    }
+                }
+            }.show()
+        }
+
+        fun initSpinnerKehadiran(){
             ArrayAdapter.createFromResource(
                 itemView.context,
                 R.array.keterangan_hadir,
@@ -172,9 +175,16 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
             ).also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 action.adapter = adapter
+            }
+        }
 
-                val spinnerPosition = adapter.getPosition(keterangan)
-                action.setSelection(spinnerPosition)
+        fun checkTodayAbsent(teacherId: Int?, className: String?, date: String?, studentId: Int?){
+            itemView.context.database.use {
+                val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs("(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) AND (CLASS = {className}) AND (DATE = {todayDate}) LIMIT 1", "teacher_id" to teacherId.toString(), "student_id" to studentId.toString(), "className" to className.toString(), "todayDate" to date.toString())
+                val data = result.parseList(classParser<AbsentOfDay>())
+                if (data.isNotEmpty()){
+                    absentOfDay.addAll(data)
+                }
             }
         }
 

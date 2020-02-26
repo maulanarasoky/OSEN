@@ -18,6 +18,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.osen.R
 import com.example.osen.adapter.StudentList
 import com.example.osen.database.database
+import com.example.osen.model.Absent
+import com.example.osen.model.AbsentOfDay
 import com.example.osen.model.Classroom
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -26,6 +28,8 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.startActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ClassDetails : AppCompatActivity() {
 
@@ -35,6 +39,7 @@ class ClassDetails : AppCompatActivity() {
 
     var listStudent: MutableList<Student> = mutableListOf()
     var dataClass: MutableList<Classroom> = mutableListOf()
+    var absentOfDay: MutableList<AbsentOfDay> = mutableListOf()
     private lateinit var adapter: StudentList
     private lateinit var studentList: RecyclerView
 
@@ -63,8 +68,18 @@ class ClassDetails : AppCompatActivity() {
         studentList.adapter = adapter
 
         showStudent()
+    }
 
-        Log.d("array size", listStudent.size.toString())
+    fun checkTodayAbsent(){
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val currentDate = sdf.format(Date())
+        database.use {
+            val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs("(DATE = {todayDate})", "todayDate" to currentDate)
+            val data = result.parseList(classParser<AbsentOfDay>())
+            if (data.isNotEmpty()){
+                absentOfDay.addAll(data)
+            }
+        }
     }
 
     override fun onResume() {
@@ -95,22 +110,26 @@ class ClassDetails : AppCompatActivity() {
                 val dialogWarningDelete = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialogWarningDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialogWarningDelete.titleText = "Apakah Anda Yakin Ingin Menghapus " + dataClass[0].name + " dan " + studentList.size + " Murid didalamnya ?"
-                dialogWarningDelete.confirmText = "Yes, Delete it !"
-                dialogWarningDelete.cancelText = "Cancel"
+                dialogWarningDelete.confirmText = "Hapus"
+                dialogWarningDelete.cancelText = "Batalkan"
                 dialogWarningDelete.showCancelButton(true)
                 dialogWarningDelete.setConfirmClickListener {
                     database.use {
-                        delete(Classroom.TABLE_CLASSROOM, "(ID_ = {class_id})", "class_id" to dataClass[0].id.toString())
-                        delete(Student.TABLE_STUDENT, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
-                    }
-                    dialogWarningDelete.titleText = "Berhasil Menghapus $temp"
-                    dialogWarningDelete.confirmText = "OK"
-                    dialogWarningDelete.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
-                    dialogWarningDelete.showCancelButton(false)
-                    dialogWarningDelete.setCancelable(false)
-                    dialogWarningDelete.setConfirmClickListener {
-                        dialogWarningDelete.dismissWithAnimation()
-                        finish()
+                        val queryDeleteClass = delete(Classroom.TABLE_CLASSROOM, "(ID_ = {class_id})", "class_id" to dataClass[0].id.toString())
+                        val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
+                        val queryDeleteAbsent = delete(Absent.TABLE_ABSENT, "(CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
+                        val queryDeleteDailyAbsent = delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
+                        if(queryDeleteClass > 0 && queryDeleteStudent > 0){
+                            dialogWarningDelete.titleText = "Berhasil Menghapus $temp"
+                            dialogWarningDelete.confirmText = "OK"
+                            dialogWarningDelete.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                            dialogWarningDelete.showCancelButton(false)
+                            dialogWarningDelete.setCancelable(false)
+                            dialogWarningDelete.setConfirmClickListener {
+                                dialogWarningDelete.dismissWithAnimation()
+                                finish()
+                            }
+                        }
                     }
                 }.show()
             }

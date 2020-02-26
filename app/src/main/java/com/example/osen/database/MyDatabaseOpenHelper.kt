@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import com.example.osen.model.*
 import org.jetbrains.anko.db.*
 
-class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "FavoriteMatch.db", null, 1) {
+class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db", null, 1) {
 
     companion object{
         private var instance: MyDatabaseOpenHelper? = null
@@ -56,6 +56,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Favorite
             Absent.HADIR to INTEGER,
             Absent.IZIN to INTEGER,
             Absent.ALFA to INTEGER,
+            Absent.CLASS to TEXT,
             Absent.TEACHER_ID to INTEGER)
 
         db?.createTable(
