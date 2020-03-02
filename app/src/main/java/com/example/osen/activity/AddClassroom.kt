@@ -14,9 +14,11 @@ import com.example.osen.database.database
 import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import kotlinx.android.synthetic.main.activity_add_classroom.*
+import kotlinx.android.synthetic.main.activity_class_details.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddClassroom : AppCompatActivity() {
@@ -256,6 +258,11 @@ class AddClassroom : AppCompatActivity() {
     }
 
     private fun submit(){
+        var submit = false
+
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val currentDate = sdf.format(Date())
+
         val countWords = className.text.toString().split("")
         if(countWords.size > 17){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
@@ -267,42 +274,64 @@ class AddClassroom : AppCompatActivity() {
             return
         }
 
-        if(rowFirstCategory.visibility == View.VISIBLE){
-            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategory.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
+        if(classStart.text.toString() >= currentDate){
+            if(classEnd.text.toString() < classStart.text.toString()){
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                dialog.titleText = "Harap masukkan data secara lengkap dan benar"
+                dialog.titleText = "Tanggal Selesai Kelas Harus Setelah Tanggal Mulai Kelas"
                 dialog.setCancelable(false)
                 dialog.show()
+                return
             }else{
-                checkAvailableCategory(newCategory.text.toString())
-                if(checkCategory.isEmpty()){
-                    addCategory()
-                }
+                submit = true
             }
-        }else if(rowNewCategory.visibility == View.VISIBLE){
-            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || firstCategoryAdd.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
-                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                dialog.titleText = "Harap masukkan data secara lengkap dan benar"
-                dialog.setCancelable(false)
-                dialog.show()
-            }else{
-                checkAvailableCategory(firstCategoryAdd.text.toString())
-                if(checkCategory.isEmpty()){
-                    addCategory()
-                }
-            }
-        } else{
-            if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
-                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                dialog.titleText = "Harap masukkan data secara lengkap dan benar"
-                dialog.setCancelable(false)
-                dialog.show()
-            }
+        }else{
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialog.titleText = "Tanggal Mulai Kelas Harus Dimulai Dari Hari Ini atau Setelahnya"
+            dialog.setCancelable(false)
+            dialog.show()
+            return
         }
-        addClassroom()
+
+        if(submit){
+            if(rowFirstCategory.visibility == View.VISIBLE){
+                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategory.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
+                    dialog.setCancelable(false)
+                    dialog.show()
+                }else{
+                    checkAvailableCategory(newCategory.text.toString())
+                    if(checkCategory.isEmpty()){
+                        addCategory()
+                    }
+                }
+            }else if(rowNewCategory.visibility == View.VISIBLE){
+                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || firstCategoryAdd.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
+                    dialog.setCancelable(false)
+                    dialog.show()
+                }else{
+                    checkAvailableCategory(firstCategoryAdd.text.toString())
+                    if(checkCategory.isEmpty()){
+                        addCategory()
+                    }
+                }
+            } else{
+                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
+                    dialog.setCancelable(false)
+                    dialog.show()
+                }
+            }
+            addClassroom()
+        }
     }
 
     private fun showCategorySpinner(){
