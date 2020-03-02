@@ -47,6 +47,9 @@ class ClassDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_class_details)
 
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val currentDate = sdf.format(Date())
+
         showClass()
 
         val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
@@ -139,7 +142,7 @@ class ClassDetails : AppCompatActivity() {
 
         studentList = findViewById(R.id.recyclerView)
 
-        adapter = StudentList(listStudent, dataClass[0].image)
+        adapter = StudentList(listStudent, dataClass[0].startDate.toString(), dataClass[0].endDate.toString(), dataClass[0].image.toString())
     }
 
     private fun showStudent(){

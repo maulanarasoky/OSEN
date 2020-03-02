@@ -26,7 +26,7 @@ import org.jetbrains.anko.startActivityForResult
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StudentList(private val studentItems: MutableList<Student>, private val image: String?) : RecyclerView.Adapter<StudentList.ViewHolder>() {
+class StudentList(private val studentItems: MutableList<Student>, private val startDate: String, private val endDate: String, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
 
     fun delete(position: Int){
         studentItems.removeAt(position)
@@ -42,9 +42,7 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
     override fun getItemCount() = studentItems.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (image != null) {
-            holder.bindItem(studentItems[position], image, position)
-        }
+        holder.bindItem(studentItems[position], startDate, endDate, image, position)
     }
 
     inner class ViewHolder(override val containerView : View) : RecyclerView.ViewHolder(containerView),
@@ -57,80 +55,86 @@ class StudentList(private val studentItems: MutableList<Student>, private val im
         val absentOfDay: MutableList<AbsentOfDay> = mutableListOf()
 
 
-        fun bindItem(student: Student, image:String, position: Int) {
-
-            studentId.text = student.id.toString()
-            studentName.text = student.name
+        fun bindItem(student: Student, startDate: String, endDate: String, image:String, position: Int) {
 
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val currentDate = sdf.format(Date())
 
-            checkTodayAbsent(student.teacher_id, student.className, currentDate, student.id)
-            Log.d("coba", absentOfDay.size.toString())
+            studentId.text = student.id.toString()
+            studentName.text = student.name
 
-            if(absentOfDay.isNotEmpty()){
+            if(!(currentDate >= startDate && currentDate <= endDate)){
                 action.visibility = View.GONE
+                done.text = "-"
                 done.visibility = View.VISIBLE
-                done.text = absentOfDay[0].keterangan
             }else{
-                Log.d("kosong", "array")
-                initSpinnerKehadiran()
-                action.visibility = View.VISIBLE
-                action.setSelection(0)
-                done.visibility = View.GONE
+                checkTodayAbsent(student.teacher_id, student.className, currentDate, student.id)
 
-                action.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        if(action.selectedItem.toString() != "-"){
-                            itemView.context.database.use {
-                                insert(
-                                    AbsentOfDay.TABLE_ABSENTOFDAY,
-                                    AbsentOfDay.DATE to currentDate,
-                                    AbsentOfDay.STUDENT_ID to student.id,
-                                    AbsentOfDay.KETERANGAN to action.selectedItem.toString(),
-                                    AbsentOfDay.CLASS to student.className,
-                                    AbsentOfDay.TEACHER_ID to student.teacher_id
-                                )
+                if(absentOfDay.isNotEmpty()){
+                    action.visibility = View.GONE
+                    done.visibility = View.VISIBLE
+                    done.text = absentOfDay[0].keterangan
+                }else{
+                    Log.d("kosong", "array")
+                    initSpinnerKehadiran()
+                    action.visibility = View.VISIBLE
+                    action.setSelection(0)
+                    done.visibility = View.GONE
 
-                                showAbsentData(student.teacher_id, student.id)
+                    action.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            if(action.selectedItem.toString() != "-"){
+                                itemView.context.database.use {
+                                    insert(
+                                        AbsentOfDay.TABLE_ABSENTOFDAY,
+                                        AbsentOfDay.DATE to currentDate,
+                                        AbsentOfDay.STUDENT_ID to student.id,
+                                        AbsentOfDay.KETERANGAN to action.selectedItem.toString(),
+                                        AbsentOfDay.CLASS to student.className,
+                                        AbsentOfDay.TEACHER_ID to student.teacher_id
+                                    )
 
-                                val queryUpdate = when(action.selectedItem.toString()){
-                                    "Alfa" ->{
-                                        val totalAlfa = absentData[0].alfa?.plus(1)
-                                        update(Absent.TABLE_ABSENT,
-                                            Absent.ALFA to totalAlfa).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                    showAbsentData(student.teacher_id, student.id)
+
+                                    val queryUpdate = when(action.selectedItem.toString()){
+                                        "Alfa" ->{
+                                            val totalAlfa = absentData[0].alfa?.plus(1)
+                                            update(Absent.TABLE_ABSENT,
+                                                Absent.ALFA to totalAlfa).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                        }
+                                        "Izin" -> {
+                                            val totalIzin = absentData[0].izin?.plus(1)
+                                            update(Absent.TABLE_ABSENT,
+                                                Absent.IZIN to totalIzin).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                        }
+                                        "Hadir" -> {
+                                            val totalHadir = absentData[0].hadir?.plus(1)
+                                            update(Absent.TABLE_ABSENT,
+                                                Absent.HADIR to totalHadir).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                        }
+                                        else -> error("Error")
                                     }
-                                    "Izin" -> {
-                                        val totalIzin = absentData[0].izin?.plus(1)
-                                        update(Absent.TABLE_ABSENT,
-                                            Absent.IZIN to totalIzin).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
-                                    }
-                                    "Hadir" -> {
-                                        val totalHadir = absentData[0].hadir?.plus(1)
-                                        update(Absent.TABLE_ABSENT,
-                                            Absent.HADIR to totalHadir).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
-                                    }
-                                    else -> error("Error")
+                                    queryUpdate.exec()
                                 }
-                                queryUpdate.exec()
+                                keterangan = action.selectedItem.toString()
+                                action.visibility = View.GONE
+                                done.visibility = View.VISIBLE
+                                done.text = keterangan
                             }
-                            keterangan = action.selectedItem.toString()
-                            action.visibility = View.GONE
-                            done.visibility = View.VISIBLE
-                            done.text = keterangan
                         }
-                    }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
                     }
                 }
             }
+
             itemView.setOnClickListener {
                 itemView.context.startActivity<EditData>(
                     EditData.data to student,
