@@ -14,7 +14,6 @@ import com.example.osen.database.database
 import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import kotlinx.android.synthetic.main.activity_add_classroom.*
-import kotlinx.android.synthetic.main.activity_class_details.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
@@ -260,8 +259,10 @@ class AddClassroom : AppCompatActivity() {
     private fun submit(){
         var submit = false
 
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val currentDate = sdf.format(Date())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("hh:mm", Locale.getDefault())
+        val currentDate = dateFormat.format(Date())
+        val currentTime = timeFormat.format(Date())
 
         val countWords = className.text.toString().split("")
         if(countWords.size > 17){
@@ -283,7 +284,16 @@ class AddClassroom : AppCompatActivity() {
                 dialog.show()
                 return
             }else{
-                submit = true
+                if(timeEnd.text.toString() <= timeStart.text.toString()){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                    dialog.titleText = "Jadwal Selesai Kelas Harus Setelah Jadwal Mulai Kelas"
+                    dialog.setCancelable(false)
+                    dialog.show()
+                    return
+                }else{
+                    submit = true
+                }
             }
         }else{
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
