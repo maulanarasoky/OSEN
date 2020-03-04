@@ -28,6 +28,8 @@ class AddClassroom : AppCompatActivity() {
     lateinit var newCategory: EditText
     lateinit var classStart : Button
     lateinit var classEnd : Button
+    lateinit var timeStart: Button
+    lateinit var timeEnd: Button
     lateinit var firstDay : Spinner
     lateinit var secondDay : Spinner
     lateinit var thirdDay : Spinner
@@ -100,6 +102,8 @@ class AddClassroom : AppCompatActivity() {
         newCategory = findViewById(R.id.newCategory)
         classStart = findViewById(R.id.classStart)
         classEnd = findViewById(R.id.classEnd)
+        timeStart = findViewById(R.id.timeStart)
+        timeEnd = findViewById(R.id.timeEnd)
         firstDay = findViewById(R.id.firstDay)
         secondDay = findViewById(R.id.secondDay)
         thirdDay = findViewById(R.id.thirdDay)
@@ -252,8 +256,6 @@ class AddClassroom : AppCompatActivity() {
         rowDay6.visibility = View.GONE
         addDay.visibility = View.VISIBLE
         sixthDay.setSelection(0)
-        timeStart.text = "Pilih"
-        timeEnd.text = "Pilih"
     }
 
     private fun submit(){
