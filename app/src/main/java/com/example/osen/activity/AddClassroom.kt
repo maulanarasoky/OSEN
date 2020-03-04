@@ -257,12 +257,10 @@ class AddClassroom : AppCompatActivity() {
     }
 
     private fun submit(){
-        var submit = false
+        val submit: Boolean
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val timeFormat = SimpleDateFormat("hh:mm", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
-        val currentTime = timeFormat.format(Date())
 
         val countWords = className.text.toString().split("")
         if(countWords.size > 17){

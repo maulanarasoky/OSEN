@@ -16,6 +16,8 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.update
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditClass : AppCompatActivity() {
 
@@ -48,14 +50,29 @@ class EditClass : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_class)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val currentDate = dateFormat.format(Date())
 
         initUI()
         showDataClass()
 
+        if(currentDate > dataClass[0].endDate.toString()){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+            dialog.titleText = "Tidak Dapat Mengubah Kelas Yang Sudah Selesai"
+            dialog.setCancelable(false)
+            dialog.show()
+            dialog.setConfirmClickListener {
+                dialog.dismissWithAnimation()
+                finish()
+            }
+            return
+        }
+
         if(dataClass[0].type == "Reguler"){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-            dialog.titleText = "Tidak Dapat Merubah Kelas Reguler"
+            dialog.titleText = "Tidak Dapat Mengubah Kelas Reguler"
             dialog.setCancelable(false)
             dialog.show()
             dialog.setConfirmClickListener {
