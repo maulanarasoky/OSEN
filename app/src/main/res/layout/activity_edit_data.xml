@@ -30,7 +30,7 @@
                 app:layout_collapseMode="parallax" />
 
             <View
-                android:id="@+id/view"
+                android:id="@+id/roundedTopDetails"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_gravity="bottom"

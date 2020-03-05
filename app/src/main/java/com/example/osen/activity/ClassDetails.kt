@@ -52,6 +52,14 @@ class ClassDetails : AppCompatActivity() {
 
         showClass()
 
+        if(currentDate < dataClass[0].startDate.toString()){
+            textClassFinish.text = "Kelas Belum Dimulai"
+        }
+
+        if(currentDate >= dataClass[0].startDate.toString() && currentDate <= dataClass[0].endDate.toString()){
+            textClassFinish.text = "Kelas Sedang Berlangsung"
+        }
+
         val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
         collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(applicationContext, android.R.color.transparent))
 
