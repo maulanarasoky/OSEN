@@ -22,6 +22,7 @@
     <string-array name="keterangan_hadir">
         <item>-</item>
         <item>Alfa</item>
+        <item>Sakit</item>
         <item>Izin</item>
         <item>Hadir</item>
     </string-array>

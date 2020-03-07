@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen"
         tools:replace="android:icon">
-        <activity android:name=".activity.EditClass"></activity>
+        <activity android:name=".activity.InputScore"></activity>
+        <activity android:name=".activity.EditClass" />
         <activity
             android:name=".activity.EditData"
             android:screenOrientation="portrait" />

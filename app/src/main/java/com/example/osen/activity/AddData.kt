@@ -95,6 +95,7 @@ class AddData : AppCompatActivity() {
                     Absent.TABLE_ABSENT,
                     Absent.STUDENT_ID to listStudent[0].id,
                     Absent.ALFA to 0,
+                    Absent.SAKIT to 0,
                     Absent.IZIN to 0,
                     Absent.HADIR to 0,
                     Absent.TEACHER_ID to 1)

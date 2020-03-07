@@ -5,6 +5,7 @@ data class Absent(
     val student_id: Int?,
     val hadir: Int?,
     val izin: Int?,
+    val sakit: Int?,
     val alfa: Int?,
     val class_name: String?,
     val teacher_id: Int?
@@ -15,6 +16,7 @@ data class Absent(
         const val STUDENT_ID = "STUDENT_ID"
         const val HADIR = "HADIR"
         const val IZIN = "IZIN"
+        const val SAKIT = "SAKIT"
         const val ALFA = "ALFA"
         const val CLASS = "CLASS"
         const val TEACHER_ID = "TEACHER_ID"

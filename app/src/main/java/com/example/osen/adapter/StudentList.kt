@@ -107,6 +107,11 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
                                             update(Absent.TABLE_ABSENT,
                                                 Absent.ALFA to totalAlfa).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
                                         }
+                                        "Sakit" -> {
+                                            val totalSakit = absentData[0].sakit?.plus(1)
+                                            update(Absent.TABLE_ABSENT,
+                                                Absent.SAKIT to totalSakit).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                        }
                                         "Izin" -> {
                                             val totalIzin = absentData[0].izin?.plus(1)
                                             update(Absent.TABLE_ABSENT,

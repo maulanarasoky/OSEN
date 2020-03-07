@@ -55,6 +55,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Absent.STUDENT_ID to INTEGER,
             Absent.HADIR to INTEGER,
             Absent.IZIN to INTEGER,
+            Absent.SAKIT to INTEGER,
             Absent.ALFA to INTEGER,
             Absent.CLASS to TEXT,
             Absent.TEACHER_ID to INTEGER)

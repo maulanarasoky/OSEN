@@ -97,26 +97,6 @@
                 android:padding="@dimen/activity_vertical_margin">
                 <TableRow>
                     <TextView
-                        android:text="Nilai"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:text=" : "
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:id="@+id/score"
-                        android:text="Dummy"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
-                </TableRow>
-                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
-                    <TextView
                         android:text="Alfa"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
@@ -130,13 +110,34 @@
 
                     <TextView
                         android:id="@+id/alfa"
-                        android:text="Dummy"
+                        android:text="0"
+                        android:fontFamily="@font/firasans"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+                </TableRow>
+                <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
+                    <TextView
+                        android:text="Sakit"
+                        android:fontFamily="@font/firasans"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:text=" : "
+                        android:fontFamily="@font/firasans"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/sakit"
+                        android:text="0"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"/>
                 </TableRow>
             </TableLayout>
             <TableLayout
+                android:id="@+id/table2"
                 android:layout_below="@id/linear2"
                 android:layout_toEndOf="@id/table1"
                 android:layout_width="wrap_content"
@@ -158,7 +159,7 @@
 
                     <TextView
                         android:id="@+id/izin"
-                        android:text="Dummy"
+                        android:text="0"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"/>
@@ -178,12 +179,50 @@
 
                     <TextView
                         android:id="@+id/hadir"
-                        android:text="Dummy"
+                        android:text="0"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"/>
                 </TableRow>
             </TableLayout>
+            <TableLayout
+                android:layout_below="@id/linear2"
+                android:layout_toEndOf="@id/table2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:padding="@dimen/activity_vertical_margin">
+                <TableRow>
+                    <TextView
+                        android:text="Nilai"
+                        android:fontFamily="@font/firasans"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:text=" : "
+                        android:fontFamily="@font/firasans"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/score"
+                        android:text="0"
+                        android:fontFamily="@font/firasans"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+                </TableRow>
+            </TableLayout>
+            <Button
+                android:id="@+id/inputScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Masukkan Nilai"
+                android:background="@drawable/background_button"
+                android:layout_below="@id/table1"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
