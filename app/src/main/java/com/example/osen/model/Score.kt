@@ -3,10 +3,10 @@ package com.example.osen.model
 data class Score(
     val id: Int?,
     val studentId: Int?,
-    val uas: Int?,
-    val persentaseUas: Int?,
     val uts: Int?,
     val persentaseUts: Int?,
+    val uas: Int?,
+    val persentaseUas: Int?,
     val assessment1: Int?,
     val persentaseAssessment1: Int?,
     val assessment2: Int?,
@@ -19,10 +19,10 @@ data class Score(
         const val TABLE_SCORE = "SCORE"
         const val ID_ = "ID_"
         const val STUDENT_ID = "STUDENT_ID"
-        const val UAS = "UAS"
-        const val PERSENTASE_UAS = "PERSENTASE_UAS"
         const val UTS = "UTS"
         const val PERSENTASE_UTS = "PERSENTASE_UTS"
+        const val UAS = "UAS"
+        const val PERSENTASE_UAS = "PERSENTASE_UAS"
         const val ASSESSMENT_1 = "ASSESSMENT_1"
         const val PERSENTASE_ASSESSMENT_1 = "PERSENTASE_ASSESSMENT_1"
         const val ASSESSMENT_2 = "ASSESSMENT_2"

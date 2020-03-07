@@ -12,6 +12,7 @@ import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.Absent
 import com.example.osen.model.Classroom
+import com.example.osen.model.Score
 import com.example.osen.model.Student
 import kotlinx.android.synthetic.main.activity_add_data.*
 import org.jetbrains.anko.db.classParser
@@ -98,7 +99,22 @@ class AddData : AppCompatActivity() {
                     Absent.SAKIT to 0,
                     Absent.IZIN to 0,
                     Absent.HADIR to 0,
-                    Absent.TEACHER_ID to 1)
+                    Absent.TEACHER_ID to listStudent[0].teacher_id)
+
+                insert(
+                    Score.TABLE_SCORE,
+                    Score.STUDENT_ID to listStudent[0].id,
+                    Score.UTS to 0,
+                    Score.PERSENTASE_UTS to 0,
+                    Score.UAS to 0,
+                    Score.PERSENTASE_UAS to 0,
+                    Score.ASSESSMENT_1 to 0,
+                    Score.PERSENTASE_ASSESSMENT_1 to 0,
+                    Score.ASSESSMENT_2 to 0,
+                    Score.PERSENTASE_ASSESSMENT_2 to 0,
+                    Score.ASSESSMENT_3 to 0,
+                    Score.PERSENTASE_ASSESSMENT_3 to 0,
+                    Score.TEACHER_ID to listStudent[0].teacher_id)
             }
             clear()
             val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)

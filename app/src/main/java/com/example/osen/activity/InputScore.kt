@@ -4,11 +4,17 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.osen.R
+import com.example.osen.database.database
+import com.example.osen.model.Score
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import kotlinx.android.synthetic.main.activity_input_score.*
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.select
 
 class InputScore : AppCompatActivity() {
 
@@ -16,11 +22,13 @@ class InputScore : AppCompatActivity() {
         const val data = "data"
     }
 
+    private val scoreList: MutableList<Score> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_score)
 
-        val parcel: Student? = intent.getParcelableExtra(EditData.data)
+        val parcel: Student? = intent.getParcelableExtra(data)
 
         val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
         collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(applicationContext, android.R.color.transparent))
@@ -33,6 +41,23 @@ class InputScore : AppCompatActivity() {
         supportActionBar?.title = parcel?.name
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        showScore(parcel?.id, parcel?.teacher_id)
+
+        uts.setText(scoreList[0].uts.toString(), TextView.BufferType.EDITABLE)
+        persentaseUts.setText(scoreList[0].persentaseUts.toString(), TextView.BufferType.EDITABLE)
+
+        uas.setText(scoreList[0].uas.toString(), TextView.BufferType.EDITABLE)
+        persentaseUas.setText(scoreList[0].uas.toString(), TextView.BufferType.EDITABLE)
+
+        ass1.setText(scoreList[0].assessment1.toString(), TextView.BufferType.EDITABLE)
+        persentaseAss1.setText(scoreList[0].persentaseAssessment1.toString(), TextView.BufferType.EDITABLE)
+
+        ass2.setText(scoreList[0].assessment2.toString(), TextView.BufferType.EDITABLE)
+        persentaseAss2.setText(scoreList[0].persentaseAssessment2.toString(), TextView.BufferType.EDITABLE)
+
+        ass3.setText(scoreList[0].assessment3.toString(), TextView.BufferType.EDITABLE)
+        persentaseAss3.setText(scoreList[0].persentaseAssessment3.toString(), TextView.BufferType.EDITABLE)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -40,5 +65,16 @@ class InputScore : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showScore(student_id: Int?, teacher_id: Int?){
+        scoreList.clear()
+        database.use {
+            val result = select(Score.TABLE_SCORE).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) LIMIT 1", "student_id" to student_id.toString(), "teacher_id" to teacher_id.toString())
+            val data = result.parseList(classParser<Score>())
+            if(data.isNotEmpty()){
+                scoreList.addAll(data)
+            }
+        }
     }
 }

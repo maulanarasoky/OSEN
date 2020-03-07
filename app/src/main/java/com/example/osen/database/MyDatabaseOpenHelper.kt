@@ -68,6 +68,22 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             AbsentOfDay.KETERANGAN to TEXT,
             AbsentOfDay.CLASS to TEXT,
             AbsentOfDay.TEACHER_ID to INTEGER)
+
+        db?.createTable(
+            Score.TABLE_SCORE, true,
+            Score.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            Score.STUDENT_ID to INTEGER,
+            Score.UTS to INTEGER,
+            Score.PERSENTASE_UTS to INTEGER,
+            Score.UAS to INTEGER,
+            Score.PERSENTASE_UAS to INTEGER,
+            Score.ASSESSMENT_1 to INTEGER,
+            Score.PERSENTASE_ASSESSMENT_1 to INTEGER,
+            Score.ASSESSMENT_2 to INTEGER,
+            Score.PERSENTASE_ASSESSMENT_2 to INTEGER,
+            Score.ASSESSMENT_3 to INTEGER,
+            Score.PERSENTASE_ASSESSMENT_3 to INTEGER,
+            Score.TEACHER_ID to INTEGER)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
