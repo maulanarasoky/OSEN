@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
@@ -24,10 +25,9 @@ import com.example.osen.model.Classroom
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.activity_class_details.*
-import org.jetbrains.anko.db.classParser
-import org.jetbrains.anko.db.delete
-import org.jetbrains.anko.db.select
+import org.jetbrains.anko.db.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +40,7 @@ class ClassDetails : AppCompatActivity() {
     var listStudent: MutableList<Student> = mutableListOf()
     var dataClass: MutableList<Classroom> = mutableListOf()
     var absentOfDay: MutableList<AbsentOfDay> = mutableListOf()
+    var absent: MutableList<Absent> = mutableListOf()
     private lateinit var adapter: StudentList
     private lateinit var studentList: RecyclerView
 
@@ -58,6 +59,11 @@ class ClassDetails : AppCompatActivity() {
 
         if(currentDate >= dataClass[0].startDate.toString() && currentDate <= dataClass[0].endDate.toString()){
             textClassFinish.text = "Kelas Sedang Berlangsung"
+        }
+
+        ArrayAdapter.createFromResource(this, R.array.keterangan_hadir, R.layout.spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerTandai.adapter = adapter
         }
 
         val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
@@ -79,6 +85,20 @@ class ClassDetails : AppCompatActivity() {
         studentList.adapter = adapter
 
         showStudent()
+
+        btnTandai.setOnClickListener {
+            checkAbsentOfToday(currentDate)
+            val description = spinnerTandai.selectedItem.toString()
+
+            if(absentOfDay.isEmpty()){
+                insertAllAbsentToday(currentDate, description)
+            }else{
+                updateAllAbsentToday(currentDate, description)
+            }
+            updateAbsent(description)
+            adapter.notifyDataSetChanged()
+            studentList.adapter = adapter
+        }
     }
 
     override fun onResume() {
@@ -134,6 +154,80 @@ class ClassDetails : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun checkAbsentOfToday(currentDate: String){
+        database.use {
+            val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs("(CLASS = {class_name}) AND (DATE = {date})", "class_name" to dataClass[0].name.toString(), "date" to currentDate)
+            val data = result.parseList(classParser<AbsentOfDay>())
+            if(data.isNotEmpty()){
+                absentOfDay.addAll(data)
+            }
+        }
+    }
+
+    private fun checkAbsentData(student_id: String){
+        database.use {
+            val result = select(Absent.TABLE_ABSENT).whereArgs("(STUDENT_ID = {student_id}) AND (CLASS = {class_name}) AND (TEACHER_ID = {teacher_id}) LIMIT 1", "student_id" to student_id, "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
+            val data = result.parseList(classParser<Absent>())
+            if(data.isNotEmpty()){
+                absent.addAll(data)
+            }
+        }
+    }
+
+    private fun insertAllAbsentToday(currentDate: String, description: String){
+        database.use {
+            for(i in 0 until listStudent.size){
+                insert(AbsentOfDay.TABLE_ABSENTOFDAY,
+                    AbsentOfDay.STUDENT_ID to listStudent[i].id,
+                    AbsentOfDay.DATE to currentDate,
+                    AbsentOfDay.KETERANGAN to description,
+                    AbsentOfDay.CLASS to dataClass[0].name,
+                    AbsentOfDay.TEACHER_ID to dataClass[0].teacher_id)
+            }
+        }
+    }
+
+    private fun updateAllAbsentToday(currentDate: String, description: String){
+        database.use {
+            update(AbsentOfDay.TABLE_ABSENTOFDAY,
+            AbsentOfDay.KETERANGAN to description).whereArgs("(CLASS = {class_name}) AND (DATE = {date})", "class_name" to dataClass[0].name.toString(), "date" to currentDate).exec()
+        }
+    }
+
+    private fun updateAbsent(description: String){
+        database.use {
+            for (i in 0 until studentList.size){
+                checkAbsentData(listStudent[i].id.toString())
+                if(spinnerTandai.selectedItem.toString() != "-"){
+                    val queryUpdate = when(description){
+                        "Alfa" ->{
+                            val totalAlfa = absent[0].alfa?.plus(1)
+                            update(Absent.TABLE_ABSENT,
+                                Absent.ALFA to totalAlfa).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to listStudent[i].id.toString(), "teacher_id" to listStudent[i].teacher_id.toString())
+                        }
+                        "Sakit" -> {
+                            val totalSakit = absent[0].sakit?.plus(1)
+                            update(Absent.TABLE_ABSENT,
+                                Absent.SAKIT to totalSakit).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to listStudent[i].id.toString(), "teacher_id" to listStudent[i].teacher_id.toString())
+                        }
+                        "Izin" -> {
+                            val totalIzin = absent[0].izin?.plus(1)
+                            update(Absent.TABLE_ABSENT,
+                                Absent.IZIN to totalIzin).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to listStudent[i].id.toString(), "teacher_id" to listStudent[i].teacher_id.toString())
+                        }
+                        "Hadir" -> {
+                            val totalHadir = absent[0].hadir?.plus(1)
+                            update(Absent.TABLE_ABSENT,
+                                Absent.HADIR to totalHadir).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to listStudent[i].id.toString(), "teacher_id" to listStudent[i].teacher_id.toString())
+                        }
+                        else -> error("Error")
+                    }
+                    queryUpdate.exec()
+                }
+            }
+        }
     }
 
     private fun initUI(){

@@ -99,6 +99,7 @@ class AddData : AppCompatActivity() {
                     Absent.SAKIT to 0,
                     Absent.IZIN to 0,
                     Absent.HADIR to 0,
+                    Absent.CLASS to className.selectedItem.toString(),
                     Absent.TEACHER_ID to listStudent[0].teacher_id)
 
                 insert(
