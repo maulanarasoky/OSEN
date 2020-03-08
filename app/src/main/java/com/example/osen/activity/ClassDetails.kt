@@ -86,18 +86,25 @@ class ClassDetails : AppCompatActivity() {
 
         showStudent()
 
+        checkAbsentOfToday(currentDate)
+
+        if(absentOfDay.isNotEmpty()){
+            btnTandai.isEnabled = false
+            spinnerTandai.isEnabled = false
+        }
+
         btnTandai.setOnClickListener {
-            checkAbsentOfToday(currentDate)
             val description = spinnerTandai.selectedItem.toString()
 
-            if(absentOfDay.isEmpty()){
+            if(description != "-"){
                 insertAllAbsentToday(currentDate, description)
-            }else{
-                updateAllAbsentToday(currentDate, description)
+
+                updateAbsent(description)
+                adapter.notifyDataSetChanged()
+                studentList.adapter = adapter
+                btnTandai.isEnabled = false
+                spinnerTandai.isEnabled = false
             }
-            updateAbsent(description)
-            adapter.notifyDataSetChanged()
-            studentList.adapter = adapter
         }
     }
 
@@ -189,18 +196,11 @@ class ClassDetails : AppCompatActivity() {
         }
     }
 
-    private fun updateAllAbsentToday(currentDate: String, description: String){
-        database.use {
-            update(AbsentOfDay.TABLE_ABSENTOFDAY,
-            AbsentOfDay.KETERANGAN to description).whereArgs("(CLASS = {class_name}) AND (DATE = {date})", "class_name" to dataClass[0].name.toString(), "date" to currentDate).exec()
-        }
-    }
-
     private fun updateAbsent(description: String){
         database.use {
             for (i in 0 until studentList.size){
-                checkAbsentData(listStudent[i].id.toString())
                 if(spinnerTandai.selectedItem.toString() != "-"){
+                    checkAbsentData(listStudent[i].id.toString())
                     val queryUpdate = when(description){
                         "Alfa" ->{
                             val totalAlfa = absent[0].alfa?.plus(1)
@@ -256,6 +256,9 @@ class ClassDetails : AppCompatActivity() {
             if (category.isNotEmpty()){
                 listStudent.addAll(category)
             }else{
+                spinnerTandai.visibility = View.GONE
+                btnTandai.visibility = View.GONE
+                warning.visibility = View.GONE
                 textNoData.visibility = View.VISIBLE
             }
         }
