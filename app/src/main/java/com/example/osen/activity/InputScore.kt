@@ -3,18 +3,19 @@ package com.example.osen.activity
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.Score
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.activity_input_score.*
-import org.jetbrains.anko.db.classParser
-import org.jetbrains.anko.db.select
+import org.jetbrains.anko.db.*
 
 class InputScore : AppCompatActivity() {
 
@@ -42,7 +43,15 @@ class InputScore : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        showScore(parcel?.id, parcel?.teacher_id)
+        initData(parcel?.id, parcel?.teacher_id)
+
+        inputScore.setOnClickListener {
+            inputScore(parcel?.id, parcel?.teacher_id)
+        }
+    }
+
+    private fun initData(student_id: Int?, teacher_id: Int?){
+        showScore(student_id, teacher_id)
 
         uts.setText(scoreList[0].uts.toString(), TextView.BufferType.EDITABLE)
         persentaseUts.setText(scoreList[0].persentaseUts.toString(), TextView.BufferType.EDITABLE)
@@ -75,6 +84,92 @@ class InputScore : AppCompatActivity() {
             if(data.isNotEmpty()){
                 scoreList.addAll(data)
             }
+            Log.d("data", data.toString())
+        }
+    }
+
+    private fun inputScore(student_id: Int?, teacher_id: Int?){
+        var title = ""
+        if(uts.text.toString() == "" || persentaseUts.text.toString() == ""){
+            if(uts.text.toString() == ""){
+                title = "UTS"
+            }
+
+            if(persentaseUts.text.toString() == ""){
+                title = "Persentase UTS"
+            }
+        }
+
+        if(uas.text.toString() == "" || persentaseUas.text.toString() == ""){
+            if(uas.text.toString() == ""){
+                title = "UTS"
+            }
+
+            if(persentaseUas.text.toString() == ""){
+                title = "Persentase UTS"
+            }
+        }
+
+        if(ass1.text.toString() == "" || persentaseAss1.text.toString() == ""){
+            if(ass1.text.toString() == ""){
+                title = "UTS"
+            }
+
+            if(persentaseAss1.text.toString() == ""){
+                title = "Persentase UTS"
+            }
+        }
+
+        if(ass2.text.toString() == "" || persentaseAss2.text.toString() == ""){
+            if(ass2.text.toString() == ""){
+                title = "UTS"
+            }
+
+            if(persentaseAss2.text.toString() == ""){
+                title = "Persentase UTS"
+            }
+        }
+
+        if(ass3.text.toString() == "" || persentaseAss3.text.toString() == ""){
+            if(ass3.text.toString() == ""){
+                title = "UTS"
+            }
+
+            if(persentaseAss3.text.toString() == ""){
+                title = "Persentase UTS"
+            }
+        }
+
+        if(title != ""){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = title
+            dialog.setOnCancelListener {
+                dialog.dismissWithAnimation()
+            }
+            dialog.show()
+            return
+        }else{
+            database.use {
+                val query = update(Score.TABLE_SCORE,
+                Score.UTS to uts.text.toString().toInt(),
+                Score.PERSENTASE_UTS to persentaseUts.text.toString().toInt(),
+                Score.UAS to uas.text.toString().toInt(),
+                Score.PERSENTASE_UAS to persentaseUas.text.toString().toInt(),
+                Score.ASSESSMENT_1 to ass1.text.toString().toInt(),
+                Score.PERSENTASE_ASSESSMENT_1 to persentaseAss1.text.toString().toInt(),
+                Score.ASSESSMENT_2 to ass2.text.toString().toInt(),
+                Score.PERSENTASE_ASSESSMENT_2 to persentaseAss2.text.toString().toInt(),
+                Score.ASSESSMENT_3 to ass3.text.toString().toInt(),
+                Score.PERSENTASE_ASSESSMENT_3 to persentaseAss3.text.toString().toInt()).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student_id.toString(), "teacher_id" to teacher_id.toString())
+                query.exec()
+            }
+            initData(student_id, teacher_id)
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+            dialog.titleText = "Nilai Berhasil Di Input"
+            dialog.setOnCancelListener {
+                dialog.dismissWithAnimation()
+            }
+            dialog.show()
         }
     }
 }
