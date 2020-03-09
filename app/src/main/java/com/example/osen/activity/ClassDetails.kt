@@ -113,6 +113,8 @@ class ClassDetails : AppCompatActivity() {
         showClass()
         initUI()
         showStudent()
+        adapter.notifyDataSetChanged()
+        studentList.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

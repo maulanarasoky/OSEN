@@ -186,6 +186,7 @@
                 </TableRow>
             </TableLayout>
             <TableLayout
+                android:id="@+id/table3"
                 android:layout_below="@id/linear2"
                 android:layout_toEndOf="@id/table2"
                 android:layout_width="wrap_content"
@@ -213,13 +214,34 @@
                         android:textSize="16sp"/>
                 </TableRow>
             </TableLayout>
+
+            <TableLayout
+                android:id="@+id/table4"
+                android:layout_below="@id/table1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_vertical_margin">
+                <TableRow>
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spinnerAbsent"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp" />
+
+                    <Button
+                        android:id="@+id/btnAbsent"
+                        android:text="Absen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.AppCompat.Button.Colored" />
+                </TableRow>
+            </TableLayout>
             <Button
                 android:id="@+id/inputScore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Masukkan Nilai"
                 android:background="@drawable/background_button"
-                android:layout_below="@id/table1"
+                android:layout_below="@id/table4"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp" />
