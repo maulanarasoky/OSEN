@@ -3,6 +3,7 @@ package com.example.osen.activity
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +15,7 @@ import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.Absent
 import com.example.osen.model.AbsentOfDay
+import com.example.osen.model.Score
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.activity_edit_data.*
@@ -33,6 +35,8 @@ class EditData : AppCompatActivity() {
     }
 
     val list: MutableList<Absent> = mutableListOf()
+
+    val scoreList: MutableList<Score> = mutableListOf()
 
     var checkDailyAbsent = false
     var description = ""
@@ -67,7 +71,8 @@ class EditData : AppCompatActivity() {
 
         studentName.text = parcel?.name
         gender.text = parcel?.gender
-        score.text = parcel?.score.toString()
+        showScore(parcel?.id, parcel?.teacher_id)
+        countScore()
 
         Glide.with(this).load(resources.getDrawable(intent?.getStringExtra(image)!!.toInt())).apply(
             RequestOptions.overrideOf(500,500)).into(classImage)
@@ -127,6 +132,13 @@ class EditData : AppCompatActivity() {
                 InputScore.data to parcel
             )
         }
+    }
+
+    override fun onResume() {
+        val parcel: Student? = intent.getParcelableExtra(data)
+        showScore(parcel?.id, parcel?.teacher_id)
+        countScore()
+        super.onResume()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -276,5 +288,31 @@ class EditData : AppCompatActivity() {
             val queryUpdate = update(Absent.TABLE_ABSENT, columnAdd to add, columnSubtract to subtract).whereArgs("(STUDENT_ID = {student_id}) AND (CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "student_id" to student_id.toString(), "class_name" to class_name.toString(), "teacher_id" to teacher_id.toString())
             queryUpdate.exec()
         }
+    }
+
+    private fun showScore(student_id: Int?, teacher_id: Int?){
+        scoreList.clear()
+        database.use {
+            val result = select(Score.TABLE_SCORE).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) LIMIT 1", "student_id" to student_id.toString(), "teacher_id" to teacher_id.toString())
+            val data = result.parseList(classParser<Score>())
+            if(data.isNotEmpty()){
+                scoreList.addAll(data)
+            }
+            Log.d("wew", data.toString())
+        }
+    }
+
+    private fun countScore(){
+        val uts = scoreList[0].persentaseUts?.times(scoreList[0].uts!!)?.div(100)
+        val uas = scoreList[0].persentaseUas?.times(scoreList[0].uas!!)?.div(100)
+        val ass1 = scoreList[0].persentaseAssessment1?.times(scoreList[0].assessment1!!)?.div(100)
+        val ass2 = scoreList[0].persentaseAssessment2?.times(scoreList[0].assessment2!!)?.div(100)
+        val ass3 = scoreList[0].persentaseAssessment3?.times(scoreList[0].assessment3!!)?.div(100)
+
+        val result = uts?.plus(uas!!)?.plus(ass1!!)?.plus(ass2!!)?.plus(ass3!!)?.div(4)
+
+        score.text = result.toString()
+
+        Log.d("Score", uts.toString())
     }
 }

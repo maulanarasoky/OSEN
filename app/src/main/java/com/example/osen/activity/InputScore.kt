@@ -46,7 +46,29 @@ class InputScore : AppCompatActivity() {
         initData(parcel?.id, parcel?.teacher_id)
 
         inputScore.setOnClickListener {
-            inputScore(parcel?.id, parcel?.teacher_id)
+            if(persentaseUts.text.toString().toInt().plus(persentaseUas.text.toString().toInt()).plus(persentaseAss1.text.toString().toInt()).plus(persentaseAss2.text.toString().toInt()).plus(persentaseAss3.text.toString().toInt()) > 100){
+                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "Total Seluruh Persentase Tidak Boleh Lebih Dari 100"
+                dialog.setOnCancelListener {
+                    dialog.dismissWithAnimation()
+                }
+                dialog.show()
+                return@setOnClickListener
+            }
+
+            if(persentaseUts.text.toString().toInt().plus(persentaseUas.text.toString().toInt()).plus(persentaseAss1.text.toString().toInt()).plus(persentaseAss2.text.toString().toInt()).plus(persentaseAss3.text.toString().toInt()) < 100){
+                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "Total Seluruh Persentase Tidak Boleh Kurang Dari 100"
+                dialog.setOnCancelListener {
+                    dialog.dismissWithAnimation()
+                }
+                dialog.show()
+                return@setOnClickListener
+            }
+
+            if(persentaseUts.text.toString().toInt().plus(persentaseUas.text.toString().toInt()).plus(persentaseAss1.text.toString().toInt()).plus(persentaseAss2.text.toString().toInt()).plus(persentaseAss3.text.toString().toInt()) == 100){
+                inputScore(parcel?.id, parcel?.teacher_id)
+            }
         }
     }
 
@@ -57,7 +79,7 @@ class InputScore : AppCompatActivity() {
         persentaseUts.setText(scoreList[0].persentaseUts.toString(), TextView.BufferType.EDITABLE)
 
         uas.setText(scoreList[0].uas.toString(), TextView.BufferType.EDITABLE)
-        persentaseUas.setText(scoreList[0].uas.toString(), TextView.BufferType.EDITABLE)
+        persentaseUas.setText(scoreList[0].persentaseUas.toString(), TextView.BufferType.EDITABLE)
 
         ass1.setText(scoreList[0].assessment1.toString(), TextView.BufferType.EDITABLE)
         persentaseAss1.setText(scoreList[0].persentaseAssessment1.toString(), TextView.BufferType.EDITABLE)
@@ -102,47 +124,47 @@ class InputScore : AppCompatActivity() {
 
         if(uas.text.toString() == "" || persentaseUas.text.toString() == ""){
             if(uas.text.toString() == ""){
-                title = "UTS"
+                title = "UAS"
             }
 
             if(persentaseUas.text.toString() == ""){
-                title = "Persentase UTS"
+                title = "Persentase UAS"
             }
         }
 
         if(ass1.text.toString() == "" || persentaseAss1.text.toString() == ""){
             if(ass1.text.toString() == ""){
-                title = "UTS"
+                title = "Assessment 1"
             }
 
             if(persentaseAss1.text.toString() == ""){
-                title = "Persentase UTS"
+                title = "Persentase Assessment 1"
             }
         }
 
         if(ass2.text.toString() == "" || persentaseAss2.text.toString() == ""){
             if(ass2.text.toString() == ""){
-                title = "UTS"
+                title = "Assessment 2"
             }
 
             if(persentaseAss2.text.toString() == ""){
-                title = "Persentase UTS"
+                title = "Persentase Assessment 2"
             }
         }
 
         if(ass3.text.toString() == "" || persentaseAss3.text.toString() == ""){
             if(ass3.text.toString() == ""){
-                title = "UTS"
+                title = "Assessment 3"
             }
 
             if(persentaseAss3.text.toString() == ""){
-                title = "Persentase UTS"
+                title = "Persentase Assessment 3"
             }
         }
 
         if(title != ""){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-            dialog.titleText = title
+            dialog.titleText = "Isi Field $title Dengan Benar"
             dialog.setOnCancelListener {
                 dialog.dismissWithAnimation()
             }
@@ -163,7 +185,6 @@ class InputScore : AppCompatActivity() {
                 Score.PERSENTASE_ASSESSMENT_3 to persentaseAss3.text.toString().toInt()).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student_id.toString(), "teacher_id" to teacher_id.toString())
                 query.exec()
             }
-            initData(student_id, teacher_id)
             val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
             dialog.titleText = "Nilai Berhasil Di Input"
             dialog.setOnCancelListener {
