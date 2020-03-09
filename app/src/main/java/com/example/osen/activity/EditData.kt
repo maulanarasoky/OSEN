@@ -303,16 +303,14 @@ class EditData : AppCompatActivity() {
     }
 
     private fun countScore(){
-        val uts = scoreList[0].persentaseUts?.times(scoreList[0].uts!!)?.div(100)
-        val uas = scoreList[0].persentaseUas?.times(scoreList[0].uas!!)?.div(100)
-        val ass1 = scoreList[0].persentaseAssessment1?.times(scoreList[0].assessment1!!)?.div(100)
-        val ass2 = scoreList[0].persentaseAssessment2?.times(scoreList[0].assessment2!!)?.div(100)
-        val ass3 = scoreList[0].persentaseAssessment3?.times(scoreList[0].assessment3!!)?.div(100)
+        val uts: Float? = scoreList[0].persentaseUts?.times(scoreList[0].uts!!)?.div(100)?.toFloat()
+        val uas: Float? = scoreList[0].persentaseUas?.times(scoreList[0].uas!!)?.div(100)?.toFloat()
+        val ass1: Float? = scoreList[0].persentaseAssessment1?.times(scoreList[0].assessment1!!)?.div(100)?.toFloat()
+        val ass2: Float? = scoreList[0].persentaseAssessment2?.times(scoreList[0].assessment2!!)?.div(100)?.toFloat()
+        val ass3: Float? = scoreList[0].persentaseAssessment3?.times(scoreList[0].assessment3!!)?.div(100)?.toFloat()
 
-        val result = uts?.plus(uas!!)?.plus(ass1!!)?.plus(ass2!!)?.plus(ass3!!)?.div(4)
+        val result: Float? = uts?.plus(uas!!)?.plus(ass1!!)?.plus(ass2!!)?.plus(ass3!!)?.div(4)
 
         score.text = result.toString()
-
-        Log.d("Score", uts.toString())
     }
 }

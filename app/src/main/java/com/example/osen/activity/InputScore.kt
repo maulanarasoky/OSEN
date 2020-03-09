@@ -67,6 +67,35 @@ class InputScore : AppCompatActivity() {
             }
 
             if(persentaseUts.text.toString().toInt().plus(persentaseUas.text.toString().toInt()).plus(persentaseAss1.text.toString().toInt()).plus(persentaseAss2.text.toString().toInt()).plus(persentaseAss3.text.toString().toInt()) == 100){
+                var error = false
+                var condition = ""
+                if(uts.text.toString().toInt() > 100){
+                    error = true
+                    condition = "UTS"
+                } else if(uas.text.toString().toInt() > 100){
+                    error = true
+                    condition = "UAS"
+                } else if(ass1.text.toString().toInt() > 100){
+                    error = true
+                    condition = "Assessment 1"
+                } else if(ass2.text.toString().toInt() > 100){
+                    error = true
+                    condition = "Assessment 2"
+                } else if(ass3.text.toString().toInt() > 100){
+                    error = true
+                    condition = "Assessment 3"
+                }
+
+                if(error){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.titleText = "Nilai $condition Tidak Boleh Lebih Dari 100"
+                    dialog.setOnCancelListener {
+                        dialog.dismissWithAnimation()
+                    }
+                    dialog.show()
+                    return@setOnClickListener
+                }
+
                 inputScore(parcel?.id, parcel?.teacher_id)
             }
         }
