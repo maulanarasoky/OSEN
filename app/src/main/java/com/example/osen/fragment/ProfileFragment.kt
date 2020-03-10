@@ -5,6 +5,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 
 import com.example.osen.R
+import com.example.osen.activity.Login
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -21,6 +23,11 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loginActivity()
+    }
+
+    private fun loginActivity(){
+        startActivity<Login>()
     }
 
 }
