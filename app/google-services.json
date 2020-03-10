@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "643570437789",
+    "firebase_url": "https://osen-4eda6.firebaseio.com",
+    "project_id": "osen-4eda6",
+    "storage_bucket": "osen-4eda6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643570437789:android:361f36e7d2105bf0d9ce74",
+        "android_client_info": {
+          "package_name": "com.example.osen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643570437789-hcqcng19d54j9tbql38643496ju1pk3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBds08JYVDR9WeOrjqwpbnWiOnof1Bmu3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643570437789-hcqcng19d54j9tbql38643496ju1pk3c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
