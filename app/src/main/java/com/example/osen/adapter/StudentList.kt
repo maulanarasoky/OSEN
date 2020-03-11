@@ -143,7 +143,10 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
             itemView.setOnClickListener {
                 itemView.context.startActivity<EditData>(
                     EditData.data to student,
-                    EditData.image to image
+                    EditData.image to image,
+                    EditData.startDate to startDate,
+                    EditData.endDate to endDate
+
                 )
             }
 

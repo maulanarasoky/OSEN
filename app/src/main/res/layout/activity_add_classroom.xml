@@ -129,7 +129,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/rowFirstCategory"
+                    android:id="@+id/rowNewCategory"
                     android:visibility="gone"
                     android:layout_marginTop="@dimen/activity_vertical_margin">
 
@@ -137,7 +137,6 @@
                         android:layout_width="105dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/firasans"
-                        android:text="Kategori"
                         android:textColor="@android:color/black"
                         android:textSize="20sp" />
 
@@ -160,7 +159,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/rowNewCategory"
+                    android:id="@+id/rowFirstCategory"
                     android:visibility="gone"
                     android:layout_marginTop="@dimen/activity_vertical_margin">
 
@@ -168,6 +167,7 @@
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
+                        android:text="Kategori"
                         android:layout_width="105dp"
                         android:layout_height="wrap_content"/>
 

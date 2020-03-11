@@ -39,8 +39,8 @@ class ProfileFragment : Fragment() {
 
         btnSignOut.setOnClickListener {
             auth.signOut()
-            activity!!.finish()
             startActivity<Login>()
+            activity!!.finish()
         }
     }
 

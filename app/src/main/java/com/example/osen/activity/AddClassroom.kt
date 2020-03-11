@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.*
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -44,6 +45,8 @@ class AddClassroom : AppCompatActivity() {
     private var checkCategory: MutableList<Category> = mutableListOf()
 
     lateinit var auth: FirebaseAuth
+
+    var classExist = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -270,83 +273,96 @@ class AddClassroom : AppCompatActivity() {
         val currentDate = dateFormat.format(Date())
 
         val countWords = className.text.toString().split("")
-        if(countWords.size > 17){
-            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-            dialog.titleText = "Judul terlalu panjang"
-            dialog.contentText = "Judul terdiri dari 1-15 huruf"
-            dialog.setCancelable(false)
-            dialog.show()
-            return
-        }
-
-        if(classStart.text.toString() >= currentDate){
-            if(classEnd.text.toString() < classStart.text.toString()){
-                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                dialog.titleText = "Tanggal Selesai Kelas Harus Setelah Tanggal Mulai Kelas"
-                dialog.setCancelable(false)
-                dialog.show()
+        if(!TextUtils.isEmpty(className.text.toString())){
+            if(countWords.size > 17){
+                className.error = "Judul Terdiri Dari 1-15 Huruf"
                 return
-            }else{
-                if(timeEnd.text.toString() <= timeStart.text.toString()){
-                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                    dialog.titleText = "Jadwal Selesai Kelas Harus Setelah Jadwal Mulai Kelas"
-                    dialog.setCancelable(false)
-                    dialog.show()
-                    return
-                }else{
-                    submit = true
-                }
             }
         }else{
+            className.error = "Nama Kelas Tidak Boleh Kosong"
+            return
+        }
+
+        if(rowFirstCategory.visibility == View.VISIBLE) {
+            if (TextUtils.isEmpty(firstCategoryAdd.text.toString())) {
+                firstCategoryAdd.setError("Kategori Tidak Boleh Kosong")
+                return
+            }
+        }else if(rowNewCategory.visibility == View.VISIBLE){
+            if (TextUtils.isEmpty(newCategory.text.toString())){
+                newCategory.setError("Kategori Tidak Boleh Kosong")
+                return
+            }
+        }
+
+        if(classStart.text.toString() == "Pilih"){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = "Silahkan Tentukan Tanggal Mulai Kelas"
+            dialog.show()
+            return
+        }
+
+        if(classEnd.text.toString() == "Pilih"){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = "Silahkan Tentukan Tanggal Selesai Kelas"
+            dialog.show()
+            return
+        }
+
+        if(classStart.text.toString() < currentDate){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = "Tanggal Mulai Kelas Harus Dimulai Dari Hari Ini atau Setelahnya"
+            dialog.show()
+            return
+        }
+
+        if(classEnd.text.toString() <= classStart.text.toString()){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = "Tanggal Selesai Kelas Harus Setelah Tanggal Mulai Kelas"
+            dialog.show()
+            return
+        }
+
+        if(timeStart.text.toString() == "Pilih"){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = "Silahkan Tentukan Jadwal Mulai Kelas"
+            dialog.show()
+            return
+        }
+
+        if(timeEnd.text.toString() == "Pilih"){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = "Silahkan Tentukan Jadwal Selesai Kelas"
+            dialog.show()
+            return
+        }
+
+        if(timeEnd.text.toString() < timeStart.text.toString()){
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = "Jadwal Selesai Kelas Harus Setelah Jadwal Mulai Kelas"
+            dialog.show()
+            return
+        }
+
+        checkClass(className.text.toString())
+        if(classExist){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-            dialog.titleText = "Tanggal Mulai Kelas Harus Dimulai Dari Hari Ini atau Setelahnya"
+            dialog.titleText = "Nama Kelas Sudah Terpakai"
             dialog.setCancelable(false)
             dialog.show()
             return
         }
 
-        if(submit){
-            if(rowFirstCategory.visibility == View.VISIBLE){
-                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || newCategory.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
-                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
-                    dialog.setCancelable(false)
-                    dialog.show()
-                }else{
-                    checkAvailableCategory(newCategory.text.toString())
-                    if(checkCategory.isEmpty()){
-                        addCategory()
-                    }
-                }
-            }else if(rowNewCategory.visibility == View.VISIBLE){
-                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih" || firstCategoryAdd.text.toString() == "" || timeStart.text == "Pilih" || timeEnd.text == "Pilih"){
-                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
-                    dialog.setCancelable(false)
-                    dialog.show()
-                }else{
-                    checkAvailableCategory(firstCategoryAdd.text.toString())
-                    if(checkCategory.isEmpty()){
-                        addCategory()
-                    }
-                }
-            } else{
-                if(className.text.toString() == "" || classStart.text == "Pilih" || classEnd.text == "Pilih"){
-                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                    dialog.titleText = "Harap masukkan data secara lengkap dan benar"
-                    dialog.setCancelable(false)
-                    dialog.show()
-                }
+        if(rowNewCategory.visibility == View.VISIBLE){
+            checkAvailableCategory(newCategory.text.toString())
+            if(checkCategory.isEmpty()){
+                addCategory()
             }
-            addClassroom()
+        }else if(rowFirstCategory.visibility == View.VISIBLE){
+            addCategory()
         }
+        addClassroom()
     }
 
     private fun showCategorySpinner(){
@@ -384,18 +400,20 @@ class AddClassroom : AppCompatActivity() {
         }
     }
 
+
+
     private fun addClassroom(){
         val name = className.text.toString()
         val type = classType.selectedItem.toString()
         var category = ""
         if(rowOldCategory.visibility == View.VISIBLE){
             if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
-                category = firstCategoryAdd.text.toString()
+                category = newCategory.text.toString()
             }else{
                 category = classCategory.selectedItem.toString()
             }
         }else{
-            category = newCategory.text.toString()
+            category = firstCategoryAdd.text.toString()
         }
         val startDate = classStart.text.toString()
         val endDate = classEnd.text.toString()
@@ -458,12 +476,6 @@ class AddClassroom : AppCompatActivity() {
                 dialog.titleText = "Kelas Berhasil Dibuat"
                 dialog.setCancelable(false)
                 dialog.show()
-            }else{
-                val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                dialog.titleText = "Nama Kelas Sudah Terpakai"
-                dialog.setCancelable(false)
-                dialog.show()
             }
         }catch (e: SQLiteConstraintException){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
@@ -477,9 +489,9 @@ class AddClassroom : AppCompatActivity() {
     private fun addCategory(){
         var category = ""
         if(rowNewCategory.visibility == View.VISIBLE){
-            category = firstCategoryAdd.text.toString()
-        }else{
             category = newCategory.text.toString()
+        }else{
+            category = firstCategoryAdd.text.toString()
         }
         try {
             database.use {
@@ -510,6 +522,16 @@ class AddClassroom : AppCompatActivity() {
             val category = result.parseList(classParser<Category>())
             if (category.isNotEmpty()){
                 checkCategory.addAll(category)
+            }
+        }
+    }
+
+    private fun checkClass(class_name: String){
+        database.use {
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to class_name, "teacher_id" to auth.currentUser?.uid.toString())
+            val data = result.parseList(classParser<Classroom>())
+            if(data.isNotEmpty()){
+                classExist = true
             }
         }
     }

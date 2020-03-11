@@ -60,6 +60,8 @@ class ClassDetails : AppCompatActivity() {
 
         if(currentDate < dataClass[0].startDate.toString()){
             textClassFinish.text = "Kelas Belum Dimulai"
+            btnTandai.visibility = View.GONE
+            spinnerTandai.visibility = View.GONE
         }
 
         if(currentDate >= dataClass[0].startDate.toString() && currentDate <= dataClass[0].endDate.toString()){

@@ -4,19 +4,22 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.EditText
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.model.data.User
-import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_register.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import java.math.BigInteger
-import java.security.MessageDigest
 
 class Register : AppCompatActivity() {
     lateinit var user: User
@@ -26,9 +29,6 @@ class Register : AppCompatActivity() {
     lateinit var reTypePass: EditText
 
     var valid = true
-    var validUsername = true
-
-    var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,25 +38,6 @@ class Register : AppCompatActivity() {
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
         reTypePass = findViewById(R.id.reTypePass)
-
-//        username.addTextChangedListener(object : TextWatcher{
-//            override fun afterTextChanged(s: Editable?) {
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                val str = stringFilter(username.text.toString())
-//                if(username.text.toString() != str){
-//                    validUsername = false
-//                    username.setError("Username hanya terdiri dari a-z, A-Z, 0-9, _")
-//                }else{
-//                    validUsername = true
-//                }
-//            }
-//
-//        })
 
         btnRegister.setOnClickListener {
             if(TextUtils.isEmpty(email.text.toString().trim())){
@@ -80,15 +61,12 @@ class Register : AppCompatActivity() {
                 }
             }
         }
-    }
 
-//    private fun stringFilter(str: String): String {
-//        // Only letters, numbers and English blank characters are allowed
-//        val regEx = "[^a-zA-Z0-9_]";
-//        val p = Pattern.compile(regEx);
-//        val m = p.matcher(str);
-//        return m.replaceAll("");
-//    }
+        haveAccount.setOnClickListener {
+            startActivity<Login>()
+            this.finish()
+        }
+    }
 
     private fun checkEmail(email: String, password: String){
         val dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
@@ -113,18 +91,6 @@ class Register : AppCompatActivity() {
             }
         }
         dialog.show()
-    }
-
-    private fun String.md5(): String {
-        val md = MessageDigest.getInstance("MD5")
-        return BigInteger(1, md.digest(toByteArray())).toString(16).padStart(32, '0')
-    }
-
-    private fun shuffle(): String{
-        val allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz1234567890"
-        return (1..10)
-            .map { allowedChars.random() }
-            .joinToString("")
     }
 
     override fun onBackPressed() {

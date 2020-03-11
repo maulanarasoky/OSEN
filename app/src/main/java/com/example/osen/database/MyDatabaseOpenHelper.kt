@@ -24,7 +24,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Classroom.TABLE_CLASSROOM, true,
             Classroom.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Classroom.IMAGE to TEXT,
-            Classroom.NAME to TEXT + UNIQUE,
+            Classroom.NAME to TEXT,
             Classroom.TYPE to TEXT,
             Classroom.CATEGORY to TEXT,
             Classroom.START_DATE to TEXT,

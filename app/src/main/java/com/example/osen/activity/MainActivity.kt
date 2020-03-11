@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         val user: FirebaseUser? = auth.currentUser
 
         if(user == null){
-            finish()
             startActivity<Login>()
+            this.finish()
         }else{
             bottom_navigation.setOnNavigationItemSelectedListener { item ->
                 when(item.itemId){

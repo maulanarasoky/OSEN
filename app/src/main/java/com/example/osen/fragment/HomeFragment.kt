@@ -13,6 +13,8 @@ import com.example.osen.R
 import com.example.osen.adapter.ClassList
 import com.example.osen.database.database
 import com.example.osen.model.Classroom
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.db.classParser
@@ -30,6 +32,8 @@ class HomeFragment : Fragment() {
 
     lateinit var auth: FirebaseAuth
 
+    var id = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +46,14 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
+
+        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(activity)
+
+        if(auth.currentUser != null){
+            id = auth.currentUser?.uid.toString()
+        }else if(account != null){
+            id = account.id.toString()
+        }
 
         classList = find(R.id.recyclerView)
 
@@ -62,7 +74,7 @@ class HomeFragment : Fragment() {
     private fun showClass(){
         list.clear()
         context?.database?.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to auth.currentUser?.uid.toString())
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to id)
             val favorite = result.parseList(classParser<Classroom>())
             if (favorite.isNotEmpty()){
                 list.addAll(favorite)

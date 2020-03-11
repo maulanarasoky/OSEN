@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -32,6 +33,8 @@ class EditData : AppCompatActivity() {
     companion object{
         const val data = "data"
         const val image = "image"
+        const val startDate = "startDate"
+        const val endDate = "endDate"
     }
 
     val list: MutableList<Absent> = mutableListOf()
@@ -56,6 +59,13 @@ class EditData : AppCompatActivity() {
         val currentDate = sdf.format(Date())
 
         val parcel: Student? = intent.getParcelableExtra(data)
+        val startDate: String? = intent.getStringExtra(startDate)
+        val endDate: String? = intent.getStringExtra(endDate)
+
+        if(currentDate < startDate.toString() || currentDate > endDate.toString()){
+            btnAbsent.visibility = View.GONE
+            spinnerAbsent.visibility = View.GONE
+        }
 
         val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
         collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(applicationContext, android.R.color.transparent))

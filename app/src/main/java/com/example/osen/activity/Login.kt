@@ -40,6 +40,10 @@ class Login : AppCompatActivity() {
             finish()
             registerActivity()
         }
+
+        forgotPass.setOnClickListener {
+            startActivity<ForgotPassword>()
+        }
     }
 
     private fun checkEmail(email: String, password: String){
@@ -52,8 +56,8 @@ class Login : AppCompatActivity() {
                     dialog.titleText = "Login Berhasil"
                     dialog.setConfirmClickListener {
                         dialog.dismissWithAnimation()
-                        finish()
                         startActivity<MainActivity>()
+                        this.finish()
                     }
                 }else{
                     dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
