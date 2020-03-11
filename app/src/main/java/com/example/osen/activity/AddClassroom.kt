@@ -267,8 +267,6 @@ class AddClassroom : AppCompatActivity() {
     }
 
     private fun submit(){
-        val submit: Boolean
-
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
 

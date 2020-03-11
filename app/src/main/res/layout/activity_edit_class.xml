@@ -129,37 +129,6 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/rowFirstCategory"
-                    android:visibility="gone"
-                    android:layout_marginTop="@dimen/activity_vertical_margin">
-
-                    <TextView
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/firasans"
-                        android:text="Kategori"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:fontFamily="@font/firasans"
-                        android:text=" : "
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-
-                    <EditText
-                        android:id="@+id/newCategory"
-                        android:layout_width="195dp"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/actionBarColor"
-                        android:fontFamily="@font/firasans"
-                        android:inputType="textMultiLine"
-                        android:maxLines="2"
-                        android:layout_weight="1"
-                        android:textSize="20sp" />
-                </TableRow>
-
-                <TableRow
                     android:id="@+id/rowNewCategory"
                     android:visibility="gone"
                     android:layout_marginTop="@dimen/activity_vertical_margin">
@@ -180,7 +149,7 @@
                         android:textSize="20sp" />
 
                     <EditText
-                        android:id="@+id/firstCategoryAdd"
+                        android:id="@+id/newCategory"
                         android:layout_width="195dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/actionBarColor"

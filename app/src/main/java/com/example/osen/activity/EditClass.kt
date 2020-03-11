@@ -53,6 +53,7 @@ class EditClass : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
 
     var count = 0
+    var classExist = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -226,38 +227,33 @@ class EditClass : AppCompatActivity() {
 
     private fun showCategorySpinner(currentCategory: String?){
         showCategory()
-        if(listCategory.isEmpty()){
-            rowOldCategory.visibility = View.GONE
-            rowFirstCategory.visibility = View.VISIBLE
-        }else{
-            val categories: MutableList<String> = mutableListOf()
-            for(i in 0 until listCategory.size){
-                categories.add(listCategory[i].name.toString())
+        val categories: MutableList<String> = mutableListOf()
+        for(i in 0 until listCategory.size){
+            categories.add(listCategory[i].name.toString())
+        }
+        categories.add("Tidak ada pilihan")
+        val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, categories)
+        classCategory.adapter = adapter
+
+        val categoryPosition = adapter.getPosition(currentCategory)
+        classCategory.setSelection(categoryPosition)
+
+        classCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if(classCategory.selectedItem.toString() == "Tidak ada pilihan"){
+                    rowNewCategory.visibility = View.VISIBLE
+                }else{
+                    rowNewCategory.visibility = View.GONE
+                }
             }
-            categories.add("Tidak ada pilihan")
-            val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, categories)
-            classCategory.adapter = adapter
 
-            val categoryPosition = adapter.getPosition(currentCategory)
-            classCategory.setSelection(categoryPosition)
-
-            classCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if(classCategory.selectedItem.toString() == "Tidak ada pilihan"){
-                        rowNewCategory.visibility = View.VISIBLE
-                    }else{
-                        rowNewCategory.visibility = View.GONE
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         }
     }
@@ -316,9 +312,9 @@ class EditClass : AppCompatActivity() {
         database.use {
             val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {name}) AND (TYPE = {type}) " +
                     "AND (CATEGORY = {category}) AND (START_DATE = {start_date}) AND (END_DATE = {end_date}) AND (START_TIME = {start_time}) " +
-                    "AND (END_TIME = {end_time}) AND (DAY = {day})", "name" to className.text, "type" to classType.selectedItem.toString(),
+                    "AND (END_TIME = {end_time}) AND (DAY = {day}) AND (TEACHER_ID = {teacher_id})", "name" to className.text, "type" to classType.selectedItem.toString(),
                 "category" to classCategory.selectedItem.toString(), "start_date" to startDate.text, "end_date" to endDate.text,
-                "start_time" to startTime.text, "end_time" to endTime.text, "day" to day)
+                "start_time" to startTime.text, "end_time" to endTime.text, "day" to day, "teacher_id" to auth.currentUser?.uid.toString())
             val data = result.parseList(classParser<Classroom>())
             if (data.isNotEmpty()){
                 checkDataClass.addAll(data)
@@ -381,6 +377,15 @@ class EditClass : AppCompatActivity() {
                 dialog.setCancelable(false)
                 dialog.show()
             }else{
+                checkClass(className.text.toString())
+                if(classExist){
+                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                    dialog.titleText = "Nama Kelas Sudah Terpakai"
+                    dialog.setCancelable(false)
+                    dialog.show()
+                    return
+                }
                 var day = ""
                 when(count){
                     1 ->{
@@ -409,14 +414,13 @@ class EditClass : AppCompatActivity() {
                 }
                 val classroom: Classroom? = intent.getParcelableExtra(data)
                 val name = className.text.toString()
-                val category: String = if(rowOldCategory.visibility == View.VISIBLE){
+                var category: String = ""
+                if(rowOldCategory.visibility == View.VISIBLE){
                     if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
-                        firstCategoryAdd.text.toString()
+                        category = newCategory.text.toString()
                     }else{
-                        classCategory.selectedItem.toString()
+                        category = classCategory.selectedItem.toString()
                     }
-                }else{
-                    newCategory.text.toString()
                 }
                 var image = R.drawable.ic_class
                 when(category){
@@ -757,6 +761,16 @@ class EditClass : AppCompatActivity() {
                     val classPosition = adapter.getPosition(split[5])
                     sixthDay.setSelection(classPosition)
                 }
+            }
+        }
+    }
+
+    private fun checkClass(class_name: String){
+        database.use {
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to class_name, "teacher_id" to auth.currentUser?.uid.toString())
+            val data = result.parseList(classParser<Classroom>())
+            if(data.isNotEmpty()){
+                classExist = true
             }
         }
     }
