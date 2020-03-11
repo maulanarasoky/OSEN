@@ -191,7 +191,7 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
             }
         }
 
-        fun checkTodayAbsent(teacherId: Int?, className: String?, date: String?, studentId: Int?){
+        fun checkTodayAbsent(teacherId: String?, className: String?, date: String?, studentId: Int?){
             itemView.context.database.use {
                 val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs("(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) AND (CLASS = {className}) AND (DATE = {todayDate}) LIMIT 1", "teacher_id" to teacherId.toString(), "student_id" to studentId.toString(), "className" to className.toString(), "todayDate" to date.toString())
                 val data = result.parseList(classParser<AbsentOfDay>())
@@ -201,7 +201,7 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
             }
         }
 
-        fun showAbsentData(teacherId: Int?, studentId: Int?){
+        fun showAbsentData(teacherId: String?, studentId: Int?){
             itemView.context.database.use {
                 val result = select(Absent.TABLE_ABSENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) LIMIT 1", "teacher_id" to teacherId.toString(), "student_id" to studentId.toString())
                 val data = result.parseList(classParser<Absent>())

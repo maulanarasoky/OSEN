@@ -32,7 +32,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Classroom.START_TIME to TEXT,
             Classroom.END_TIME to TEXT,
             Classroom.DAY to TEXT,
-            Classroom.TEACHER_ID to INTEGER)
+            Classroom.TEACHER_ID to TEXT)
 
         db?.createTable(
             Student.TABLE_STUDENT, true,
@@ -41,13 +41,13 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Student.CLASS_NAME to TEXT,
             Student.GENDER to TEXT,
             Student.SCORE to INTEGER,
-            Student.TEACHER_ID to INTEGER)
+            Student.TEACHER_ID to TEXT)
 
         db?.createTable(
             Category.TABLE_CATEGORY, true,
             Category.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Category.NAME to TEXT,
-            Category.TEACHER_ID to INTEGER)
+            Category.TEACHER_ID to TEXT)
 
         db?.createTable(
             Absent.TABLE_ABSENT, true,
@@ -58,7 +58,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Absent.SAKIT to INTEGER,
             Absent.ALFA to INTEGER,
             Absent.CLASS to TEXT,
-            Absent.TEACHER_ID to INTEGER)
+            Absent.TEACHER_ID to TEXT)
 
         db?.createTable(
             AbsentOfDay.TABLE_ABSENTOFDAY, true,
@@ -67,7 +67,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             AbsentOfDay.DATE to TEXT,
             AbsentOfDay.KETERANGAN to TEXT,
             AbsentOfDay.CLASS to TEXT,
-            AbsentOfDay.TEACHER_ID to INTEGER)
+            AbsentOfDay.TEACHER_ID to TEXT)
 
         db?.createTable(
             Score.TABLE_SCORE, true,
@@ -83,7 +83,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Score.PERSENTASE_ASSESSMENT_2 to INTEGER,
             Score.ASSESSMENT_3 to INTEGER,
             Score.PERSENTASE_ASSESSMENT_3 to INTEGER,
-            Score.TEACHER_ID to INTEGER)
+            Score.TEACHER_ID to TEXT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

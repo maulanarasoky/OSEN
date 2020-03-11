@@ -6,7 +6,7 @@ class AbsentOfDay(
     val date: String?,
     val keterangan: String?,
     val className: String?,
-    val teacherId: Int?
+    val teacherId: String?
 ){
     companion object{
         const val TABLE_ABSENTOFDAY = "ABSENT_OF_DAY"

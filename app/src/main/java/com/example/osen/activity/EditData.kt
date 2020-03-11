@@ -173,7 +173,7 @@ class EditData : AppCompatActivity() {
         }
     }
 
-    private fun checkDailyAbsent(student_id: Int?, teacher_id: Int?, class_name: String?, date: String?){
+    private fun checkDailyAbsent(student_id: Int?, teacher_id: String?, class_name: String?, date: String?){
         database.use {
             val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs("(STUDENT_ID = {student_id}) AND (CLASS = {class_name}) AND (TEACHER_ID = {teacher_id}) AND (DATE = {date}) LIMIT 1", "student_id" to student_id.toString(), "class_name" to class_name.toString(), "teacher_id" to teacher_id.toString(), "date" to date.toString())
             val data = result.parseList(classParser<AbsentOfDay>())
@@ -184,7 +184,7 @@ class EditData : AppCompatActivity() {
         }
     }
 
-    private fun dailyAbsent(student_id: Int?, teacher_id: Int?, class_name: String?, date: String?){
+    private fun dailyAbsent(student_id: Int?, teacher_id: String?, class_name: String?, date: String?){
         if(checkDailyAbsent){
             database.use {
                 val queryUpdate = update(AbsentOfDay.TABLE_ABSENTOFDAY,
@@ -205,7 +205,7 @@ class EditData : AppCompatActivity() {
         }
     }
 
-    private fun absent(student_id: Int?, teacher_id: Int?, class_name: String?){
+    private fun absent(student_id: Int?, teacher_id: String?, class_name: String?){
         var columnSubtract = ""
         var columnAdd = ""
         var subtract = 0
@@ -290,7 +290,7 @@ class EditData : AppCompatActivity() {
         }
     }
 
-    private fun showScore(student_id: Int?, teacher_id: Int?){
+    private fun showScore(student_id: Int?, teacher_id: String?){
         scoreList.clear()
         database.use {
             val result = select(Score.TABLE_SCORE).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) LIMIT 1", "student_id" to student_id.toString(), "teacher_id" to teacher_id.toString())

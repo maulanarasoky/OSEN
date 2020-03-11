@@ -8,35 +8,45 @@ import com.example.osen.R
 import com.example.osen.fragment.AddFragment
 import com.example.osen.fragment.HomeFragment
 import com.example.osen.fragment.ProfileFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
 
     companion object{
         const val REQUEST_CODE = 100
+        const val RESULT_CODE = 222
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        bottom_navigation.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId){
-                R.id.home ->{
-                    loadHomeFragment(savedInstanceState)
+        val auth: FirebaseAuth = FirebaseAuth.getInstance()
+        val user: FirebaseUser? = auth.currentUser
+
+        if(user == null){
+            finish()
+            startActivity<Login>()
+        }else{
+            bottom_navigation.setOnNavigationItemSelectedListener { item ->
+                when(item.itemId){
+                    R.id.home ->{
+                        loadHomeFragment(savedInstanceState)
+                    }
+                    R.id.add -> {
+                        loadAddFragment(savedInstanceState)
+                    }
+                    R.id.profile ->{
+                        loadProfileFragment(savedInstanceState)
+                    }
                 }
-                R.id.add -> {
-                    loadAddFragment(savedInstanceState)
-                }
-                R.id.profile ->{
-//                    loadProfileFragment(savedInstanceState)
-                    val intent = Intent(this, Login::class.java)
-                    startActivityForResult(intent, REQUEST_CODE)
-                }
+                true
             }
-            true
+            bottom_navigation.selectedItemId = R.id.home
         }
-        bottom_navigation.selectedItemId = R.id.home
     }
 
     private fun loadHomeFragment(savedInstanceState: Bundle?) {
@@ -68,6 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d("resultCode", resultCode.toString())
         if(requestCode == REQUEST_CODE){
             bottom_navigation.selectedItemId = R.id.home
         }

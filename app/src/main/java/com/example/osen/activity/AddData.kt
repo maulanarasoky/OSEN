@@ -14,6 +14,7 @@ import com.example.osen.model.Absent
 import com.example.osen.model.Classroom
 import com.example.osen.model.Score
 import com.example.osen.model.Student
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_add_data.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
@@ -27,9 +28,13 @@ class AddData : AppCompatActivity() {
     private var listStudent: MutableList<Student> = mutableListOf()
     private var listClass: MutableList<String> = mutableListOf()
 
+    lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_data)
+
+        auth = FirebaseAuth.getInstance()
 
         studentName = findViewById(R.id.studentName)
         className = findViewById(R.id.className)
@@ -88,9 +93,9 @@ class AddData : AppCompatActivity() {
                     Student.CLASS_NAME to className.selectedItem.toString(),
                     Student.GENDER to gender.selectedItem.toString(),
                     Student.SCORE to 0,
-                    Student.TEACHER_ID to 1)
+                    Student.TEACHER_ID to auth.currentUser?.uid.toString())
 
-                getStudentId(className.selectedItem.toString(), 1, studentName.text.toString())
+                getStudentId(className.selectedItem.toString(), auth.currentUser?.uid.toString(), studentName.text.toString())
 
                 insert(
                     Absent.TABLE_ABSENT,
@@ -141,7 +146,7 @@ class AddData : AppCompatActivity() {
     private fun showClass(){
         list.clear()
         database.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to 1)
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to auth.currentUser?.uid.toString())
             val data = result.parseList(classParser<Classroom>())
             if (data.isNotEmpty()){
                 list.addAll(data)
@@ -149,7 +154,7 @@ class AddData : AppCompatActivity() {
         }
     }
 
-    private fun getStudentId(className: String, teacherId: Int, studentName: String){
+    private fun getStudentId(className: String, teacherId: String, studentName: String){
         listStudent.clear()
         database.use {
             val result = select(Student.TABLE_STUDENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (CLASS = {class_name}) AND (NAME = {student_name}) LIMIT 1", "teacher_id" to teacherId, "class_name" to className, "student_name" to studentName)

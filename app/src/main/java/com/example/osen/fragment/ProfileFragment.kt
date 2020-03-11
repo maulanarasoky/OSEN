@@ -6,12 +6,21 @@ import androidx.fragment.app.Fragment
 
 import com.example.osen.R
 import com.example.osen.activity.Login
+import com.google.android.material.bottomnavigation.BottomNavigationMenu
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * A simple [Fragment] subclass.
  */
 class ProfileFragment : Fragment() {
+
+    lateinit var auth: FirebaseAuth
+
+    lateinit var navigation: BottomNavigationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,11 +32,16 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginActivity()
-    }
 
-    private fun loginActivity(){
-        startActivity<Login>()
+        navigation = activity!!.findViewById(R.id.bottom_navigation)
+
+        auth = FirebaseAuth.getInstance()
+
+        btnSignOut.setOnClickListener {
+            auth.signOut()
+            activity!!.finish()
+            startActivity<Login>()
+        }
     }
 
 }

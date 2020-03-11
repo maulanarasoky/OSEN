@@ -19,6 +19,10 @@ class Login : AppCompatActivity() {
     lateinit var email: EditText
     lateinit var password: EditText
 
+    companion object{
+        const val VERIFIED = 111
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -46,6 +50,11 @@ class Login : AppCompatActivity() {
                 if(auth.currentUser?.isEmailVerified!!){
                     dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                     dialog.titleText = "Login Berhasil"
+                    dialog.setConfirmClickListener {
+                        dialog.dismissWithAnimation()
+                        finish()
+                        startActivity<MainActivity>()
+                    }
                 }else{
                     dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                     dialog.titleText = "Silahkan Lakukan Verifikasi Email Terlebih Dahulu"
@@ -60,5 +69,11 @@ class Login : AppCompatActivity() {
 
     private fun registerActivity(){
         startActivity<Register>()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        setResult(MainActivity.RESULT_CODE)
+        finish()
     }
 }

@@ -15,7 +15,7 @@ class Classroom (
     val startTime: String,
     val endTime: String,
     val day: String?,
-    val teacher_id: Int?
+    val teacher_id: String?
     ): Parcelable{
     companion object{
         const val TABLE_CLASSROOM: String = "CLASSROOM"

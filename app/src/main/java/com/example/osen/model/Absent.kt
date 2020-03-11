@@ -8,7 +8,7 @@ data class Absent(
     val sakit: Int?,
     val alfa: Int?,
     val class_name: String?,
-    val teacher_id: Int?
+    val teacher_id: String?
 ){
     companion object{
         const val TABLE_ABSENT = "ABSENT"

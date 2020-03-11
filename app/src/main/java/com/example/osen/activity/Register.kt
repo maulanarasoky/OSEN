@@ -126,4 +126,10 @@ class Register : AppCompatActivity() {
             .map { allowedChars.random() }
             .joinToString("")
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        setResult(MainActivity.RESULT_CODE)
+        finish()
+    }
 }

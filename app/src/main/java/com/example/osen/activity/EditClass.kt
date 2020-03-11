@@ -14,6 +14,7 @@ import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.Category
 import com.example.osen.model.Classroom
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_edit_class.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
@@ -49,11 +50,16 @@ class EditClass : AppCompatActivity() {
     private var checkDataClass: MutableList<Classroom> = mutableListOf()
     private var dataClass: MutableList<Classroom> = mutableListOf()
 
+    lateinit var auth: FirebaseAuth
+
     var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_class)
+
+        auth = FirebaseAuth.getInstance()
+
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
 
@@ -259,7 +265,7 @@ class EditClass : AppCompatActivity() {
     private fun showCategory(){
         listCategory.clear()
         database.use {
-            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to 1)
+            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to auth.currentUser?.uid.toString())
             val category = result.parseList(classParser<Category>())
             if (category.isNotEmpty()){
                 listCategory.addAll(category)
@@ -270,7 +276,7 @@ class EditClass : AppCompatActivity() {
     private fun checkAvailableCategory(categoryName: String){
         checkCategory.clear()
         database.use {
-            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id}) AND (NAME = {category_name})", "teacher_id" to 1, "category_name" to categoryName)
+            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id}) AND (NAME = {category_name})", "teacher_id" to auth.currentUser?.uid.toString(), "category_name" to categoryName)
             val category = result.parseList(classParser<Category>())
             if (category.isNotEmpty()){
                 checkCategory.addAll(category)
@@ -460,7 +466,7 @@ class EditClass : AppCompatActivity() {
                 insert(
                     Category.TABLE_CATEGORY,
                     Category.NAME to categoryName,
-                    Category.TEACHER_ID to 1)
+                    Category.TEACHER_ID to auth.currentUser?.uid.toString())
             }
         }catch (e: SQLiteConstraintException){
         }

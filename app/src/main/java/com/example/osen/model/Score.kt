@@ -13,7 +13,7 @@ data class Score(
     val persentaseAssessment2: Int?,
     val assessment3: Int?,
     val persentaseAssessment3: Int?,
-    val teacherId: Int?
+    val teacherId: String?
 ) {
     companion object{
         const val TABLE_SCORE = "SCORE"

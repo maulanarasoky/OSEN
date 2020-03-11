@@ -101,7 +101,7 @@ class InputScore : AppCompatActivity() {
         }
     }
 
-    private fun initData(student_id: Int?, teacher_id: Int?){
+    private fun initData(student_id: Int?, teacher_id: String?){
         showScore(student_id, teacher_id)
 
         uts.setText(scoreList[0].uts.toString(), TextView.BufferType.EDITABLE)
@@ -127,7 +127,7 @@ class InputScore : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showScore(student_id: Int?, teacher_id: Int?){
+    private fun showScore(student_id: Int?, teacher_id: String?){
         scoreList.clear()
         database.use {
             val result = select(Score.TABLE_SCORE).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) LIMIT 1", "student_id" to student_id.toString(), "teacher_id" to teacher_id.toString())
@@ -139,7 +139,7 @@ class InputScore : AppCompatActivity() {
         }
     }
 
-    private fun inputScore(student_id: Int?, teacher_id: Int?){
+    private fun inputScore(student_id: Int?, teacher_id: String?){
         var title = ""
         if(uts.text.toString() == "" || persentaseUts.text.toString() == ""){
             if(uts.text.toString() == ""){

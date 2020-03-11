@@ -24,6 +24,7 @@ import com.example.osen.model.AbsentOfDay
 import com.example.osen.model.Classroom
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_class_details.*
 import org.jetbrains.anko.db.*
 import org.jetbrains.anko.startActivity
@@ -44,9 +45,13 @@ class ClassDetails : AppCompatActivity() {
     private lateinit var adapter: StudentList
     private lateinit var studentList: RecyclerView
 
+    lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_class_details)
+
+        auth = FirebaseAuth.getInstance()
 
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = sdf.format(Date())
@@ -253,7 +258,7 @@ class ClassDetails : AppCompatActivity() {
         val classroom: Classroom? = intent.getParcelableExtra(data)
         listStudent.clear()
         database.use {
-            val result = select(Student.TABLE_STUDENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (CLASS = {class}) ORDER BY ID_ ASC", "teacher_id" to 1, "class" to classroom?.name.toString())
+            val result = select(Student.TABLE_STUDENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (CLASS = {class}) ORDER BY ID_ ASC", "teacher_id" to auth.currentUser?.uid.toString(), "class" to classroom?.name.toString())
             val category = result.parseList(classParser<Student>())
             if (category.isNotEmpty()){
                 listStudent.addAll(category)

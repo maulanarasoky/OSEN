@@ -10,7 +10,7 @@ class Student (
     val className: String?,
     val gender: String?,
     val score: Int?,
-    val teacher_id: Int?
+    val teacher_id: String?
 ): Parcelable{
     companion object{
         const val TABLE_STUDENT: String = "STUDENT"
