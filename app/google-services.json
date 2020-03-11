@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "643570437789",
-    "firebase_url": "https://osen-4eda6.firebaseio.com",
-    "project_id": "osen-4eda6",
-    "storage_bucket": "osen-4eda6.appspot.com"
+    "project_number": "835225203547",
+    "firebase_url": "https://osen-28d9b.firebaseio.com",
+    "project_id": "osen-28d9b",
+    "storage_bucket": "osen-28d9b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:643570437789:android:361f36e7d2105bf0d9ce74",
+        "mobilesdk_app_id": "1:835225203547:android:7fab16edaec2a3e3fc207e",
         "android_client_info": {
           "package_name": "com.example.osen"
         }
       },
       "oauth_client": [
         {
-          "client_id": "643570437789-hcqcng19d54j9tbql38643496ju1pk3c.apps.googleusercontent.com",
+          "client_id": "835225203547-gaapkgv4hi6dt5aqcgsahqjgjsrkqshu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBds08JYVDR9WeOrjqwpbnWiOnof1Bmu3k"
+          "current_key": "AIzaSyCQXl8mgO3YyE5Gy3k4MoQMmn7LR2_cjlI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "643570437789-hcqcng19d54j9tbql38643496ju1pk3c.apps.googleusercontent.com",
+              "client_id": "835225203547-gaapkgv4hi6dt5aqcgsahqjgjsrkqshu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
