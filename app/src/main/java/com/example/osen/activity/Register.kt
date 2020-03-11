@@ -1,26 +1,27 @@
 package com.example.osen.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
-import android.util.Log
 import android.widget.EditText
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.model.data.User
-import com.google.firebase.database.*
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.math.BigInteger
 import java.security.MessageDigest
-import java.util.regex.Pattern
 
 class Register : AppCompatActivity() {
     lateinit var user: User
-    lateinit var database: DatabaseReference
-    lateinit var username: EditText
+    lateinit var auth: FirebaseAuth
+    lateinit var email: EditText
     lateinit var password: EditText
     lateinit var reTypePass: EditText
 
@@ -33,93 +34,83 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        username = findViewById(R.id.username)
+        auth = FirebaseAuth.getInstance()
+        email = findViewById(R.id.email)
         password = findViewById(R.id.password)
         reTypePass = findViewById(R.id.reTypePass)
 
-        database = FirebaseDatabase.getInstance().reference.child("Account")
-        database.addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                count = p0.childrenCount.toInt()
-            }
-
-        })
-
-        username.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val str = stringFilter(username.text.toString())
-                if(username.text.toString() != str){
-                    validUsername = false
-                    username.setError("Username hanya terdiri dari a-z, A-Z, 0-9, _")
-                }else{
-                    validUsername = true
-                }
-            }
-
-        })
+//        username.addTextChangedListener(object : TextWatcher{
+//            override fun afterTextChanged(s: Editable?) {
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                val str = stringFilter(username.text.toString())
+//                if(username.text.toString() != str){
+//                    validUsername = false
+//                    username.setError("Username hanya terdiri dari a-z, A-Z, 0-9, _")
+//                }else{
+//                    validUsername = true
+//                }
+//            }
+//
+//        })
 
         btnRegister.setOnClickListener {
-            if (validUsername){
-                if(TextUtils.isEmpty(username.text.toString().trim())){
-                    valid = false
-                    username.setError("Username harus diisi")
-                }
+            if(TextUtils.isEmpty(email.text.toString().trim())){
+                valid = false
+                email.setError("Username harus diisi")
+            }
 
-                if(TextUtils.isEmpty(password.text.toString().trim())){
-                    valid = false
-                    username.setError("Username harus diisi")
-                }
+            if(TextUtils.isEmpty(password.text.toString().trim())){
+                valid = false
+                password.setError("Password harus diisi")
+            }
 
-                if(TextUtils.isEmpty(reTypePass.text.toString().trim())){
-                    valid = false
-                    username.setError("Username harus diisi")
-                }
+            if(TextUtils.isEmpty(reTypePass.text.toString().trim())){
+                valid = false
+                reTypePass.setError("Re-Type Password harus diisi")
+            }
 
-                if(valid){
-                    if(password.text.toString() == reTypePass.text.toString()){
-                        checkUsername(username.text.toString())
-                    }
+            if(valid){
+                if(password.text.toString() == reTypePass.text.toString()){
+                    checkEmail(email.text.toString(), password.text.toString())
                 }
             }
         }
     }
 
-    private fun stringFilter(str: String): String {
-        // Only letters, numbers and English blank characters are allowed
-        val regEx = "[^a-zA-Z0-9_]";
-        val p = Pattern.compile(regEx);
-        val m = p.matcher(str);
-        return m.replaceAll("");
-    }
+//    private fun stringFilter(str: String): String {
+//        // Only letters, numbers and English blank characters are allowed
+//        val regEx = "[^a-zA-Z0-9_]";
+//        val p = Pattern.compile(regEx);
+//        val m = p.matcher(str);
+//        return m.replaceAll("");
+//    }
 
-    private fun checkUsername(username: String){
-        val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-        database.child(username).addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-            }
-            override fun onDataChange(p0: DataSnapshot) {
-                if(!p0.exists()){
-                    val id = database.push().key.toString()
-
-                    user = User(id, username, password.text.toString().md5())
-
-                    database.child(username).setValue(user)
-                    dialog.titleText = "Registrasi Berhasil"
-                }else{
-                    dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
-                    dialog.titleText = "Username Sudah Terdaftar"
+    private fun checkEmail(email: String, password: String){
+        val dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { insert ->
+            if(insert.isSuccessful){
+                auth.currentUser?.sendEmailVerification()?.addOnCompleteListener { verify ->
+                    if(verify.isSuccessful){
+                        dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                        dialog.titleText = "Registrasi Berhasil"
+                        dialog.contentText = "Silahkan lakukan verifikasi"
+                        dialog.setConfirmClickListener {
+                            dialog.dismissWithAnimation()
+                            finish()
+                            startActivity<Login>()
+                        }
+                    }
                 }
+            }else{
+                dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = insert.exception?.message
             }
-        })
+        }
         dialog.show()
     }
 
