@@ -55,17 +55,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username"
+            android:text="Email"
             android:fontFamily="@font/firasans"
             android:textColor="@color/actionBarColor"
             android:textSize="12sp" />
 
 
         <EditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/firasans"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:paddingStart="8dp"
@@ -84,10 +85,11 @@
 
 
         <EditText
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/firasans"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:textColor="@android:color/black"
             android:paddingStart="8dp"
             android:paddingEnd="@dimen/activity_horizontal_margin"

@@ -92,6 +92,7 @@ class Register : AppCompatActivity() {
 
     private fun checkEmail(email: String, password: String){
         val dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        dialog.setCancelable(false)
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { insert ->
             if(insert.isSuccessful){
                 auth.currentUser?.sendEmailVerification()?.addOnCompleteListener { verify ->
