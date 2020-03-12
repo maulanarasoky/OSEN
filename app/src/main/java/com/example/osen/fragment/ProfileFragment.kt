@@ -3,6 +3,7 @@ package com.example.osen.fragment
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 
 import com.example.osen.R
 import com.example.osen.activity.Login
@@ -37,7 +38,7 @@ class ProfileFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
-        btnSignOut.setOnClickListener {
+        linear5.setOnClickListener {
             auth.signOut()
             startActivity<Login>()
             activity!!.finish()
