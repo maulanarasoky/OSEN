@@ -3,9 +3,11 @@ package com.example.osen.fragment
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bumptech.glide.Glide
 
 import com.example.osen.R
+import com.example.osen.activity.ChangePassword
 import com.example.osen.activity.Login
 import com.google.android.material.bottomnavigation.BottomNavigationMenu
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -38,10 +40,26 @@ class ProfileFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
+        email.text = auth.currentUser?.email
+
+        linear2.setOnClickListener {
+            startActivity<ChangePassword>()
+        }
+
         linear5.setOnClickListener {
-            auth.signOut()
-            startActivity<Login>()
-            activity!!.finish()
+            val dialog = SweetAlertDialog(activity, SweetAlertDialog.WARNING_TYPE)
+            dialog.titleText = "Apakah Anda ingin keluar ?"
+            dialog.setCancelable(false)
+            dialog.showCancelButton(true)
+            dialog.cancelText = "Batal"
+            dialog.confirmText = "Keluar"
+            dialog.setConfirmClickListener {
+                dialog.dismissWithAnimation()
+                auth.signOut()
+                startActivity<Login>()
+                activity!!.finish()
+            }
+            dialog.show()
         }
     }
 
