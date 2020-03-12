@@ -29,19 +29,34 @@ class ChangePassword : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if(oldPassword.text.length < 6){
+                oldPassword.setError("Minimal 6 digit angka atau huruf")
+                return@setOnClickListener
+            }
+
             if(TextUtils.isEmpty(newPassword.text.toString())){
                 newPassword.setError("Isi dengan password yang baru")
                 return@setOnClickListener
             }
 
+            if(newPassword.text.length < 6){
+                newPassword.setError("Minimal 6 digit angka atau huruf")
+                return@setOnClickListener
+            }
+
             if(TextUtils.isEmpty(reTypeNewPassword.text.toString())){
-                newPassword.setError("Isi dengan password yang baru")
+                reTypeNewPassword.setError("Isi dengan password yang baru")
+                return@setOnClickListener
+            }
+
+            if(reTypeNewPassword.text.length < 6){
+                reTypeNewPassword.setError("Minimal 6 digit angka atau huruf")
                 return@setOnClickListener
             }
 
             if(reTypeNewPassword.text.toString() != newPassword.text.toString()){
-                newPassword.setError("Keuda kolom tidak sama")
-                reTypeNewPassword.setError("Keuda kolom tidak sama")
+                newPassword.setError("Kedua kolom tidak sama")
+                reTypeNewPassword.setError("Kedua kolom tidak sama")
                 return@setOnClickListener
             }
 

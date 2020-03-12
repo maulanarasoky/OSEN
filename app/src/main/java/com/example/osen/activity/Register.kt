@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.widget.EditText
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
@@ -28,8 +29,6 @@ class Register : AppCompatActivity() {
     lateinit var password: EditText
     lateinit var reTypePass: EditText
 
-    var valid = true
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -41,24 +40,43 @@ class Register : AppCompatActivity() {
 
         btnRegister.setOnClickListener {
             if(TextUtils.isEmpty(email.text.toString().trim())){
-                valid = false
-                email.setError("Username harus diisi")
+                email.setError("Email harus diisi")
+                return@setOnClickListener
+            }
+
+            if(!Patterns.EMAIL_ADDRESS.matcher(email.text.toString().trim()).matches()){
+                email.setError("Email tidak valid")
+                return@setOnClickListener
             }
 
             if(TextUtils.isEmpty(password.text.toString().trim())){
-                valid = false
                 password.setError("Password harus diisi")
+                return@setOnClickListener
+            }
+
+            if(password.text.length < 6){
+                password.setError("Minimal 6 digit angka atau huruf")
+                return@setOnClickListener
             }
 
             if(TextUtils.isEmpty(reTypePass.text.toString().trim())){
-                valid = false
                 reTypePass.setError("Re-Type Password harus diisi")
+                return@setOnClickListener
             }
 
-            if(valid){
-                if(password.text.toString() == reTypePass.text.toString()){
-                    checkEmail(email.text.toString(), password.text.toString())
-                }
+            if(reTypePass.text.length < 6){
+                reTypePass.setError("Minimal 6 digit angka atau huruf")
+                return@setOnClickListener
+            }
+
+            if(reTypePass.text.toString() != password.text.toString()){
+                reTypePass.setError("Kedua kolom tidak sama")
+                password.setError("Kedua kolom tidak sama")
+                return@setOnClickListener
+            }
+
+            if(password.text.toString() == reTypePass.text.toString()){
+                checkEmail(email.text.toString(), password.text.toString())
             }
         }
 

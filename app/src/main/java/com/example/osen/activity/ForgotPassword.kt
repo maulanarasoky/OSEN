@@ -2,6 +2,8 @@ package com.example.osen.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Patterns
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.google.android.gms.tasks.OnCompleteListener
@@ -20,6 +22,16 @@ class ForgotPassword : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         btnForgotPass.setOnClickListener {
+            if(TextUtils.isEmpty(email.text.toString().trim())){
+                email.setError("Email harus diisi")
+                return@setOnClickListener
+            }
+
+            if(!Patterns.EMAIL_ADDRESS.matcher(email.text.toString().trim()).matches()){
+                email.setError("Email tidak valid")
+                return@setOnClickListener
+            }
+
             forgotPassword(email.text.toString())
         }
     }
