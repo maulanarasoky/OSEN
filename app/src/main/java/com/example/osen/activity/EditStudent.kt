@@ -87,6 +87,7 @@ class EditStudent : AppCompatActivity() {
             RequestOptions.overrideOf(500,500)).into(classImage)
 
         initAbsentData()
+        countPersentaseKehadiran()
 
         ArrayAdapter.createFromResource(this, R.array.keterangan_hadir, R.layout.spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -124,6 +125,7 @@ class EditStudent : AppCompatActivity() {
                         dailyAbsent(parcel?.id, parcel?.teacher_id, parcel?.className, currentDate)
                         absent(parcel?.id, parcel?.teacher_id, parcel?.className)
                         initAbsentData()
+                        countPersentaseKehadiran()
                         dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                         dialog.showCancelButton(false)
                         dialog.titleText = "Absen Berhasil Dilakukan"
@@ -321,5 +323,11 @@ class EditStudent : AppCompatActivity() {
         val result: Float? = uts?.plus(uas!!)?.plus(ass1!!)?.plus(ass2!!)?.plus(ass3!!)?.div(4)
 
         score.text = result.toString()
+    }
+
+    private fun countPersentaseKehadiran(){
+        val totalAbsen: Float? = totalAlfa?.plus(totalSakit!!)?.plus(totalIzin!!)?.plus(totalHadir!!)?.toFloat()
+        val persentase: Float? = totalHadir?.plus(totalIzin!!)?.div(totalAbsen!!)?.times(100)
+        persentaseKehadiran.text = "Persentase Kehadiran $persentase%"
     }
 }

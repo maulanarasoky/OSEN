@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:scaleType="centerCrop"
+                android:padding="@dimen/activity_vertical_margin"
                 app:layout_collapseMode="parallax" />
 
             <View
@@ -71,7 +72,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/firasans"
                     android:gravity="center"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
                     tools:text="Nama" />
@@ -100,40 +101,40 @@
                         android:text="Alfa"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:text=" : "
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/alfa"
                         android:text="0"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
                 </TableRow>
                 <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
                     <TextView
                         android:text="Sakit"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:text=" : "
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/sakit"
                         android:text="0"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
                 </TableRow>
             </TableLayout>
             <TableLayout
@@ -149,40 +150,40 @@
                         android:text="Izin"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:text=" : "
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/izin"
                         android:text="0"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
                 </TableRow>
                 <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
                     <TextView
                         android:text="Hadir"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:text=" : "
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/hadir"
                         android:text="0"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
                 </TableRow>
             </TableLayout>
             <TableLayout
@@ -198,28 +199,40 @@
                         android:text="Nilai"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:text=" : "
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/score"
                         android:text="0"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
                 </TableRow>
             </TableLayout>
+
+            <TextView
+                android:id="@+id/persentaseKehadiran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Persentase Kehadiran : 0"
+                android:fontFamily="@font/firasans"
+                android:layout_below="@id/table2"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"/>
 
             <TableLayout
                 android:id="@+id/table4"
                 android:layout_below="@id/table1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:padding="@dimen/activity_vertical_margin">
                 <TableRow>
                     <androidx.appcompat.widget.AppCompatSpinner
