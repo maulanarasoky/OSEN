@@ -17,7 +17,7 @@ class ExportImport : AppCompatActivity() {
         }
 
         linear2.setOnClickListener {
-
+            startActivity<Import>()
         }
     }
 }

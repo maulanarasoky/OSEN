@@ -65,6 +65,7 @@ class AddStudent : AppCompatActivity() {
             dialog.show()
         }else{
             val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, listClass)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             className.adapter = adapter
         }
 

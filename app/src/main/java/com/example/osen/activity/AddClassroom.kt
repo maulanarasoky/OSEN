@@ -375,6 +375,7 @@ class AddClassroom : AppCompatActivity() {
             }
             categories.add("Tidak ada pilihan")
             val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, categories)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             classCategory.adapter = adapter
 
             classCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
