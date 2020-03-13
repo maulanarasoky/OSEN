@@ -1,29 +1,17 @@
 package com.example.osen.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
 import android.widget.EditText
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
-import com.example.osen.model.data.User
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_register.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class Register : AppCompatActivity() {
-    lateinit var user: User
     lateinit var auth: FirebaseAuth
     lateinit var email: EditText
     lateinit var password: EditText

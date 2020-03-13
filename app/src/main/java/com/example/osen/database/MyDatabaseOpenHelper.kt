@@ -2,6 +2,7 @@ package com.example.osen.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import androidx.fragment.app.Fragment
 import com.example.osen.model.*
 import org.jetbrains.anko.db.*
 
@@ -95,3 +96,6 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
 }
 val Context.database: MyDatabaseOpenHelper
     get() = MyDatabaseOpenHelper.getInstance(applicationContext)
+
+val Fragment.database: MyDatabaseOpenHelper
+    get() = MyDatabaseOpenHelper.getInstance(activity!!)

@@ -98,6 +98,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="11sp"/>
                 <TextView
+                    android:id="@+id/totalClass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 Kelas"
@@ -132,6 +133,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="11sp"/>
                 <TextView
+                    android:id="@+id/totalStudent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 Murid"
@@ -165,6 +167,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="11sp"/>
                 <TextView
+                    android:id="@+id/totalCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 Kategori"
