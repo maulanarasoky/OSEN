@@ -138,17 +138,24 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
             }
 
             itemView.setOnClickListener {
+                var statusAbsent = ""
                 if(absentOfDay.isNotEmpty()){
                     attendanceStatus = absentOfDay[0].keterangan.toString()
                 }else{
                     attendanceStatus = "-"
                 }
+
+                if(absentOfDay.isEmpty()){
+                    statusAbsent = "Tidak Ada"
+                }else{
+                    statusAbsent = "Ada"
+                }
                 itemView.context.startActivity<EditStudent>(
                     EditStudent.data to student,
                     EditStudent.startDate to startDate,
                     EditStudent.endDate to endDate,
-                    EditStudent.attendanceStatus to attendanceStatus
-
+                    EditStudent.attendanceStatus to attendanceStatus,
+                    EditStudent.statusAbsent to statusAbsent
                 )
             }
 

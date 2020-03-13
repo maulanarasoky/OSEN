@@ -1,5 +1,6 @@
 package com.example.osen.activity
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,6 +36,9 @@ class EditStudent : AppCompatActivity() {
         const val startDate = "startDate"
         const val endDate = "endDate"
         const val attendanceStatus = "attendanceStatus"
+        const val statusAbsent = "statusAbsent"
+
+        const val REQUEST_CODE = 100
     }
 
     val list: MutableList<Absent> = mutableListOf()
@@ -49,8 +53,6 @@ class EditStudent : AppCompatActivity() {
     var totalIzin: Int? = 0
     var totalHadir: Int? = 0
 
-    var update = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_student)
@@ -61,8 +63,9 @@ class EditStudent : AppCompatActivity() {
         val parcel: Student? = intent.getParcelableExtra(data)
         val startDate: String? = intent.getStringExtra(startDate)
         val endDate: String? = intent.getStringExtra(endDate)
+        val status = intent.getStringExtra(statusAbsent)
 
-        if(currentDate < startDate.toString() || currentDate > endDate.toString()){
+        if(currentDate < startDate.toString() || currentDate > endDate.toString() || status == "Tidak Ada"){
             btnAbsent.visibility = View.GONE
             spinnerAbsent.visibility = View.GONE
         }
@@ -143,17 +146,18 @@ class EditStudent : AppCompatActivity() {
         }
 
         inputScore.setOnClickListener {
-            startActivity<InputScore>(
-                InputScore.data to parcel
-            )
+            val intent = Intent(this, InputScore::class.java)
+            startActivityForResult(intent, REQUEST_CODE)
         }
     }
 
-    override fun onResume() {
-        val parcel: Student? = intent.getParcelableExtra(data)
-        showScore(parcel?.id, parcel?.teacher_id)
-        countScore()
-        super.onResume()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_CODE){
+            val parcel: Student? = intent.getParcelableExtra(Companion.data)
+            showScore(parcel?.id, parcel?.teacher_id)
+            countScore()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

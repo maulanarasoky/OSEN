@@ -1,5 +1,6 @@
 package com.example.osen.activity
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -36,6 +37,8 @@ class ClassDetails : AppCompatActivity() {
 
     companion object{
         val data = "data"
+
+        const val REQUEST_CODE = 100
     }
 
     var listStudent: MutableList<Student> = mutableListOf()
@@ -115,13 +118,16 @@ class ClassDetails : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        showClass()
-        initUI()
-        showStudent()
-        adapter.notifyDataSetChanged()
-        studentList.adapter = adapter
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_CODE){
+            showClass()
+            initUI()
+//            showStudent()
+//            adapter.notifyDataSetChanged()
+//            studentList.adapter = adapter
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -136,9 +142,9 @@ class ClassDetails : AppCompatActivity() {
             }
             R.id.editClass -> {
                 val classroom: Classroom? = intent.getParcelableExtra(data)
-                startActivity<EditClass>(
-                    EditClass.data to classroom
-                )
+                val intent = Intent(this, EditClass::class.java)
+                intent.putExtra(EditClass.data, classroom)
+                startActivityForResult(intent, REQUEST_CODE)
             }
             R.id.deleteClass -> {
                 val temp = dataClass[0].name.toString()

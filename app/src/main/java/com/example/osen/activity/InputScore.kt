@@ -23,7 +23,16 @@ class InputScore : AppCompatActivity() {
         const val data = "data"
     }
 
-    private val scoreList: MutableList<Score> = mutableListOf()
+    var mUts: Int? = 0
+    var mPersentaseUts: Int? = 0
+    var mUas: Int? = 0
+    var mPersentaseUas: Int? = 0
+    var mAss1: Int? = 0
+    var mPersentaseAss1: Int? = 0
+    var mAss2: Int? = 0
+    var mPersentaseAss2: Int? = 0
+    var mAss3: Int? = 0
+    var mPersentaseAss3: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,20 +113,20 @@ class InputScore : AppCompatActivity() {
     private fun initData(student_id: Int?, teacher_id: String?){
         showScore(student_id, teacher_id)
 
-        uts.setText(scoreList[0].uts.toString(), TextView.BufferType.EDITABLE)
-        persentaseUts.setText(scoreList[0].persentaseUts.toString(), TextView.BufferType.EDITABLE)
+        uts.setText(mUts.toString(), TextView.BufferType.EDITABLE)
+        persentaseUts.setText(mPersentaseUts.toString(), TextView.BufferType.EDITABLE)
 
-        uas.setText(scoreList[0].uas.toString(), TextView.BufferType.EDITABLE)
-        persentaseUas.setText(scoreList[0].persentaseUas.toString(), TextView.BufferType.EDITABLE)
+        uas.setText(mUas.toString(), TextView.BufferType.EDITABLE)
+        persentaseUas.setText(mPersentaseUas.toString(), TextView.BufferType.EDITABLE)
 
-        ass1.setText(scoreList[0].assessment1.toString(), TextView.BufferType.EDITABLE)
-        persentaseAss1.setText(scoreList[0].persentaseAssessment1.toString(), TextView.BufferType.EDITABLE)
+        ass1.setText(mAss1.toString(), TextView.BufferType.EDITABLE)
+        persentaseAss1.setText(mPersentaseAss1.toString(), TextView.BufferType.EDITABLE)
 
-        ass2.setText(scoreList[0].assessment2.toString(), TextView.BufferType.EDITABLE)
-        persentaseAss2.setText(scoreList[0].persentaseAssessment2.toString(), TextView.BufferType.EDITABLE)
+        ass2.setText(mAss2.toString(), TextView.BufferType.EDITABLE)
+        persentaseAss2.setText(mPersentaseAss2.toString(), TextView.BufferType.EDITABLE)
 
-        ass3.setText(scoreList[0].assessment3.toString(), TextView.BufferType.EDITABLE)
-        persentaseAss3.setText(scoreList[0].persentaseAssessment3.toString(), TextView.BufferType.EDITABLE)
+        ass3.setText(mAss3.toString(), TextView.BufferType.EDITABLE)
+        persentaseAss3.setText(mPersentaseAss3.toString(), TextView.BufferType.EDITABLE)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -128,14 +137,21 @@ class InputScore : AppCompatActivity() {
     }
 
     private fun showScore(student_id: Int?, teacher_id: String?){
-        scoreList.clear()
         database.use {
             val result = select(Score.TABLE_SCORE).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) LIMIT 1", "student_id" to student_id.toString(), "teacher_id" to teacher_id.toString())
             val data = result.parseList(classParser<Score>())
             if(data.isNotEmpty()){
-                scoreList.addAll(data)
+                mUts = data[0].uts
+                mPersentaseUts = data[0].persentaseUts
+                mUas = data[0].uas
+                mPersentaseUas = data[0].persentaseUas
+                mAss1 = data[0].assessment1
+                mPersentaseAss1 = data[0].persentaseAssessment1
+                mAss2 = data[0].assessment2
+                mPersentaseAss2 = data[0].persentaseAssessment2
+                mAss3 = data[0].assessment3
+                mPersentaseAss3 = data[0].persentaseAssessment3
             }
-            Log.d("data", data.toString())
         }
     }
 
