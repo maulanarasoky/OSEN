@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen"
         tools:replace="android:icon">
-        <activity android:name=".activity.ExportImport"></activity>
+        <activity android:name=".activity.Export"></activity>
+        <activity android:name=".activity.ExportImport" />
         <activity android:name=".activity.ChangePassword" />
         <activity android:name=".activity.ForgotPassword" />
         <activity

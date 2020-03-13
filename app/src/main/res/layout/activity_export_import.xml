@@ -28,7 +28,7 @@
         android:textSize="26sp" />
 
     <LinearLayout
-        android:id="@+id/addClass"
+        android:id="@+id/linear1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/addData"
+        android:id="@+id/linear2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
