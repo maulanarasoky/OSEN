@@ -34,6 +34,7 @@ class EditStudent : AppCompatActivity() {
         const val data = "data"
         const val startDate = "startDate"
         const val endDate = "endDate"
+        const val attendanceStatus = "attendanceStatus"
     }
 
     val list: MutableList<Absent> = mutableListOf()
@@ -92,6 +93,9 @@ class EditStudent : AppCompatActivity() {
         ArrayAdapter.createFromResource(this, R.array.keterangan_hadir, R.layout.spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerAbsent.adapter = adapter
+
+            val selectPosition = adapter.getPosition(intent.getStringExtra(attendanceStatus))
+            spinnerAbsent.setSelection(selectPosition)
         }
 
         btnAbsent.setOnClickListener {
@@ -327,7 +331,10 @@ class EditStudent : AppCompatActivity() {
 
     private fun countPersentaseKehadiran(){
         val totalAbsen: Float? = totalAlfa?.plus(totalSakit!!)?.plus(totalIzin!!)?.plus(totalHadir!!)?.toFloat()
-        val persentase: Float? = totalHadir?.plus(totalIzin!!)?.div(totalAbsen!!)?.times(100)
+        var persentase: Float? = totalHadir?.plus(totalIzin!!)?.div(totalAbsen!!)?.times(100)
+        if(persentase.toString() == "NaN"){
+            persentase = 0F
+        }
         persentaseKehadiran.text = "Persentase Kehadiran $persentase%"
     }
 }
