@@ -1,14 +1,13 @@
 package com.example.osen.fragment
 
 
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 
 import com.example.osen.R
 import com.example.osen.activity.AddClassroom
-import com.example.osen.activity.AddData
+import com.example.osen.activity.AddStudent
 import kotlinx.android.synthetic.main.fragment_add.*
 import org.jetbrains.anko.support.v4.startActivity
 
@@ -33,7 +32,7 @@ class AddFragment : Fragment() {
         }
 
         addData.setOnClickListener{
-            startActivity<AddData>()
+            startActivity<AddStudent>()
         }
     }
 

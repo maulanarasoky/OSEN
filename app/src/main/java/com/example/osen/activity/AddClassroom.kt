@@ -448,7 +448,7 @@ class AddClassroom : AppCompatActivity() {
             "Bahasa Indonesia" -> image = R.drawable.ic_indonesia
             "Bahasa Inggris" -> image = R.drawable.ic_english
             "IPA" -> image = R.drawable.ic_science
-            "Matematika" -> image = R.drawable.ic_class
+            "Matematika" -> image = R.drawable.ic_math
             "Pemrograman" -> image = R.drawable.ic_programming
         }
 

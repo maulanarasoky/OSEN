@@ -19,7 +19,7 @@ import com.example.osen.model.AbsentOfDay
 import com.example.osen.model.Score
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import kotlinx.android.synthetic.main.activity_edit_data.*
+import kotlinx.android.synthetic.main.activity_edit_student.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
@@ -28,11 +28,10 @@ import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EditData : AppCompatActivity() {
+class EditStudent : AppCompatActivity() {
 
     companion object{
         const val data = "data"
-        const val image = "image"
         const val startDate = "startDate"
         const val endDate = "endDate"
     }
@@ -53,7 +52,7 @@ class EditData : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_data)
+        setContentView(R.layout.activity_edit_student)
 
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = sdf.format(Date())
@@ -84,7 +83,7 @@ class EditData : AppCompatActivity() {
         showScore(parcel?.id, parcel?.teacher_id)
         countScore()
 
-        Glide.with(this).load(resources.getDrawable(intent?.getStringExtra(image)!!.toInt())).apply(
+        Glide.with(this).load(resources.getDrawable(R.drawable.ic_student)).apply(
             RequestOptions.overrideOf(500,500)).into(classImage)
 
         initAbsentData()

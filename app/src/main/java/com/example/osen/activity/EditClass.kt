@@ -422,7 +422,7 @@ class EditClass : AppCompatActivity() {
                         category = classCategory.selectedItem.toString()
                     }
                 }
-                var image = R.drawable.ic_class
+                var image = R.drawable.ic_blackboard
                 when(category){
                     "Bahasa Indonesia" -> image = R.drawable.ic_indonesia
                     "Bahasa Inggris" -> image = R.drawable.ic_english

@@ -1,7 +1,5 @@
 package com.example.osen.adapter
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,8 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
-import com.example.osen.activity.ClassDetails
-import com.example.osen.activity.EditData
+import com.example.osen.activity.EditStudent
 import com.example.osen.database.database
 import com.example.osen.model.Absent
 import com.example.osen.model.AbsentOfDay
@@ -22,7 +19,6 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.student_list.*
 import org.jetbrains.anko.db.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -141,11 +137,10 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
             }
 
             itemView.setOnClickListener {
-                itemView.context.startActivity<EditData>(
-                    EditData.data to student,
-                    EditData.image to image,
-                    EditData.startDate to startDate,
-                    EditData.endDate to endDate
+                itemView.context.startActivity<EditStudent>(
+                    EditStudent.data to student,
+                    EditStudent.startDate to startDate,
+                    EditStudent.endDate to endDate
 
                 )
             }

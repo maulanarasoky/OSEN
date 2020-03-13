@@ -4,6 +4,6 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:fontFamily="@font/firasans"
+    android:layout_weight="1.0"
     android:textColor="@color/actionBarColor"
-    android:textStyle="bold"
-    android:textSize="20sp" />
+    android:textSize="16sp" />

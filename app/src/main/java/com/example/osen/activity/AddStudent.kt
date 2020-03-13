@@ -15,12 +15,12 @@ import com.example.osen.model.Classroom
 import com.example.osen.model.Score
 import com.example.osen.model.Student
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_add_data.*
+import kotlinx.android.synthetic.main.activity_add_student.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
-class AddData : AppCompatActivity() {
+class AddStudent : AppCompatActivity() {
 
     lateinit var studentName : EditText
     lateinit var className : Spinner
@@ -32,7 +32,7 @@ class AddData : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_data)
+        setContentView(R.layout.activity_add_student)
 
         auth = FirebaseAuth.getInstance()
 
@@ -64,7 +64,7 @@ class AddData : AppCompatActivity() {
             }
             dialog.show()
         }else{
-            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, listClass)
+            val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, listClass)
             className.adapter = adapter
         }
 

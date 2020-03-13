@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.AddFragment">
+    tools:context=".activity.ExportImport">
 
     <androidx.appcompat.widget.Toolbar
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="@id/toolBar"
         app:layout_constraintEnd_toEndOf="@id/toolBar"
         app:layout_constraintBottom_toBottomOf="@id/toolBar"
-        android:text="T A M B A H"
+        android:text="EXPORT / IMPORT"
         android:textColor="@android:color/white"
         android:textSize="26sp" />
 
@@ -44,11 +44,11 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_blackboard" />
+            android:src="@drawable/ic_export" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kelas"
+            android:text="Export"
             android:textSize="20dp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
@@ -72,11 +72,11 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_student" />
+            android:src="@drawable/ic_import" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Murid"
+            android:text="Import"
             android:textSize="20dp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
