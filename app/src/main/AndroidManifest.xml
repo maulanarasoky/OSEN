@@ -14,7 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen"
         tools:replace="android:icon">
-        <activity android:name=".activity.Import"></activity>
+        <activity android:name=".activity.Restore"></activity>
+        <activity android:name=".activity.BackupRestore" />
+        <activity android:name=".activity.Backup" />
+        <activity android:name=".activity.Import" />
         <activity android:name=".activity.Export" />
         <activity android:name=".activity.ExportImport" />
         <activity android:name=".activity.ChangePassword" />
@@ -52,12 +55,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
-            android:authorities="com.example.osen.fileprovider"
             android:name="androidx.core.content.FileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+            android:authorities="com.example.osen.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>

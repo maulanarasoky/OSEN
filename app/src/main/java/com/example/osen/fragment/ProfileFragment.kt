@@ -7,6 +7,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bumptech.glide.Glide
 
 import com.example.osen.R
+import com.example.osen.activity.BackupRestore
 import com.example.osen.activity.ChangePassword
 import com.example.osen.activity.ExportImport
 import com.example.osen.activity.Login
@@ -68,6 +69,10 @@ class ProfileFragment : Fragment() {
 
         linear3.setOnClickListener {
             startActivity<ExportImport>()
+        }
+
+        linear4.setOnClickListener {
+            startActivity<BackupRestore>()
         }
 
         linear5.setOnClickListener {
