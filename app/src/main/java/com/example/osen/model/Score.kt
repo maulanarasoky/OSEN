@@ -13,6 +13,7 @@ data class Score(
     val persentaseAssessment2: Int?,
     val assessment3: Int?,
     val persentaseAssessment3: Int?,
+    val className: String?,
     val teacherId: String?
 ) {
     companion object{
@@ -29,6 +30,7 @@ data class Score(
         const val PERSENTASE_ASSESSMENT_2 = "PERSENTASE_ASSESSMENT_2"
         const val ASSESSMENT_3 = "ASSESSMENT_3"
         const val PERSENTASE_ASSESSMENT_3 = "PERSENTASE_ASSESSMENT_3"
+        const val CLASS_NAME = "CLASS"
         const val TEACHER_ID = "TEACHER_ID"
     }
 }

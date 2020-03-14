@@ -20,10 +20,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.osen.R
 import com.example.osen.adapter.StudentList
 import com.example.osen.database.database
-import com.example.osen.model.Absent
-import com.example.osen.model.AbsentOfDay
-import com.example.osen.model.Classroom
-import com.example.osen.model.Student
+import com.example.osen.model.*
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_class_details.*
@@ -123,9 +120,6 @@ class ClassDetails : AppCompatActivity() {
         if(requestCode == REQUEST_CODE){
             showClass()
             initUI()
-//            showStudent()
-//            adapter.notifyDataSetChanged()
-//            studentList.adapter = adapter
         }
 
     }
@@ -157,9 +151,10 @@ class ClassDetails : AppCompatActivity() {
                 dialogWarningDelete.setConfirmClickListener {
                     database.use {
                         val queryDeleteClass = delete(Classroom.TABLE_CLASSROOM, "(ID_ = {class_id})", "class_id" to dataClass[0].id.toString())
-                        val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
+                        delete(Student.TABLE_STUDENT, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
                         delete(Absent.TABLE_ABSENT, "(CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
                         delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to dataClass[0].name.toString(), "teacher_id" to dataClass[0].teacher_id.toString())
+                        delete(Score.TABLE_SCORE, "(CLASS = {class_name})", "class_name" to dataClass[0].name.toString())
                         if(queryDeleteClass > 0){
                             dialogWarningDelete.titleText = "Berhasil Menghapus $temp"
                             dialogWarningDelete.confirmText = "OK"

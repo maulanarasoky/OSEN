@@ -84,6 +84,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Score.PERSENTASE_ASSESSMENT_2 to INTEGER,
             Score.ASSESSMENT_3 to INTEGER,
             Score.PERSENTASE_ASSESSMENT_3 to INTEGER,
+            Score.CLASS_NAME to TEXT,
             Score.TEACHER_ID to TEXT)
     }
 

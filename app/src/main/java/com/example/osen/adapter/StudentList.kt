@@ -14,6 +14,7 @@ import com.example.osen.activity.EditStudent
 import com.example.osen.database.database
 import com.example.osen.model.Absent
 import com.example.osen.model.AbsentOfDay
+import com.example.osen.model.Score
 import com.example.osen.model.Student
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.student_list.*
@@ -176,6 +177,7 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
                 itemView.context.database.use {
                     delete(Absent.TABLE_ABSENT, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
                     delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
+                    delete(Score.TABLE_SCORE, "(STUDENT_ID = {student_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString() ,"class_name" to student.className.toString())
                     val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(ID_ = {student_id}) AND (CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "class_name" to student.className.toString(), "teacher_id" to student.teacher_id.toString())
                     if(queryDeleteStudent > 0){
                         delete(position)

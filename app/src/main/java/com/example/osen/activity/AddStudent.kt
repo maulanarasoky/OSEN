@@ -121,6 +121,7 @@ class AddStudent : AppCompatActivity() {
                     Score.PERSENTASE_ASSESSMENT_2 to 0,
                     Score.ASSESSMENT_3 to 0,
                     Score.PERSENTASE_ASSESSMENT_3 to 0,
+                    Score.CLASS_NAME to listStudent[0].className,
                     Score.TEACHER_ID to listStudent[0].teacher_id)
             }
             clear()
