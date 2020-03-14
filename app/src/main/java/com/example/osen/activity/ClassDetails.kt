@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,8 +24,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_class_details.*
 import org.jetbrains.anko.db.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,7 +32,7 @@ class ClassDetails : AppCompatActivity() {
     companion object{
         val data = "data"
 
-        const val REQUEST_CODE = 100
+        const val REQUEST_CODE_EDIT = 100
     }
 
     var listStudent: MutableList<Student> = mutableListOf()
@@ -120,11 +117,13 @@ class ClassDetails : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REQUEST_CODE){
+        if(requestCode == REQUEST_CODE_EDIT){
             showClass()
             initUI()
+        }else if(requestCode == EditStudent.REQUEST_CODE_ABSENT){
+            adapter.notifyDataSetChanged()
+            studentList.adapter = adapter
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -141,7 +140,7 @@ class ClassDetails : AppCompatActivity() {
                 val classroom: Classroom? = intent.getParcelableExtra(data)
                 val intent = Intent(this, EditClass::class.java)
                 intent.putExtra(EditClass.data, classroom)
-                startActivityForResult(intent, REQUEST_CODE)
+                startActivityForResult(intent, REQUEST_CODE_EDIT)
             }
             R.id.deleteClass -> {
                 val temp = dataClass[0].name.toString()
@@ -257,7 +256,7 @@ class ClassDetails : AppCompatActivity() {
 
         studentList = findViewById(R.id.recyclerView)
 
-        adapter = StudentList(listStudent, dataClass[0].startDate.toString(), dataClass[0].endDate.toString(), dataClass[0].image.toString())
+        adapter = StudentList(this, listStudent, dataClass[0].startDate.toString(), dataClass[0].endDate.toString(), dataClass[0].image.toString())
     }
 
     private fun showStudent(){

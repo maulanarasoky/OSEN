@@ -1,5 +1,7 @@
 package com.example.osen.adapter
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,7 +25,7 @@ import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StudentList(private val studentItems: MutableList<Student>, private val startDate: String, private val endDate: String, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
+class StudentList(private val activity: Activity, private val studentItems: MutableList<Student>, private val startDate: String, private val endDate: String, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
 
     fun delete(position: Int){
         studentItems.removeAt(position)
@@ -39,7 +41,7 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
     override fun getItemCount() = studentItems.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItem(studentItems[position], startDate, endDate, image, position)
+        holder.bindItem(activity, studentItems[position], startDate, endDate, image, position)
     }
 
     inner class ViewHolder(override val containerView : View) : RecyclerView.ViewHolder(containerView),
@@ -53,7 +55,7 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
         val absentOfDay: MutableList<AbsentOfDay> = mutableListOf()
 
 
-        fun bindItem(student: Student, startDate: String, endDate: String, image:String, position: Int) {
+        fun bindItem(activity: Activity, student: Student, startDate: String, endDate: String, image:String, position: Int) {
 
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val currentDate = sdf.format(Date())
@@ -151,13 +153,13 @@ class StudentList(private val studentItems: MutableList<Student>, private val st
                 }else{
                     statusAbsent = "Ada"
                 }
-                itemView.context.startActivity<EditStudent>(
-                    EditStudent.data to student,
-                    EditStudent.startDate to startDate,
-                    EditStudent.endDate to endDate,
-                    EditStudent.attendanceStatus to attendanceStatus,
-                    EditStudent.statusAbsent to statusAbsent
-                )
+                val intent = Intent(activity, EditStudent::class.java)
+                intent.putExtra(EditStudent.data, student)
+                intent.putExtra(EditStudent.startDate, startDate)
+                intent.putExtra(EditStudent.endDate, endDate)
+                intent.putExtra(EditStudent.attendanceStatus, attendanceStatus)
+                intent.putExtra(EditStudent.statusAbsent, statusAbsent)
+                activity.startActivityForResult(intent, EditStudent.REQUEST_CODE_ABSENT)
             }
 
             deleteStudent.setOnClickListener {

@@ -25,7 +25,6 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.update
-import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,7 +37,9 @@ class EditStudent : AppCompatActivity() {
         const val attendanceStatus = "attendanceStatus"
         const val statusAbsent = "statusAbsent"
 
-        const val REQUEST_CODE = 100
+        const val REQUEST_CODE_SCORE = 100
+
+        const val REQUEST_CODE_ABSENT = 101
     }
 
     val list: MutableList<Absent> = mutableListOf()
@@ -147,13 +148,13 @@ class EditStudent : AppCompatActivity() {
 
         inputScore.setOnClickListener {
             val intent = Intent(this, InputScore::class.java)
-            startActivityForResult(intent, REQUEST_CODE)
+            startActivityForResult(intent, REQUEST_CODE_SCORE)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REQUEST_CODE){
+        if(requestCode == REQUEST_CODE_SCORE){
             val parcel: Student? = intent.getParcelableExtra(Companion.data)
             showScore(parcel?.id, parcel?.teacher_id)
             countScore()
