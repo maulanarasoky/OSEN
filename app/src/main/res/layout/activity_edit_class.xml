@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:fontFamily="@font/nexabold"
-            android:text="E D I T  K E L A S"
+            android:text="K E L A S"
             android:textColor="@android:color/white"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="@id/toolBar"
@@ -58,13 +58,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Nama"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/className"
@@ -75,7 +75,7 @@
                         android:inputType="textMultiLine"
                         android:maxLines="2"
                         android:layout_weight="1"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </TableRow>
 
                 <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
@@ -86,13 +86,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Jenis"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/classType"
@@ -112,13 +112,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Kategori"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/classCategory"
@@ -134,19 +134,17 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin">
 
                     <TextView
+                        android:layout_width="105dp"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/newCategory"
@@ -157,7 +155,7 @@
                         android:inputType="textMultiLine"
                         android:maxLines="2"
                         android:layout_weight="1"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </TableRow>
 
                 <TableRow android:layout_marginTop="24sp">
@@ -165,7 +163,7 @@
                         android:text="Tanggal :"
                         android:textColor="@android:color/black"
                         android:fontFamily="@font/firasans"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
                 </TableRow>
 
@@ -177,13 +175,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Mulai"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Button
                         android:id="@+id/classStart"
@@ -196,7 +194,7 @@
                         android:text="Pilih"
                         android:layout_weight="1.0"
                         android:textColor="@color/actionBarColor"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </TableRow>
 
                 <TableRow>
@@ -207,13 +205,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Berakhir"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Button
                         android:gravity="start"
@@ -226,7 +224,7 @@
                         android:padding="8dp"
                         android:text="Pilih"
                         android:textColor="@color/actionBarColor"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </TableRow>
 
                 <TableRow android:layout_marginTop="24sp">
@@ -234,7 +232,7 @@
                         android:text="Jam :"
                         android:textColor="@android:color/black"
                         android:fontFamily="@font/firasans"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
                 </TableRow>
 
@@ -246,13 +244,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Mulai"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Button
                         android:gravity="start"
@@ -265,7 +263,7 @@
                         android:padding="8dp"
                         android:text="Pilih"
                         android:textColor="@color/actionBarColor"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </TableRow>
 
                 <TableRow>
@@ -276,13 +274,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Berakhir"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Button
                         android:gravity="start"
@@ -295,7 +293,7 @@
                         android:padding="8dp"
                         android:text="Pilih"
                         android:textColor="@color/actionBarColor"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </TableRow>
 
                 <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
@@ -306,13 +304,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Hari - 1"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/firstDay"
@@ -333,13 +331,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Hari - 2"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/secondDay"
@@ -360,13 +358,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Hari - 3"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/thirdDay"
@@ -387,13 +385,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Hari - 4"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/fourthDay"
@@ -414,13 +412,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Hari - 5"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/fifthDay"
@@ -441,13 +439,13 @@
                         android:fontFamily="@font/firasans"
                         android:text="Hari - 6"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:fontFamily="@font/firasans"
                         android:text=" : "
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/sixthDay"
@@ -468,7 +466,7 @@
                         android:drawablePadding="4dp"
                         android:drawableStart="@drawable/ic_add_day"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </TableRow>
 
             </TableLayout>
@@ -485,10 +483,10 @@
             android:fontFamily="@font/firasans"
             android:padding="@dimen/activity_vertical_margin"
             android:text="Ubah Kelas"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/background" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

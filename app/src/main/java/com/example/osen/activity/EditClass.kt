@@ -233,6 +233,7 @@ class EditClass : AppCompatActivity() {
         }
         categories.add("Tidak ada pilihan")
         val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         classCategory.adapter = adapter
 
         val categoryPosition = adapter.getPosition(currentCategory)
@@ -377,14 +378,17 @@ class EditClass : AppCompatActivity() {
                 dialog.setCancelable(false)
                 dialog.show()
             }else{
-                checkClass(className.text.toString())
-                if(classExist){
-                    val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                    dialog.titleText = "Nama Kelas Sudah Terpakai"
-                    dialog.setCancelable(false)
-                    dialog.show()
-                    return
+                val classroom: Classroom? = intent.getParcelableExtra(data)
+                if (className.text.toString() != classroom?.name.toString()){
+                    checkClass(className.text.toString())
+                    if(classExist){
+                        val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+                        dialog.titleText = "Nama Kelas Sudah Terpakai"
+                        dialog.setCancelable(false)
+                        dialog.show()
+                        return
+                    }
                 }
                 var day = ""
                 when(count){
@@ -412,7 +416,6 @@ class EditClass : AppCompatActivity() {
 
                     }
                 }
-                val classroom: Classroom? = intent.getParcelableExtra(data)
                 val name = className.text.toString()
                 var category: String = ""
                 if(rowOldCategory.visibility == View.VISIBLE){
@@ -422,12 +425,12 @@ class EditClass : AppCompatActivity() {
                         category = classCategory.selectedItem.toString()
                     }
                 }
-                var image = R.drawable.ic_blackboard
+                var image = R.drawable.ic_class
                 when(category){
                     "Bahasa Indonesia" -> image = R.drawable.ic_indonesia
                     "Bahasa Inggris" -> image = R.drawable.ic_english
                     "IPA" -> image = R.drawable.ic_science
-                    "Matematika" -> image = R.drawable.ic_class
+                    "Matematika" -> image = R.drawable.ic_math
                     "Pemrograman" -> image = R.drawable.ic_programming
                 }
                 checkAvailableCategory(category)
