@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.model.*
 import com.google.firebase.auth.FirebaseAuth
@@ -34,28 +35,82 @@ class Export : AppCompatActivity() {
         teacher_id = auth.currentUser?.uid.toString()
 
         exportClass.setOnClickListener {
-            val fileName = "Osen_Classes.json"
-            export(this, Classroom.TABLE_CLASSROOM, fileName)
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.setCancelable(false)
+            dialog.showCancelButton(true)
+            dialog.cancelText = "Batal"
+            dialog.confirmText = "Export"
+            dialog.titleText = "Export data kelas ?"
+            dialog.setConfirmClickListener {
+                val fileName = "Osen_Classes.json"
+                export(this, Classroom.TABLE_CLASSROOM, fileName)
+                dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                dialog.dismissWithAnimation()
+            }
+            dialog.show()
         }
 
         exportStudent.setOnClickListener {
-            val fileName = "Osen_Students.json"
-            export(this, Student.TABLE_STUDENT, fileName)
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.setCancelable(false)
+            dialog.showCancelButton(true)
+            dialog.cancelText = "Batal"
+            dialog.confirmText = "Export"
+            dialog.titleText = "Export data murid ?"
+            dialog.setConfirmClickListener {
+                val fileName = "Osen_Students.json"
+                export(this, Student.TABLE_STUDENT, fileName)
+                dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                dialog.dismissWithAnimation()
+            }
+            dialog.show()
         }
 
         exportAbsent.setOnClickListener {
-            val fileName = "Osen_Absents.json"
-            export(this, Absent.TABLE_ABSENT, fileName)
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.setCancelable(false)
+            dialog.showCancelButton(true)
+            dialog.cancelText = "Batal"
+            dialog.confirmText = "Export"
+            dialog.titleText = "Export data absen ?"
+            dialog.setConfirmClickListener {
+                val fileName = "Osen_Absents.json"
+                export(this, Absent.TABLE_ABSENT, fileName)
+                dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                dialog.dismissWithAnimation()
+            }
+            dialog.show()
         }
 
-        exportScore.setOnClickListener {
-            val fileName = "Osen_Scores.json"
-            export(this, Score.TABLE_SCORE, fileName)
+        exportScore.setOnClickListener {val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.setCancelable(false)
+            dialog.showCancelButton(true)
+            dialog.cancelText = "Batal"
+            dialog.confirmText = "Export"
+            dialog.titleText = "Export data nilai ?"
+            dialog.setConfirmClickListener {
+                val fileName = "Osen_Scores.json"
+                export(this, Score.TABLE_SCORE, fileName)
+                dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                dialog.dismissWithAnimation()
+            }
+            dialog.show()
         }
 
         exportCategories.setOnClickListener {
-            val fileName = "Osen_Categories.json"
-            export(this, Category.TABLE_CATEGORY, fileName)
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            dialog.setCancelable(false)
+            dialog.showCancelButton(true)
+            dialog.cancelText = "Batal"
+            dialog.confirmText = "Export"
+            dialog.titleText = "Export data kategori ?"
+            dialog.setConfirmClickListener {
+                val fileName = "Osen_Categories.json"
+                export(this, Category.TABLE_CATEGORY, fileName)
+                dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                dialog.dismissWithAnimation()
+            }
+            dialog.show()
         }
     }
 

@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.*
@@ -61,102 +62,188 @@ class Import : AppCompatActivity() {
             val selectedFile: Uri? = data.data;
             val file = File(selectedFile?.path.toString())
             Log.d("FILE DIR", selectedFile.toString())
-            if(requestCode == REQUEST_CLASS){
-                textImportClass.text = file.name
-                textImportClass.textSize = 10f
-                importClasses.setOnClickListener {
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            toast("Permission Denied").show()
-                        } else {
-                            ActivityCompat.requestPermissions(this,
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                0)
-                        }
-                    }else{
-                        if (selectedFile != null) {
-                            importClasses(selectedFile)
-                        }
-                    }
-                }
-            }else if (requestCode == REQUEST_STUDENT){
-                textImportStudent.text = file.name
-                textImportStudent.textSize = 10f
-
-                importStudents.setOnClickListener {
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            toast("Permission Denied").show()
-                        } else {
-                            ActivityCompat.requestPermissions(this,
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                0)
-                        }
-                    }else{
-                        if (selectedFile != null) {
-                            importStudent(selectedFile)
+            when (requestCode) {
+                REQUEST_CLASS -> {
+                    textImportClass.text = file.name
+                    textImportClass.textSize = 10f
+                    importClasses.setOnClickListener {
+                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                toast("Permission Denied").show()
+                            } else {
+                                ActivityCompat.requestPermissions(this,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    0)
+                            }
+                        }else{
+                            if (selectedFile != null) {
+                                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                dialog.setCancelable(false)
+                                dialog.showCancelButton(true)
+                                dialog.cancelText = "Batal"
+                                dialog.confirmText = "Import"
+                                dialog.titleText = "Import data kelas ?"
+                                dialog.setConfirmClickListener {
+                                    importClasses(selectedFile)
+                                    dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                    dialog.showCancelButton(false)
+                                    dialog.confirmText = "Ok"
+                                    dialog.titleText = "Berhasil import data kelas"
+                                    dialog.setConfirmClickListener {
+                                        dialog.dismissWithAnimation()
+                                    }
+                                }
+                                dialog.show()
+                            }
                         }
                     }
                 }
-            }else if (requestCode == REQUEST_ABSENT){
-                textImportAbsent.text = file.name
-                textImportAbsent.textSize = 10f
+                REQUEST_STUDENT -> {
+                    textImportStudent.text = file.name
+                    textImportStudent.textSize = 10f
 
-                importAbsents.setOnClickListener {
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            toast("Permission Denied").show()
-                        } else {
-                            ActivityCompat.requestPermissions(this,
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                0)
-                        }
-                    }else{
-                        if (selectedFile != null) {
-                            importAbsents(selectedFile)
+                    importStudents.setOnClickListener {
+                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                toast("Permission Denied").show()
+                            } else {
+                                ActivityCompat.requestPermissions(this,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    0)
+                            }
+                        }else{
+                            if (selectedFile != null) {
+                                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                dialog.setCancelable(false)
+                                dialog.showCancelButton(true)
+                                dialog.cancelText = "Batal"
+                                dialog.confirmText = "Import"
+                                dialog.titleText = "Import data murid ?"
+                                dialog.setConfirmClickListener {
+                                    importStudent(selectedFile)
+                                    dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                    dialog.showCancelButton(false)
+                                    dialog.titleText = "Berhasil import data murid"
+                                    dialog.confirmText = "Ok"
+                                    dialog.setConfirmClickListener {
+                                        dialog.dismissWithAnimation()
+                                    }
+                                }
+                                dialog.show()
+                            }
                         }
                     }
                 }
-            }else if(requestCode == REQUEST_SCORE){
-                textImportScore.text = file.name
-                textImportScore.textSize = 10f
+                REQUEST_ABSENT -> {
+                    textImportAbsent.text = file.name
+                    textImportAbsent.textSize = 10f
 
-                importScores.setOnClickListener {
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            toast("Permission Denied").show()
-                        } else {
-                            ActivityCompat.requestPermissions(this,
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                0)
-                        }
-                    }else{
-                        if (selectedFile != null) {
-                            importScores(selectedFile)
+                    importAbsents.setOnClickListener {
+                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                toast("Permission Denied").show()
+                            } else {
+                                ActivityCompat.requestPermissions(this,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    0)
+                            }
+                        }else{
+                            if (selectedFile != null) {
+                                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                dialog.setCancelable(false)
+                                dialog.showCancelButton(true)
+                                dialog.cancelText = "Batal"
+                                dialog.confirmText = "Import"
+                                dialog.titleText = "Import data absen ?"
+                                dialog.setConfirmClickListener {
+                                    importAbsents(selectedFile)
+                                    dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                    dialog.showCancelButton(false)
+                                    dialog.confirmText = "Ok"
+                                    dialog.titleText = "Berhasil import data absen"
+                                    dialog.setConfirmClickListener {
+                                        dialog.dismissWithAnimation()
+                                    }
+                                }
+                                dialog.show()
+                            }
                         }
                     }
                 }
-            }else if (requestCode == REQUEST_CATEGORY){
-                textImportCategory.text = file.name
-                textImportCategory.textSize = 10f
+                REQUEST_SCORE -> {
+                    textImportScore.text = file.name
+                    textImportScore.textSize = 10f
 
-                importCategories.setOnClickListener {
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            toast("Permission Denied").show()
-                        } else {
-                            ActivityCompat.requestPermissions(this,
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                0)
+                    importScores.setOnClickListener {
+                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                toast("Permission Denied").show()
+                            } else {
+                                ActivityCompat.requestPermissions(this,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    0)
+                            }
+                        }else{
+                            if (selectedFile != null) {
+                                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                dialog.setCancelable(false)
+                                dialog.showCancelButton(true)
+                                dialog.cancelText = "Batal"
+                                dialog.confirmText = "Import"
+                                dialog.titleText = "Import data nilai ?"
+                                dialog.setConfirmClickListener {
+                                    importScores(selectedFile)
+                                    dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                    dialog.confirmText = "Ok"
+                                    dialog.titleText = "Berhasil import data nilai"
+                                    dialog.showCancelButton(false)
+                                    dialog.setConfirmClickListener {
+                                        dialog.dismissWithAnimation()
+                                    }
+                                }
+                                dialog.show()
+                            }
                         }
-                    }else{
-                        if (selectedFile != null) {
-                            importCategories(selectedFile)
+                    }
+                }
+                REQUEST_CATEGORY -> {
+                    textImportCategory.text = file.name
+                    textImportCategory.textSize = 10f
+
+                    importCategories.setOnClickListener {
+                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                toast("Permission Denied").show()
+                            } else {
+                                ActivityCompat.requestPermissions(this,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    0)
+                            }
+                        }else{
+                            if (selectedFile != null) {
+                                val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                dialog.setCancelable(false)
+                                dialog.showCancelButton(true)
+                                dialog.cancelText = "Batal"
+                                dialog.confirmText = "Import"
+                                dialog.titleText = "Import data kategori ?"
+                                dialog.setConfirmClickListener {
+                                    importCategories(selectedFile)
+                                    dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                                    dialog.showCancelButton(false)
+                                    dialog.confirmText = "Ok"
+                                    dialog.titleText = "Berhasil import data kategori"
+                                    dialog.setConfirmClickListener {
+                                        dialog.dismissWithAnimation()
+                                    }
+                                }
+                                dialog.show()
+                            }
                         }
                     }
                 }
