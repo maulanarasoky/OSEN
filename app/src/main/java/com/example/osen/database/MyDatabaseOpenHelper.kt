@@ -23,7 +23,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
     override fun onCreate(db: SQLiteDatabase?) {
         db?.createTable(
             Classroom.TABLE_CLASSROOM, true,
-            Classroom.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            Classroom.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Classroom.IMAGE to TEXT,
             Classroom.NAME to TEXT,
             Classroom.TYPE to TEXT,
@@ -37,7 +37,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
 
         db?.createTable(
             Student.TABLE_STUDENT, true,
-            Student.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            Student.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Student.NAME to TEXT,
             Student.CLASS_NAME to TEXT,
             Student.GENDER to TEXT,
@@ -46,7 +46,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
 
         db?.createTable(
             Category.TABLE_CATEGORY, true,
-            Category.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+            Category.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Category.NAME to TEXT,
             Category.TEACHER_ID to TEXT)
 

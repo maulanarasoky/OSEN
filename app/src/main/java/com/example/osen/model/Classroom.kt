@@ -19,7 +19,7 @@ class Classroom (
     ): Parcelable{
     companion object{
         const val TABLE_CLASSROOM: String = "CLASSROOM"
-        const val ID: String = "ID_"
+        const val ID_: String = "ID_"
         const val IMAGE: String = "IMAGE"
         const val NAME: String = "NAME"
         const val TYPE: String = "TYPE"

@@ -7,7 +7,7 @@ class Category (
 ){
     companion object{
         const val TABLE_CATEGORY: String = "CATEGORY"
-        const val ID: String = "ID_"
+        const val ID_: String = "ID_"
         const val NAME: String = "NAME"
         const val TEACHER_ID: String = "TEACHER_ID"
     }

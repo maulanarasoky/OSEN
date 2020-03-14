@@ -57,8 +57,10 @@
                 android:src="@drawable/ic_class"
                 android:scaleType="centerCrop"/>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/textImportClass"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/firasans"
                 android:textColor="@android:color/black"
@@ -67,7 +69,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/exportClass"
+            android:id="@+id/importClasses"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"
@@ -94,8 +96,10 @@
                 android:src="@drawable/ic_student"
                 android:scaleType="centerCrop"/>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/textImportStudent"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/firasans"
                 android:textColor="@android:color/black"
@@ -104,7 +108,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/exportStudent"
+            android:id="@+id/importStudents"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"
@@ -120,7 +124,7 @@
             android:layout_height="120dp"
             android:gravity="center"
             android:background="@drawable/background_data_profile"
-            app:layout_constraintTop_toBottomOf="@id/exportClass"
+            app:layout_constraintTop_toBottomOf="@id/importClasses"
             android:layout_marginTop="32dp"
             android:layout_marginStart="48dp"
             android:orientation="vertical"
@@ -128,11 +132,13 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_class"
+                android:src="@drawable/ic_absent"
                 android:scaleType="centerCrop"/>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/textImportAbsent"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/firasans"
                 android:textColor="@android:color/black"
@@ -141,7 +147,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/exportAbsent"
+            android:id="@+id/importAbsents"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"
@@ -157,7 +163,7 @@
             android:layout_height="120dp"
             android:gravity="center"
             android:background="@drawable/background_data_profile"
-            app:layout_constraintTop_toBottomOf="@id/exportStudent"
+            app:layout_constraintTop_toBottomOf="@id/importStudents"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="48dp"
             android:orientation="vertical"
@@ -165,11 +171,13 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_student"
+                android:src="@drawable/ic_score"
                 android:scaleType="centerCrop"/>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/textImportScore"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/firasans"
                 android:textColor="@android:color/black"
@@ -178,7 +186,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/exportScore"
+            android:id="@+id/importScores"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"
@@ -194,19 +202,21 @@
             android:layout_height="120dp"
             android:gravity="center"
             android:background="@drawable/background_data_profile"
-            app:layout_constraintStart_toEndOf="@id/exportAbsent"
-            app:layout_constraintTop_toBottomOf="@id/exportScore"
+            app:layout_constraintStart_toEndOf="@id/importAbsents"
+            app:layout_constraintTop_toBottomOf="@id/importScores"
             android:layout_marginTop="32dp"
             android:orientation="vertical"
-            app:layout_constraintEnd_toStartOf="@id/exportScore">
+            app:layout_constraintEnd_toStartOf="@id/importScores">
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_category"
                 android:scaleType="centerCrop"/>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/textImportCategory"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:gravity="center"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/firasans"
                 android:textColor="@android:color/black"
@@ -215,7 +225,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/exportCategories"
+            android:id="@+id/importCategories"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"

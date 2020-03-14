@@ -14,7 +14,7 @@ class Student (
 ): Parcelable{
     companion object{
         const val TABLE_STUDENT: String = "STUDENT"
-        const val ID: String = "ID_"
+        const val ID_: String = "ID_"
         const val NAME = "NAME"
         const val CLASS_NAME = "CLASS"
         const val GENDER = "GENDER"

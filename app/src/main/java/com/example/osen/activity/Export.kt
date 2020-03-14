@@ -34,39 +34,34 @@ class Export : AppCompatActivity() {
         teacher_id = auth.currentUser?.uid.toString()
 
         exportClass.setOnClickListener {
-            val searchQuery = "SELECT  NAME, TYPE, CATEGORY, START_DATE, END_DATE, START_TIME, END_TIME, DAY FROM ${Classroom.TABLE_CLASSROOM} WHERE TEACHER_ID = '$teacher_id'"
             val fileName = "Osen_Classes.json"
-            export(this, searchQuery, fileName)
+            export(this, Classroom.TABLE_CLASSROOM, fileName)
         }
 
         exportStudent.setOnClickListener {
-            val searchQuery = "SELECT  ID_, NAME, CLASS, GENDER, SCORE FROM ${Student.TABLE_STUDENT} WHERE TEACHER_ID = '$teacher_id'"
             val fileName = "Osen_Students.json"
-            export(this, searchQuery, fileName)
+            export(this, Student.TABLE_STUDENT, fileName)
         }
 
         exportAbsent.setOnClickListener {
-            val searchQuery = "SELECT  STUDENT_ID, HADIR, IZIN, SAKIT, ALFA, CLASS FROM ${Absent.TABLE_ABSENT} WHERE TEACHER_ID = '$teacher_id'"
             val fileName = "Osen_Absents.json"
-            export(this, searchQuery, fileName)
+            export(this, Absent.TABLE_ABSENT, fileName)
         }
 
         exportScore.setOnClickListener {
-            val searchQuery = "SELECT  STUDENT_ID, UTS, PERSENTASE_UTS, UAS, PERSENTASE_UAS, ASSESSMENT_1, PERSENTASE_ASSESSMENT_1, ASSESSMENT_2, PERSENTASE_ASSESSMENT_2, ASSESSMENT_3, PERSENTASE_ASSESSMENT_3 FROM ${Score.TABLE_SCORE} WHERE TEACHER_ID = '$teacher_id'"
             val fileName = "Osen_Scores.json"
-            export(this, searchQuery, fileName)
+            export(this, Score.TABLE_SCORE, fileName)
         }
 
         exportCategories.setOnClickListener {
-            val searchQuery = "SELECT  NAME FROM ${Category.TABLE_CATEGORY} WHERE TEACHER_ID = '$teacher_id'"
             val fileName = "Osen_Categories.json"
-            export(this, searchQuery, fileName)
+            export(this, Category.TABLE_CATEGORY, fileName)
         }
     }
 
-    private fun getResults(searchQuery: String): JSONArray? {
+    private fun getResults(myTable: String): JSONArray? {
         val myPath: String = getDatabasePath("Osen.db").toString()
-        val myTable: String = Classroom.TABLE_CLASSROOM
+        val searchQuery = "SELECT  * FROM $myTable WHERE TEACHER_ID = '$teacher_id'"
         val myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY)
         val cursor: Cursor = myDataBase.rawQuery(searchQuery, null)
         val resultSet = JSONArray()
@@ -97,16 +92,16 @@ class Export : AppCompatActivity() {
     }
     private val TAG = Export::class.java.name
 
-    private fun export(context: Context, searchQuery: String, fileName: String) {
+    private fun export(context: Context, myTable: String, fileName: String) {
         try {
             val outputStreamWriter = OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE))
-            outputStreamWriter.write(getResults(searchQuery).toString())
+            outputStreamWriter.write(getResults(myTable).toString())
             outputStreamWriter.close()
 
             val fileLocation: File = File(filesDir, fileName)
             val path: Uri = FileProvider.getUriForFile(this, "com.example.osen.fileprovider", fileLocation)
             val intent = Intent(Intent.ACTION_SEND)
-            intent.setType("text/json")
+            intent.type = "application/json"
             intent.putExtra(Intent.EXTRA_SUBJECT, fileName)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             intent.putExtra(Intent.EXTRA_STREAM, path)
