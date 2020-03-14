@@ -314,9 +314,9 @@ class AddClassroom : AppCompatActivity() {
             return
         }
 
-        if(classEnd.text.toString() <= classStart.text.toString()){
+        if(classEnd.text.toString() < classStart.text.toString()){
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-            dialog.titleText = "Tanggal Selesai Kelas Harus Setelah Tanggal Mulai Kelas"
+            dialog.titleText = "Tanggal Selesai Kelas Tidak Boleh Sebelum Tanggal Mulai Kelas"
             dialog.show()
             return
         }

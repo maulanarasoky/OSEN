@@ -62,10 +62,13 @@ class ClassDetails : AppCompatActivity() {
             textClassFinish.text = "Kelas Belum Dimulai"
             btnTandai.visibility = View.GONE
             spinnerTandai.visibility = View.GONE
-        }
-
-        if(currentDate >= dataClass[0].startDate.toString() && currentDate <= dataClass[0].endDate.toString()){
+            warning.visibility = View.GONE
+        } else if(currentDate >= dataClass[0].startDate.toString() && currentDate <= dataClass[0].endDate.toString()){
             textClassFinish.text = "Kelas Sedang Berlangsung"
+        } else if(currentDate > dataClass[0].endDate.toString()){
+            btnTandai.visibility = View.GONE
+            spinnerTandai.visibility = View.GONE
+            warning.visibility = View.GONE
         }
 
         ArrayAdapter.createFromResource(this, R.array.keterangan_hadir, R.layout.spinner_item).also { adapter ->
