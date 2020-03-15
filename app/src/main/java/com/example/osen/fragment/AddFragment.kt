@@ -2,9 +2,10 @@ package com.example.osen.fragment
 
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-
 import com.example.osen.R
 import com.example.osen.activity.AddClassroom
 import com.example.osen.activity.AddStudent
@@ -31,7 +32,7 @@ class AddFragment : Fragment() {
             startActivity<AddClassroom>()
         }
 
-        addData.setOnClickListener{
+        addData.setOnClickListener {
             startActivity<AddStudent>()
         }
     }

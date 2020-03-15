@@ -1,17 +1,13 @@
 package com.example.osen.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class Login : AppCompatActivity() {
 
@@ -19,7 +15,7 @@ class Login : AppCompatActivity() {
     lateinit var email: EditText
     lateinit var password: EditText
 
-    companion object{
+    companion object {
         const val VERIFIED = 111
     }
 
@@ -46,12 +42,12 @@ class Login : AppCompatActivity() {
         }
     }
 
-    private fun checkEmail(email: String, password: String){
+    private fun checkEmail(email: String, password: String) {
         val dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         dialog.setCancelable(false)
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { check ->
-            if(check.isSuccessful){
-                if(auth.currentUser?.isEmailVerified!!){
+            if (check.isSuccessful) {
+                if (auth.currentUser?.isEmailVerified!!) {
                     dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                     dialog.titleText = "Login Berhasil"
                     dialog.setConfirmClickListener {
@@ -59,11 +55,11 @@ class Login : AppCompatActivity() {
                         startActivity<MainActivity>()
                         this.finish()
                     }
-                }else{
+                } else {
                     dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                     dialog.titleText = "Silahkan Lakukan Verifikasi Email Terlebih Dahulu"
                 }
-            }else{
+            } else {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = check.exception?.message
             }
@@ -71,7 +67,7 @@ class Login : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun registerActivity(){
+    private fun registerActivity() {
         startActivity<Register>()
     }
 

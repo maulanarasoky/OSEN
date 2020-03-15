@@ -82,7 +82,8 @@ class Export : AppCompatActivity() {
             dialog.show()
         }
 
-        exportScore.setOnClickListener {val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+        exportScore.setOnClickListener {
+            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.setCancelable(false)
             dialog.showCancelButton(true)
             dialog.cancelText = "Batal"
@@ -145,16 +146,19 @@ class Export : AppCompatActivity() {
         Log.d("TAG_NAME", resultSet.toString())
         return resultSet
     }
+
     private val TAG = Export::class.java.name
 
     private fun export(context: Context, myTable: String, fileName: String) {
         try {
-            val outputStreamWriter = OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE))
+            val outputStreamWriter =
+                OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE))
             outputStreamWriter.write(getResults(myTable).toString())
             outputStreamWriter.close()
 
             val fileLocation: File = File(filesDir, fileName)
-            val path: Uri = FileProvider.getUriForFile(this, "com.example.osen.fileprovider", fileLocation)
+            val path: Uri =
+                FileProvider.getUriForFile(this, "com.example.osen.fileprovider", fileLocation)
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "application/json"
             intent.putExtra(Intent.EXTRA_SUBJECT, fileName)

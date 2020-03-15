@@ -41,10 +41,12 @@
         android:gravity="center"
         android:elevation="10dp"
         android:background="@drawable/background_data_profile">
+
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:src="@drawable/ic_export" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,10 +71,12 @@
         android:layout_marginEnd="40dp"
         android:elevation="10dp"
         android:background="@drawable/square_add">
+
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:src="@drawable/ic_import" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,6 +95,6 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/gray_circle"/>
+        android:background="@drawable/gray_circle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

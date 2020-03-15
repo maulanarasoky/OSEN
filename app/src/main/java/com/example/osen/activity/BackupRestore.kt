@@ -1,7 +1,7 @@
 package com.example.osen.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.osen.R
 import kotlinx.android.synthetic.main.activity_backup_restore.*
 import org.jetbrains.anko.startActivity

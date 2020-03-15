@@ -1,9 +1,9 @@
 package com.example.osen.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.osen.R
 import com.example.osen.fragment.AddFragment
 import com.example.osen.fragment.HomeFragment
@@ -15,7 +15,7 @@ import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val REQUEST_CODE = 100
         const val RESULT_CODE = 222
     }
@@ -27,19 +27,19 @@ class MainActivity : AppCompatActivity() {
         val auth: FirebaseAuth = FirebaseAuth.getInstance()
         val user: FirebaseUser? = auth.currentUser
 
-        if(user == null){
+        if (user == null) {
             startActivity<Login>()
             this.finish()
-        }else{
+        } else {
             bottom_navigation.setOnNavigationItemSelectedListener { item ->
-                when(item.itemId){
-                    R.id.home ->{
+                when (item.itemId) {
+                    R.id.home -> {
                         loadHomeFragment(savedInstanceState)
                     }
                     R.id.add -> {
                         loadAddFragment(savedInstanceState)
                     }
-                    R.id.profile ->{
+                    R.id.profile -> {
                         loadProfileFragment(savedInstanceState)
                     }
                 }
@@ -71,7 +71,11 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.container_layout, ProfileFragment(), ProfileFragment::class.java.simpleName)
+                .replace(
+                    R.id.container_layout,
+                    ProfileFragment(),
+                    ProfileFragment::class.java.simpleName
+                )
                 .commit()
         }
     }
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("resultCode", resultCode.toString())
-        if(requestCode == REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
             bottom_navigation.selectedItemId = R.id.home
         }
     }

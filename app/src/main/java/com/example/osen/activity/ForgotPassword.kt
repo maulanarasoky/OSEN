@@ -1,13 +1,11 @@
 package com.example.osen.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
+import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 
@@ -22,13 +20,13 @@ class ForgotPassword : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         btnForgotPass.setOnClickListener {
-            if(TextUtils.isEmpty(email.text.toString().trim())){
-                email.setError("Email harus diisi")
+            if (TextUtils.isEmpty(email.text.toString().trim())) {
+                email.error = "Email harus diisi"
                 return@setOnClickListener
             }
 
-            if(!Patterns.EMAIL_ADDRESS.matcher(email.text.toString().trim()).matches()){
-                email.setError("Email tidak valid")
+            if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString().trim()).matches()) {
+                email.error = "Email tidak valid"
                 return@setOnClickListener
             }
 
@@ -36,18 +34,18 @@ class ForgotPassword : AppCompatActivity() {
         }
     }
 
-    private fun forgotPassword(email: String){
+    private fun forgotPassword(email: String) {
         val dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         dialog.setCancelable(false)
         auth.sendPasswordResetEmail(email).addOnCompleteListener { p0 ->
-            if(p0.isSuccessful){
+            if (p0.isSuccessful) {
                 dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                 dialog.titleText = "Email Reset Ulang Password Telah Dikirimkan Ke Email Anda"
                 dialog.setConfirmClickListener {
                     dialog.dismissWithAnimation()
                     finish()
                 }
-            }else{
+            } else {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = "Email Belum Terdaftar"
             }

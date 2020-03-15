@@ -1,14 +1,13 @@
 package com.example.osen.fragment
 
 
-import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.example.osen.R
 import com.example.osen.adapter.ClassList
 import com.example.osen.database.database
@@ -49,9 +48,9 @@ class HomeFragment : Fragment() {
 
         val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(activity)
 
-        if(auth.currentUser != null){
+        if (auth.currentUser != null) {
             id = auth.currentUser?.uid.toString()
-        }else if(account != null){
+        } else if (account != null) {
             id = account.id.toString()
         }
 
@@ -71,14 +70,17 @@ class HomeFragment : Fragment() {
         showClass()
     }
 
-    private fun showClass(){
+    private fun showClass() {
         list.clear()
         context?.database?.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to id)
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs(
+                "(TEACHER_ID = {teacher_id})",
+                "teacher_id" to id
+            )
             val favorite = result.parseList(classParser<Classroom>())
-            if (favorite.isNotEmpty()){
+            if (favorite.isNotEmpty()) {
                 list.addAll(favorite)
-            }else{
+            } else {
                 textNoData.visibility = View.VISIBLE
             }
             adapter.notifyDataSetChanged()

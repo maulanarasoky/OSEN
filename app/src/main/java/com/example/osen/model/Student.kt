@@ -4,15 +4,15 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Student (
+class Student(
     val id: Int?,
     val name: String?,
     val className: String?,
     val gender: String?,
     val score: Int?,
     val teacher_id: String?
-): Parcelable{
-    companion object{
+) : Parcelable {
+    companion object {
         const val TABLE_STUDENT: String = "STUDENT"
         const val ID_: String = "ID_"
         const val NAME = "NAME"

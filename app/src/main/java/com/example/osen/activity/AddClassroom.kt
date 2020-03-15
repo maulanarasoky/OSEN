@@ -4,11 +4,11 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
@@ -25,19 +25,19 @@ import java.util.*
 class AddClassroom : AppCompatActivity() {
 
     lateinit var className: EditText
-    lateinit var classType : Spinner
+    lateinit var classType: Spinner
     lateinit var classCategory: Spinner
     lateinit var newCategory: EditText
-    lateinit var classStart : Button
-    lateinit var classEnd : Button
+    lateinit var classStart: Button
+    lateinit var classEnd: Button
     lateinit var timeStart: Button
     lateinit var timeEnd: Button
-    lateinit var firstDay : Spinner
-    lateinit var secondDay : Spinner
-    lateinit var thirdDay : Spinner
-    lateinit var fourthDay : Spinner
-    lateinit var fifthDay : Spinner
-    lateinit var sixthDay : Spinner
+    lateinit var firstDay: Spinner
+    lateinit var secondDay: Spinner
+    lateinit var thirdDay: Spinner
+    lateinit var fourthDay: Spinner
+    lateinit var fifthDay: Spinner
+    lateinit var sixthDay: Spinner
 
     var count = 1
 
@@ -56,17 +56,19 @@ class AddClassroom : AppCompatActivity() {
 
         initUI()
 
-        ArrayAdapter.createFromResource(this, R.array.class_type, R.layout.spinner_item).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            classType.adapter = adapter
-        }
+        ArrayAdapter.createFromResource(this, R.array.class_type, R.layout.spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                classType.adapter = adapter
+            }
 
         showCategorySpinner()
 
-        ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            firstDay.adapter = adapter
-        }
+        ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                firstDay.adapter = adapter
+            }
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -103,7 +105,7 @@ class AddClassroom : AppCompatActivity() {
         }
     }
 
-    private fun initUI(){
+    private fun initUI() {
         className = findViewById(R.id.className)
         classType = findViewById(R.id.classType)
         classCategory = findViewById(R.id.classCategory)
@@ -120,125 +122,134 @@ class AddClassroom : AppCompatActivity() {
         sixthDay = findViewById(R.id.sixthDay)
     }
 
-    private fun initDateStart(year: Int, month: Int, day: Int){
-        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
-            val formatDay = if(mDay < 10){
-                "0$mDay"
-            }else{
-                mDay.toString()
-            }
-            val formatMonth = if((mMonth + 1) < 10){
-                "0" + (mMonth + 1)
-            }else{
-                (mMonth + 1).toString()
-            }
-            val text = "$formatDay/$formatMonth/$mYear"
-            classStart.text = text
-        }, year, month, day)
+    private fun initDateStart(year: Int, month: Int, day: Int) {
+        val datePickerDialog =
+            DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                val formatDay = if (mDay < 10) {
+                    "0$mDay"
+                } else {
+                    mDay.toString()
+                }
+                val formatMonth = if ((mMonth + 1) < 10) {
+                    "0" + (mMonth + 1)
+                } else {
+                    (mMonth + 1).toString()
+                }
+                val text = "$formatDay/$formatMonth/$mYear"
+                classStart.text = text
+            }, year, month, day)
 
         datePickerDialog.show()
     }
 
-    private fun initDateEnd(year: Int, month: Int, day: Int){
-        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
-            val formatDay = if(mDay < 10){
-                "0$mDay"
-            }else{
-                mDay.toString()
-            }
-            val formatMonth = if((mMonth + 1) < 10){
-                "0" + (mMonth + 1)
-            }else{
-                (mMonth+1).toString()
-            }
-            val text = "$formatDay/$formatMonth/$mYear"
-            classEnd.text = text
-        }, year, month, day)
+    private fun initDateEnd(year: Int, month: Int, day: Int) {
+        val datePickerDialog =
+            DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                val formatDay = if (mDay < 10) {
+                    "0$mDay"
+                } else {
+                    mDay.toString()
+                }
+                val formatMonth = if ((mMonth + 1) < 10) {
+                    "0" + (mMonth + 1)
+                } else {
+                    (mMonth + 1).toString()
+                }
+                val text = "$formatDay/$formatMonth/$mYear"
+                classEnd.text = text
+            }, year, month, day)
 
         datePickerDialog.show()
     }
 
-    private fun initTimeStart(hour: Int, minute: Int){
-        val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
-            val formatHours: String = if(hourOfDay < 10){
-                "0$hourOfDay"
-            }else{
-                hourOfDay.toString()
-            }
-            val formatMinutes: String = if(minutes < 10){
-                "0$minutes"
-            }else {
-                minutes.toString()
-            }
-            val text = "$formatHours : $formatMinutes"
-            timeStart.text = text
-        }, hour, minute, true)
+    private fun initTimeStart(hour: Int, minute: Int) {
+        val timePickerDialog =
+            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
+                val formatHours: String = if (hourOfDay < 10) {
+                    "0$hourOfDay"
+                } else {
+                    hourOfDay.toString()
+                }
+                val formatMinutes: String = if (minutes < 10) {
+                    "0$minutes"
+                } else {
+                    minutes.toString()
+                }
+                val text = "$formatHours : $formatMinutes"
+                timeStart.text = text
+            }, hour, minute, true)
         timePickerDialog.show()
     }
 
-    private fun initTimeEnd(hour: Int, minute: Int){
-        val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
-            val formatHours: String = if(hourOfDay < 10){
-                "0$hourOfDay"
-            }else{
-                hourOfDay.toString()
-            }
-            val formatMinutes: String = if(minutes < 10){
-                "0$minutes"
-            }else {
-                minutes.toString()
-            }
-            val text = "$formatHours : $formatMinutes"
-            timeEnd.text = text
-        }, hour, minute, true)
+    private fun initTimeEnd(hour: Int, minute: Int) {
+        val timePickerDialog =
+            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
+                val formatHours: String = if (hourOfDay < 10) {
+                    "0$hourOfDay"
+                } else {
+                    hourOfDay.toString()
+                }
+                val formatMinutes: String = if (minutes < 10) {
+                    "0$minutes"
+                } else {
+                    minutes.toString()
+                }
+                val text = "$formatHours : $formatMinutes"
+                timeEnd.text = text
+            }, hour, minute, true)
         timePickerDialog.show()
     }
 
-    private fun addDay(){
+    private fun addDay() {
         count++
-        when(count) {
+        when (count) {
             2 -> {
                 rowDay2.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    secondDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        secondDay.adapter = adapter
+                    }
             }
             3 -> {
                 rowDay3.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    thirdDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        thirdDay.adapter = adapter
+                    }
             }
             4 -> {
                 rowDay4.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fourthDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fourthDay.adapter = adapter
+                    }
             }
             5 -> {
                 rowDay5.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fifthDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fifthDay.adapter = adapter
+                    }
             }
             6 -> {
                 rowDay6.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    sixthDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        sixthDay.adapter = adapter
+                    }
             }
         }
-        if(count == 6){
+        if (count == 6) {
             addDay.visibility = View.GONE
         }
     }
 
-    private fun clear(){
+    private fun clear() {
         showCategorySpinner()
         className.setText("")
         classType.setSelection(0)
@@ -247,7 +258,7 @@ class AddClassroom : AppCompatActivity() {
         timeStart.text = "Pilih"
         timeEnd.text = "Pilih"
         firstDay.setSelection(0)
-        if(listCategory.isNotEmpty()){
+        if (listCategory.isNotEmpty()) {
             rowFirstCategory.visibility = View.GONE
             rowOldCategory.visibility = View.VISIBLE
             classCategory.setSelection(0)
@@ -266,76 +277,76 @@ class AddClassroom : AppCompatActivity() {
         sixthDay.setSelection(0)
     }
 
-    private fun submit(){
+    private fun submit() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
 
         val countWords = className.text.toString().split("")
-        if(!TextUtils.isEmpty(className.text.toString())){
-            if(countWords.size > 17){
+        if (!TextUtils.isEmpty(className.text.toString())) {
+            if (countWords.size > 17) {
                 className.error = "Judul Terdiri Dari 1-15 Huruf"
                 return
             }
-        }else{
+        } else {
             className.error = "Nama Kelas Tidak Boleh Kosong"
             return
         }
 
-        if(rowFirstCategory.visibility == View.VISIBLE) {
+        if (rowFirstCategory.visibility == View.VISIBLE) {
             if (TextUtils.isEmpty(firstCategoryAdd.text.toString())) {
-                firstCategoryAdd.setError("Kategori Tidak Boleh Kosong")
+                firstCategoryAdd.error = "Kategori Tidak Boleh Kosong"
                 return
             }
-        }else if(rowNewCategory.visibility == View.VISIBLE){
-            if (TextUtils.isEmpty(newCategory.text.toString())){
-                newCategory.setError("Kategori Tidak Boleh Kosong")
+        } else if (rowNewCategory.visibility == View.VISIBLE) {
+            if (TextUtils.isEmpty(newCategory.text.toString())) {
+                newCategory.error = "Kategori Tidak Boleh Kosong"
                 return
             }
         }
 
-        if(classStart.text.toString() == "Pilih"){
+        if (classStart.text.toString() == "Pilih") {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.titleText = "Silahkan Tentukan Tanggal Mulai Kelas"
             dialog.show()
             return
         }
 
-        if(classEnd.text.toString() == "Pilih"){
+        if (classEnd.text.toString() == "Pilih") {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.titleText = "Silahkan Tentukan Tanggal Selesai Kelas"
             dialog.show()
             return
         }
 
-        if(classStart.text.toString() < currentDate){
+        if (classStart.text.toString() < currentDate) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.titleText = "Tanggal Mulai Kelas Harus Dimulai Dari Hari Ini atau Setelahnya"
             dialog.show()
             return
         }
 
-        if(classEnd.text.toString() < classStart.text.toString()){
+        if (classEnd.text.toString() < classStart.text.toString()) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.titleText = "Tanggal Selesai Kelas Tidak Boleh Sebelum Tanggal Mulai Kelas"
             dialog.show()
             return
         }
 
-        if(timeStart.text.toString() == "Pilih"){
+        if (timeStart.text.toString() == "Pilih") {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.titleText = "Silahkan Tentukan Jadwal Mulai Kelas"
             dialog.show()
             return
         }
 
-        if(timeEnd.text.toString() == "Pilih"){
+        if (timeEnd.text.toString() == "Pilih") {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.titleText = "Silahkan Tentukan Jadwal Selesai Kelas"
             dialog.show()
             return
         }
 
-        if(timeEnd.text.toString() < timeStart.text.toString()){
+        if (timeEnd.text.toString() < timeStart.text.toString()) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.titleText = "Jadwal Selesai Kelas Harus Setelah Jadwal Mulai Kelas"
             dialog.show()
@@ -343,7 +354,7 @@ class AddClassroom : AppCompatActivity() {
         }
 
         checkClass(className.text.toString())
-        if(classExist){
+        if (classExist) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Nama Kelas Sudah Terpakai"
@@ -352,25 +363,25 @@ class AddClassroom : AppCompatActivity() {
             return
         }
 
-        if(rowNewCategory.visibility == View.VISIBLE){
+        if (rowNewCategory.visibility == View.VISIBLE) {
             checkAvailableCategory(newCategory.text.toString())
-            if(checkCategory.isEmpty()){
+            if (checkCategory.isEmpty()) {
                 addCategory()
             }
-        }else if(rowFirstCategory.visibility == View.VISIBLE){
+        } else if (rowFirstCategory.visibility == View.VISIBLE) {
             addCategory()
         }
         addClassroom()
     }
 
-    private fun showCategorySpinner(){
+    private fun showCategorySpinner() {
         showCategory()
-        if(listCategory.isEmpty()){
+        if (listCategory.isEmpty()) {
             rowOldCategory.visibility = View.GONE
             rowFirstCategory.visibility = View.VISIBLE
-        }else{
+        } else {
             val categories: MutableList<String> = mutableListOf()
-            for(i in 0 until listCategory.size){
+            for (i in 0 until listCategory.size) {
                 categories.add(listCategory[i].name.toString())
             }
             categories.add("Tidak ada pilihan")
@@ -378,16 +389,16 @@ class AddClassroom : AppCompatActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             classCategory.adapter = adapter
 
-            classCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            classCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
                     id: Long
                 ) {
-                    if(classCategory.selectedItem.toString() == "Tidak ada pilihan"){
+                    if (classCategory.selectedItem.toString() == "Tidak ada pilihan") {
                         rowNewCategory.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         rowNewCategory.visibility = View.GONE
                     }
                 }
@@ -400,18 +411,19 @@ class AddClassroom : AppCompatActivity() {
     }
 
 
-
-    private fun addClassroom(){
+    private fun addClassroom() {
         val name = className.text.toString()
         val type = classType.selectedItem.toString()
         var category = ""
-        if(rowOldCategory.visibility == View.VISIBLE){
-            if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
+        if (rowOldCategory.visibility == View.VISIBLE) {
+            if (classCategory.selectedItem.toString()
+                    .equals("Tidak ada pilihan", ignoreCase = true)
+            ) {
                 category = newCategory.text.toString()
-            }else{
+            } else {
                 category = classCategory.selectedItem.toString()
             }
-        }else{
+        } else {
             category = firstCategoryAdd.text.toString()
         }
         val startDate = classStart.text.toString()
@@ -419,33 +431,38 @@ class AddClassroom : AppCompatActivity() {
         val startTime = timeStart.text.toString()
         val endTime = timeEnd.text.toString()
         var day = ""
-        when(count){
-            1 ->{
+        when (count) {
+            1 -> {
                 day = "" + firstDay.selectedItem.toString()
             }
             2 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString()
             }
 
             3 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " +secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
             }
 
             4 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString()
             }
 
             5 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString()
             }
 
             6 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
 
             }
         }
         var image = R.drawable.ic_class
-        when(category){
+        when (category) {
             "Bahasa Indonesia" -> image = R.drawable.ic_indonesia
             "Bahasa Inggris" -> image = R.drawable.ic_english
             "IPA" -> image = R.drawable.ic_science
@@ -466,9 +483,10 @@ class AddClassroom : AppCompatActivity() {
                     Classroom.DAY to day,
                     Classroom.TYPE to type,
                     Classroom.CATEGORY to category,
-                    Classroom.TEACHER_ID to auth.currentUser?.uid)
+                    Classroom.TEACHER_ID to auth.currentUser?.uid
+                )
             }
-            if(result > 0){
+            if (result > 0) {
                 clear()
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
@@ -476,7 +494,7 @@ class AddClassroom : AppCompatActivity() {
                 dialog.setCancelable(false)
                 dialog.show()
             }
-        }catch (e: SQLiteConstraintException){
+        } catch (e: SQLiteConstraintException) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Gagal membuat kelas"
@@ -485,11 +503,11 @@ class AddClassroom : AppCompatActivity() {
         }
     }
 
-    private fun addCategory(){
+    private fun addCategory() {
         var category = ""
-        if(rowNewCategory.visibility == View.VISIBLE){
+        if (rowNewCategory.visibility == View.VISIBLE) {
             category = newCategory.text.toString()
-        }else{
+        } else {
             category = firstCategoryAdd.text.toString()
         }
         try {
@@ -497,39 +515,51 @@ class AddClassroom : AppCompatActivity() {
                 insert(
                     Category.TABLE_CATEGORY,
                     Category.NAME to category,
-                    Category.TEACHER_ID to auth.currentUser?.uid)
+                    Category.TEACHER_ID to auth.currentUser?.uid
+                )
             }
-        }catch (e: SQLiteConstraintException){
+        } catch (e: SQLiteConstraintException) {
         }
     }
 
-    private fun showCategory(){
+    private fun showCategory() {
         listCategory.clear()
         database.use {
-            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to auth.currentUser?.uid.toString())
+            val result = select(Category.TABLE_CATEGORY).whereArgs(
+                "(TEACHER_ID = {teacher_id})",
+                "teacher_id" to auth.currentUser?.uid.toString()
+            )
             val category = result.parseList(classParser<Category>())
-            if (category.isNotEmpty()){
+            if (category.isNotEmpty()) {
                 listCategory.addAll(category)
             }
         }
     }
 
-    private fun checkAvailableCategory(categoryName: String){
+    private fun checkAvailableCategory(categoryName: String) {
         checkCategory.clear()
         database.use {
-            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id}) AND (NAME = {category_name})", "teacher_id" to auth.currentUser?.uid.toString(), "category_name" to categoryName)
+            val result = select(Category.TABLE_CATEGORY).whereArgs(
+                "(TEACHER_ID = {teacher_id}) AND (NAME = {category_name})",
+                "teacher_id" to auth.currentUser?.uid.toString(),
+                "category_name" to categoryName
+            )
             val category = result.parseList(classParser<Category>())
-            if (category.isNotEmpty()){
+            if (category.isNotEmpty()) {
                 checkCategory.addAll(category)
             }
         }
     }
 
-    private fun checkClass(class_name: String){
+    private fun checkClass(class_name: String) {
         database.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to class_name, "teacher_id" to auth.currentUser?.uid.toString())
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs(
+                "(NAME = {class_name}) AND (TEACHER_ID = {teacher_id})",
+                "class_name" to class_name,
+                "teacher_id" to auth.currentUser?.uid.toString()
+            )
             val data = result.parseList(classParser<Classroom>())
-            if(data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 classExist = true
             }
         }

@@ -1,6 +1,5 @@
 package com.example.osen.helper;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class ImportDataHelper {
@@ -47,8 +47,8 @@ public class ImportDataHelper {
 
             String jsonDataString = null;
             inputStream = new FileInputStream(filePath);
-            BufferedReader bufferReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-            while ((jsonDataString = bufferReader.readLine()) != null){
+            BufferedReader bufferReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            while ((jsonDataString = bufferReader.readLine()) != null) {
                 builder.append(jsonDataString);
             }
         } catch (UnsupportedEncodingException e) {
@@ -58,7 +58,7 @@ public class ImportDataHelper {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(inputStream != null){
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
@@ -81,7 +81,7 @@ public class ImportDataHelper {
         try {
             String jsonDataString = readJsonFile(data);
             JSONArray menuItemJsonArray = new JSONArray(jsonDataString);
-            for(int i = 0; i < menuItemJsonArray.length(); i++){
+            for (int i = 0; i < menuItemJsonArray.length(); i++) {
 
                 JSONObject jsonObject = menuItemJsonArray.getJSONObject(i);
 
@@ -102,7 +102,7 @@ public class ImportDataHelper {
 
                 Log.d("INSERT SUCCESS", contentValue.toString());
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             Log.e("ERROR", Objects.requireNonNull(e.getMessage()));
             e.printStackTrace();
         }

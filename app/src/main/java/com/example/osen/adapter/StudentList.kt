@@ -3,12 +3,16 @@ package com.example.osen.adapter
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
@@ -21,13 +25,19 @@ import com.example.osen.model.Student
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.student_list.*
 import org.jetbrains.anko.db.*
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StudentList(private val activity: Activity, private val studentItems: MutableList<Student>, private val startDate: String, private val endDate: String, private val image: String) : RecyclerView.Adapter<StudentList.ViewHolder>() {
+class StudentList(
+    private val activity: Activity,
+    private val studentItems: MutableList<Student>,
+    private val startDate: String,
+    private val endDate: String,
+    private val image: String
+) : RecyclerView.Adapter<StudentList.ViewHolder>() {
 
-    fun delete(position: Int){
+    fun delete(position: Int) {
         studentItems.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, studentItems.size)
@@ -44,11 +54,11 @@ class StudentList(private val activity: Activity, private val studentItems: Muta
         holder.bindItem(activity, studentItems[position], startDate, endDate, image, position)
     }
 
-    inner class ViewHolder(override val containerView : View) : RecyclerView.ViewHolder(containerView),
+    inner class ViewHolder(override val containerView: View) :
+        RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
         private val list: MutableList<AbsentOfDay> = mutableListOf()
-        var keterangan: String = ""
         var attendanceStatus: String = ""
 
         val absentData: MutableList<Absent> = mutableListOf()
@@ -88,7 +98,7 @@ class StudentList(private val activity: Activity, private val studentItems: Muta
                             position: Int,
                             id: Long
                         ) {
-                            if(action.selectedItem.toString() != "-"){
+                            if(action.selectedItem.toString() != "Pilih"){
                                 itemView.context.database.use {
                                     insert(
                                         AbsentOfDay.TABLE_ABSENTOFDAY,
@@ -100,36 +110,36 @@ class StudentList(private val activity: Activity, private val studentItems: Muta
                                     )
 
                                     showAbsentData(student.teacher_id, student.id)
-
-                                    val queryUpdate = when(action.selectedItem.toString()){
-                                        "Alfa" ->{
-                                            val totalAlfa = absentData[0].alfa?.plus(1)
-                                            update(Absent.TABLE_ABSENT,
-                                                Absent.ALFA to totalAlfa).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                    var column = ""
+                                    var add: Int? = 0
+                                    when (action.selectedItem.toString()) {
+                                        "Alfa" -> {
+                                            column = Absent.ALFA
+                                            add = absentData[0].alfa?.plus(1)
                                         }
                                         "Sakit" -> {
-                                            val totalSakit = absentData[0].sakit?.plus(1)
-                                            update(Absent.TABLE_ABSENT,
-                                                Absent.SAKIT to totalSakit).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                            column = Absent.SAKIT
+                                            add = absentData[0].sakit?.plus(1)
                                         }
                                         "Izin" -> {
-                                            val totalIzin = absentData[0].izin?.plus(1)
-                                            update(Absent.TABLE_ABSENT,
-                                                Absent.IZIN to totalIzin).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                            column = Absent.IZIN
+                                            add = absentData[0].izin?.plus(1)
                                         }
                                         "Hadir" -> {
-                                            val totalHadir = absentData[0].hadir?.plus(1)
-                                            update(Absent.TABLE_ABSENT,
-                                                Absent.HADIR to totalHadir).whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString())
+                                            column = Absent.HADIR
+                                            add = absentData[0].hadir?.plus(1)
                                         }
                                         else -> error("Error")
                                     }
+                                    val queryUpdate = update(Absent.TABLE_ABSENT, column to add)
+                                        .whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})",
+                                            "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
+
                                     queryUpdate.exec()
                                 }
-                                keterangan = action.selectedItem.toString()
                                 action.visibility = View.GONE
                                 done.visibility = View.VISIBLE
-                                done.text = keterangan
+                                done.text = action.selectedItem.toString()
                             }
                         }
 
@@ -145,7 +155,7 @@ class StudentList(private val activity: Activity, private val studentItems: Muta
                 if(absentOfDay.isNotEmpty()){
                     attendanceStatus = absentOfDay[0].keterangan.toString()
                 }else{
-                    attendanceStatus = "-"
+                    attendanceStatus = "Pilih"
                 }
 
                 if(absentOfDay.isEmpty()){

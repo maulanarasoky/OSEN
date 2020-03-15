@@ -1,11 +1,11 @@
 package com.example.osen.model
 
-class Category (
+class Category(
     val id: Int?,
     val name: String?,
     val teacher_id: String?
-){
-    companion object{
+) {
+    companion object {
         const val TABLE_CATEGORY: String = "CATEGORY"
         const val ID_: String = "ID_"
         const val NAME: String = "NAME"

@@ -7,7 +7,6 @@
     tools:context=".activity.InputScore">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
@@ -26,11 +25,12 @@
                 android:id="@+id/classImage"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
+                android:src="@drawable/ic_score"
+                android:padding="@dimen/activity_vertical_margin"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
             <View
-                android:id="@+id/roundedTopDetails"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_gravity="bottom"
@@ -47,292 +47,308 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:background="@android:color/white"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:clipToPadding="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
-            android:id="@+id/ril"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Input Nilai"
+                android:layout_centerHorizontal="true"
                 android:fontFamily="@font/firasans"
-                android:textSize="24sp"
+                android:text="Input Nilai"
                 android:textColor="@android:color/black"
-                android:layout_centerHorizontal="true" />
+                android:textSize="20sp" />
 
             <TableLayout
                 android:id="@+id/table1"
-                android:layout_marginTop="50dp"
                 android:layout_width="wrap_content"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:background="@drawable/table_border"
                 android:padding="@dimen/activity_vertical_margin">
 
                 <TableRow>
-                    <TextView
-                        android:text="UTS"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
 
                     <TextView
-                        android:text=" : "
                         android:fontFamily="@font/firasans"
+                        android:text="UTS"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/uts"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
                 </TableRow>
 
                 <TableRow>
-                    <TextView
-                        android:text="Persentase"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
 
                     <TextView
-                        android:text=" : "
                         android:fontFamily="@font/firasans"
+                        android:text="Persentase"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/persentaseUts"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
                 </TableRow>
             </TableLayout>
 
             <TableLayout
                 android:id="@+id/table2"
-                android:layout_toEndOf="@id/table1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/table1"
                 android:background="@drawable/table_border"
-                android:paddingStart="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingEnd="10dp">
+                android:padding="@dimen/activity_vertical_margin">
 
                 <TableRow>
+
                     <EditText
                         android:id="@+id/uas"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
 
                     <TextView
+                        android:fontFamily="@font/firasans"
                         android:text=" : "
-                        android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:text="UAS"
                         android:fontFamily="@font/firasans"
+                        android:text="UAS"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </TableRow>
 
                 <TableRow>
+
                     <EditText
                         android:id="@+id/persentaseUas"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
 
                     <TextView
+                        android:fontFamily="@font/firasans"
                         android:text=" : "
-                        android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:text="Persentase"
                         android:fontFamily="@font/firasans"
+                        android:text="Persentase"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </TableRow>
             </TableLayout>
 
             <TableLayout
                 android:id="@+id/table3"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/table1"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_height="wrap_content"
                 android:background="@drawable/table_border"
                 android:padding="@dimen/activity_vertical_margin">
 
                 <TableRow>
-                    <TextView
-                        android:text="Ass 1"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
 
                     <TextView
-                        android:text=" : "
                         android:fontFamily="@font/firasans"
+                        android:text="Ass 1"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/ass1"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
                 </TableRow>
 
                 <TableRow>
-                    <TextView
-                        android:text="Persentase"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
 
                     <TextView
-                        android:text=" : "
                         android:fontFamily="@font/firasans"
+                        android:text="Persentase"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/persentaseAss1"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
                 </TableRow>
             </TableLayout>
 
             <TableLayout
                 android:id="@+id/table4"
-                android:layout_below="@id/table2"
-                android:layout_toEndOf="@id/table3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/table2"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/table3"
                 android:background="@drawable/table_border"
-                android:paddingStart="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingEnd="10dp">
+                android:padding="@dimen/activity_vertical_margin">
 
                 <TableRow>
+
                     <EditText
                         android:id="@+id/ass2"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
 
                     <TextView
+                        android:fontFamily="@font/firasans"
                         android:text=" : "
-                        android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:text="Ass 2"
                         android:fontFamily="@font/firasans"
+                        android:text="Ass 2"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </TableRow>
 
                 <TableRow>
+
                     <EditText
                         android:id="@+id/persentaseAss2"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
 
                     <TextView
+                        android:fontFamily="@font/firasans"
                         android:text=" : "
-                        android:fontFamily="@font/firasans"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
-                        android:text="Persentase"
                         android:fontFamily="@font/firasans"
+                        android:text="Persentase"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </TableRow>
             </TableLayout>
 
             <TableLayout
                 android:id="@+id/table5"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/table3"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_height="wrap_content"
                 android:background="@drawable/table_border"
                 android:padding="@dimen/activity_vertical_margin">
 
                 <TableRow>
-                    <TextView
-                        android:text="Ass 3"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
 
                     <TextView
-                        android:text=" : "
                         android:fontFamily="@font/firasans"
+                        android:text="Ass 3"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/ass3"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:textSize="14sp" />
                 </TableRow>
 
                 <TableRow>
-                    <TextView
-                        android:text="Persentase"
-                        android:fontFamily="@font/firasans"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
 
                     <TextView
-                        android:text=" : "
                         android:fontFamily="@font/firasans"
+                        android:text="Persentase"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:fontFamily="@font/firasans"
+                        android:text=" : "
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
 
                     <EditText
                         android:id="@+id/persentaseAss3"
+                        style="@android:style/Widget.EditText"
                         android:layout_width="70dp"
+                        android:textSize="14sp"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        style="@android:style/Widget.EditText"/>
+                        android:inputType="number" />
                 </TableRow>
             </TableLayout>
 
@@ -340,27 +356,28 @@
                 android:id="@+id/warning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/table5"
-                android:text="Jika nilai tidak ada, cukup mengetikkan angka 0 di form tersebut"
-                android:fontFamily="@font/firasans"
-                android:textSize="16sp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/firasans"
                 android:padding="@dimen/activity_vertical_margin"
+                android:text="Jika nilai tidak ada, cukup mengetikkan angka 0 di form tersebut"
                 android:textAlignment="center"
-                android:textStyle="italic"
-                android:textColor="@android:color/holo_red_dark" />
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="14sp"
+                android:textStyle="italic" />
 
             <Button
                 android:id="@+id/inputScore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Submit"
-                android:background="@drawable/background_button_submit"
                 android:layout_below="@id/warning"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp" />
+                android:textSize="14sp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/background_button_submit"
+                android:text="Submit" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 

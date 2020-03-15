@@ -7,7 +7,6 @@
     tools:context=".activity.ClassDetails">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
@@ -26,19 +25,17 @@
                 android:id="@+id/classImage"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:scaleType="centerCrop"
                 android:padding="@dimen/activity_vertical_margin"
+                android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
             <View
-                android:id="@+id/roundedTopDetails"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/rounded_view" />
 
             <View
-                android:id="@+id/classFinishSign"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center|bottom"
@@ -49,13 +46,13 @@
                 android:id="@+id/textClassFinish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kelas Sudah Selesai"
-                android:textSize="16sp"
                 android:layout_gravity="center|bottom"
-                android:textColor="@android:color/darker_gray"
                 android:layout_marginBottom="22dp"
                 android:fontFamily="@font/firasans"
-                android:textStyle="italic"/>
+                android:text="Kelas Sudah Selesai"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp"
+                android:textStyle="italic" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
@@ -68,13 +65,12 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:background="@android:color/white"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:clipToPadding="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
-            android:id="@+id/ril"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -82,19 +78,19 @@
                 android:id="@+id/linear1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:orientation="vertical"
-                android:background="@drawable/rounded_details"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin">
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:background="@drawable/background_button_submit"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/linear2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/activity_vertical_margin"
                     android:paddingStart="24dp"
+                    android:paddingTop="@dimen/activity_vertical_margin"
                     android:paddingEnd="24dp"
                     android:paddingBottom="24dp">
 
@@ -105,8 +101,8 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/firasans"
                         android:gravity="center"
-                        android:textSize="24sp"
                         android:textColor="@android:color/black"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         tools:text="Nama Kelas" />
 
@@ -115,13 +111,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/firasans"
                         android:gravity="center"
-                        android:textSize="16sp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:textColor="@android:color/black"
+                        android:textSize="14sp"
                         android:textStyle="italic"
                         tools:text="Kategori Kelas" />
                 </LinearLayout>
@@ -134,201 +130,218 @@
 
                     <TableLayout
                         android:id="@+id/table1"
-                        android:padding="@dimen/activity_vertical_margin"
                         android:layout_width="180dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_vertical_margin">
+
                         <TableRow>
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
                                 android:text="Mulai"
-                                android:fontFamily="@font/firasans"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
                                 android:text=" : "
-                                android:fontFamily="@font/firasans"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
                                 android:id="@+id/startTime"
-                                android:text="Dummy"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/firasans"
+                                android:text="Dummy"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
                         </TableRow>
-                        <TableRow
-                            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                        <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
                                 android:text="Berakhir"
-                                android:fontFamily="@font/firasans"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
                                 android:text=" : "
-                                android:fontFamily="@font/firasans"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/endTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/endTime"
-                                android:text="Dummy"
                                 android:fontFamily="@font/firasans"
+                                android:text="Dummy"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
                         </TableRow>
                     </TableLayout>
+
                     <TableLayout
-                        android:padding="@dimen/activity_vertical_margin"
                         android:layout_width="195dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_vertical_margin">
+
                         <TableRow>
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
                                 android:text="Mulai"
-                                android:fontFamily="@font/firasans"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
                                 android:text=" : "
-                                android:fontFamily="@font/firasans"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
                                 android:id="@+id/startDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
                                 android:text="Dummy"
-                                android:fontFamily="@font/firasans"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
                         </TableRow>
+
                         <TableRow android:layout_marginTop="@dimen/activity_vertical_margin">
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/firasans"
                                 android:text="Berakhir"
-                                android:fontFamily="@font/firasans"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <TextView
-                                android:text=" : "
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/firasans"
+                                android:text=" : "
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/endDate"
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/endDate"
-                                android:text="Dummy"
                                 android:fontFamily="@font/firasans"
+                                android:text="Dummy"
                                 android:textColor="@android:color/black"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
                         </TableRow>
                     </TableLayout>
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:text="Hari"
-                    android:fontFamily="@font/firasans"
-                    android:textSize="16sp"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:textColor="@android:color/black" />
+                    android:fontFamily="@font/firasans"
+                    android:gravity="center"
+                    android:text="Hari"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
             </LinearLayout>
 
             <TextView
-                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:id="@+id/studentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Daftar Siswa"
-                android:fontFamily="@font/firasans"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/linear1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/firasans"
+                android:text="Daftar Siswa"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/studentTitle"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Absen Hanya Bisa Dilakukan Sekali"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/firasans"
-                android:textSize="16sp"
-                android:textStyle="italic"
-                android:textColor="@android:color/holo_red_light" />
+                android:text="Absen Hanya Bisa Dilakukan Sekali"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="14sp"
+                android:textStyle="italic" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinnerTandai"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_below="@id/warning"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_toStartOf="@id/btnTandai"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin" />
-
-            <Button
-                android:id="@+id/btnTandai"
+            <LinearLayout
+                android:id="@+id/linear4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="Tandai"
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_below="@id/warning"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="24dp" />
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/background_button_submit"
+                android:padding="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinnerTandai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:theme="@style/Spinner" />
+                <Button
+                    android:id="@+id/btnTandai"
+                    android:layout_width="75dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/background_button_delete"
+                    android:text="Tandai"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_marginTop="8dp"
-                android:layout_below="@id/btnTandai"
                 android:layout_width="match_parent"
-                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
-                android:paddingBottom="230dp"/>
+                android:layout_below="@id/linear4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="230dp" />
 
             <TextView
                 android:id="@+id/textNoData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Belum ada murid"
-                android:fontFamily="@font/firasans"
-                android:textSize="20sp"
                 android:layout_below="@id/studentTitle"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/firasans"
                 android:gravity="center"
-                android:visibility="gone"
+                android:text="Belum ada murid"
                 android:textColor="@android:color/darker_gray"
-                android:layout_marginTop="@dimen/activity_vertical_margin" />
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:visibility="gone" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 

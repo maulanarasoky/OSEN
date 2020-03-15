@@ -15,8 +15,8 @@
 
         </shape>
         <selector>
-            <item android:state_checked="true"/>
-            <item android:color="#FFF"/>
+            <item android:state_checked="true" />
+            <item android:color="#FFF" />
         </selector>
     </item>
 

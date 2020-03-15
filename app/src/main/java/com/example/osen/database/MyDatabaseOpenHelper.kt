@@ -6,14 +6,14 @@ import androidx.fragment.app.Fragment
 import com.example.osen.model.*
 import org.jetbrains.anko.db.*
 
-class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db", null, 1) {
+class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Osen.db", null, 1) {
 
-    companion object{
+    companion object {
         private var instance: MyDatabaseOpenHelper? = null
 
         @Synchronized
-        fun getInstance(ctx: Context): MyDatabaseOpenHelper{
-            if (instance == null){
+        fun getInstance(ctx: Context): MyDatabaseOpenHelper {
+            if (instance == null) {
                 instance = MyDatabaseOpenHelper(ctx.applicationContext)
             }
             return instance as MyDatabaseOpenHelper
@@ -33,7 +33,8 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Classroom.START_TIME to TEXT,
             Classroom.END_TIME to TEXT,
             Classroom.DAY to TEXT,
-            Classroom.TEACHER_ID to TEXT)
+            Classroom.TEACHER_ID to TEXT
+        )
 
         db?.createTable(
             Student.TABLE_STUDENT, true,
@@ -42,13 +43,15 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Student.CLASS_NAME to TEXT,
             Student.GENDER to TEXT,
             Student.SCORE to INTEGER,
-            Student.TEACHER_ID to TEXT)
+            Student.TEACHER_ID to TEXT
+        )
 
         db?.createTable(
             Category.TABLE_CATEGORY, true,
             Category.ID_ to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
             Category.NAME to TEXT,
-            Category.TEACHER_ID to TEXT)
+            Category.TEACHER_ID to TEXT
+        )
 
         db?.createTable(
             Absent.TABLE_ABSENT, true,
@@ -59,7 +62,8 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Absent.SAKIT to INTEGER,
             Absent.ALFA to INTEGER,
             Absent.CLASS to TEXT,
-            Absent.TEACHER_ID to TEXT)
+            Absent.TEACHER_ID to TEXT
+        )
 
         db?.createTable(
             AbsentOfDay.TABLE_ABSENTOFDAY, true,
@@ -68,7 +72,8 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             AbsentOfDay.DATE to TEXT,
             AbsentOfDay.KETERANGAN to TEXT,
             AbsentOfDay.CLASS to TEXT,
-            AbsentOfDay.TEACHER_ID to TEXT)
+            AbsentOfDay.TEACHER_ID to TEXT
+        )
 
         db?.createTable(
             Score.TABLE_SCORE, true,
@@ -85,7 +90,8 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
             Score.ASSESSMENT_3 to INTEGER,
             Score.PERSENTASE_ASSESSMENT_3 to INTEGER,
             Score.CLASS_NAME to TEXT,
-            Score.TEACHER_ID to TEXT)
+            Score.TEACHER_ID to TEXT
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -95,6 +101,7 @@ class MyDatabaseOpenHelper(ctx: Context): ManagedSQLiteOpenHelper(ctx, "Osen.db"
         db?.dropTable(AbsentOfDay.TABLE_ABSENTOFDAY, true)
     }
 }
+
 val Context.database: MyDatabaseOpenHelper
     get() = MyDatabaseOpenHelper.getInstance(applicationContext)
 

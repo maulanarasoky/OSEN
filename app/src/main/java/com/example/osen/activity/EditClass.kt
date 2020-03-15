@@ -5,10 +5,10 @@ import android.app.TimePickerDialog
 import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
@@ -26,24 +26,24 @@ import java.util.*
 
 class EditClass : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val data = "data"
     }
 
     lateinit var className: EditText
-    lateinit var classType : Spinner
+    lateinit var classType: Spinner
     lateinit var classCategory: Spinner
     lateinit var newCategory: EditText
-    lateinit var startDate : Button
-    lateinit var endDate : Button
+    lateinit var startDate: Button
+    lateinit var endDate: Button
     lateinit var startTime: Button
     lateinit var endTime: Button
-    lateinit var firstDay : Spinner
-    lateinit var secondDay : Spinner
-    lateinit var thirdDay : Spinner
-    lateinit var fourthDay : Spinner
-    lateinit var fifthDay : Spinner
-    lateinit var sixthDay : Spinner
+    lateinit var firstDay: Spinner
+    lateinit var secondDay: Spinner
+    lateinit var thirdDay: Spinner
+    lateinit var fourthDay: Spinner
+    lateinit var fifthDay: Spinner
+    lateinit var sixthDay: Spinner
 
     private var listCategory: MutableList<Category> = mutableListOf()
     private var checkCategory: MutableList<Category> = mutableListOf()
@@ -67,7 +67,7 @@ class EditClass : AppCompatActivity() {
         showDataClass()
         initUI()
 
-        if(currentDate > dataClass[0].endDate.toString()){
+        if (currentDate > dataClass[0].endDate.toString()) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Tidak Dapat Mengubah Kelas Yang Sudah Selesai"
@@ -80,7 +80,7 @@ class EditClass : AppCompatActivity() {
             return
         }
 
-        if(dataClass[0].type == "Reguler"){
+        if (dataClass[0].type == "Reguler") {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Tidak Dapat Mengubah Kelas Reguler"
@@ -95,15 +95,16 @@ class EditClass : AppCompatActivity() {
 
         className.setText(dataClass[0].name, TextView.BufferType.EDITABLE)
 
-        ArrayAdapter.createFromResource(this, R.array.class_type, R.layout.spinner_item).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            classType.adapter = adapter
+        ArrayAdapter.createFromResource(this, R.array.class_type, R.layout.spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                classType.adapter = adapter
 
-            val classPosition = adapter.getPosition(dataClass[0].type)
-            classType.setSelection(classPosition)
-        }
+                val classPosition = adapter.getPosition(dataClass[0].type)
+                classType.setSelection(classPosition)
+            }
 
-        classType.onItemSelectedListener = (object : AdapterView.OnItemSelectedListener{
+        classType.onItemSelectedListener = (object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
@@ -156,51 +157,56 @@ class EditClass : AppCompatActivity() {
         }
     }
 
-    private fun addDay(){
+    private fun addDay() {
         count++
-        when(count) {
+        when (count) {
             2 -> {
                 rowDay2.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    secondDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        secondDay.adapter = adapter
+                    }
             }
             3 -> {
                 rowDay3.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    thirdDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        thirdDay.adapter = adapter
+                    }
             }
             4 -> {
                 rowDay4.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fourthDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fourthDay.adapter = adapter
+                    }
             }
             5 -> {
                 rowDay5.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fifthDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fifthDay.adapter = adapter
+                    }
             }
             6 -> {
                 rowDay6.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    sixthDay.adapter = adapter
-                }
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        sixthDay.adapter = adapter
+                    }
             }
         }
-        if(count == 6){
+        if (count == 6) {
             addDay.visibility = View.GONE
         }
     }
 
-    private fun initUI(){
+    private fun initUI() {
         className = findViewById(R.id.className)
         classType = findViewById(R.id.classType)
         classCategory = findViewById(R.id.classCategory)
@@ -225,10 +231,10 @@ class EditClass : AppCompatActivity() {
         endTime.text = dataClass[0].endTime
     }
 
-    private fun showCategorySpinner(currentCategory: String?){
+    private fun showCategorySpinner(currentCategory: String?) {
         showCategory()
         val categories: MutableList<String> = mutableListOf()
-        for(i in 0 until listCategory.size){
+        for (i in 0 until listCategory.size) {
             categories.add(listCategory[i].name.toString())
         }
         categories.add("Tidak ada pilihan")
@@ -239,16 +245,16 @@ class EditClass : AppCompatActivity() {
         val categoryPosition = adapter.getPosition(currentCategory)
         classCategory.setSelection(categoryPosition)
 
-        classCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        classCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                if(classCategory.selectedItem.toString() == "Tidak ada pilihan"){
+                if (classCategory.selectedItem.toString() == "Tidak ada pilihan") {
                     rowNewCategory.visibility = View.VISIBLE
-                }else{
+                } else {
                     rowNewCategory.visibility = View.GONE
                 }
             }
@@ -259,78 +265,99 @@ class EditClass : AppCompatActivity() {
         }
     }
 
-    private fun showCategory(){
+    private fun showCategory() {
         listCategory.clear()
         database.use {
-            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to auth.currentUser?.uid.toString())
+            val result = select(Category.TABLE_CATEGORY).whereArgs(
+                "(TEACHER_ID = {teacher_id})",
+                "teacher_id" to auth.currentUser?.uid.toString()
+            )
             val category = result.parseList(classParser<Category>())
-            if (category.isNotEmpty()){
+            if (category.isNotEmpty()) {
                 listCategory.addAll(category)
             }
         }
     }
 
-    private fun checkAvailableCategory(categoryName: String){
+    private fun checkAvailableCategory(categoryName: String) {
         checkCategory.clear()
         database.use {
-            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id}) AND (NAME = {category_name})", "teacher_id" to auth.currentUser?.uid.toString(), "category_name" to categoryName)
+            val result = select(Category.TABLE_CATEGORY).whereArgs(
+                "(TEACHER_ID = {teacher_id}) AND (NAME = {category_name})",
+                "teacher_id" to auth.currentUser?.uid.toString(),
+                "category_name" to categoryName
+            )
             val category = result.parseList(classParser<Category>())
-            if (category.isNotEmpty()){
+            if (category.isNotEmpty()) {
                 checkCategory.addAll(category)
             }
         }
     }
 
-    private fun checkData(){
+    private fun checkData() {
         var day = ""
-        when(count){
-            1 ->{
+        when (count) {
+            1 -> {
                 day = "" + firstDay.selectedItem.toString()
             }
             2 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString()
             }
 
             3 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " +secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
             }
 
             4 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString()
             }
 
             5 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString()
             }
 
             6 -> {
-                day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
+                day =
+                    "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
 
             }
         }
 
         checkDataClass.clear()
         database.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {name}) AND (TYPE = {type}) " +
-                    "AND (CATEGORY = {category}) AND (START_DATE = {start_date}) AND (END_DATE = {end_date}) AND (START_TIME = {start_time}) " +
-                    "AND (END_TIME = {end_time}) AND (DAY = {day}) AND (TEACHER_ID = {teacher_id})", "name" to className.text, "type" to classType.selectedItem.toString(),
-                "category" to classCategory.selectedItem.toString(), "start_date" to startDate.text, "end_date" to endDate.text,
-                "start_time" to startTime.text, "end_time" to endTime.text, "day" to day, "teacher_id" to auth.currentUser?.uid.toString())
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs(
+                "(NAME = {name}) AND (TYPE = {type}) " +
+                        "AND (CATEGORY = {category}) AND (START_DATE = {start_date}) AND (END_DATE = {end_date}) AND (START_TIME = {start_time}) " +
+                        "AND (END_TIME = {end_time}) AND (DAY = {day}) AND (TEACHER_ID = {teacher_id})",
+                "name" to className.text,
+                "type" to classType.selectedItem.toString(),
+                "category" to classCategory.selectedItem.toString(),
+                "start_date" to startDate.text,
+                "end_date" to endDate.text,
+                "start_time" to startTime.text,
+                "end_time" to endTime.text,
+                "day" to day,
+                "teacher_id" to auth.currentUser?.uid.toString()
+            )
             val data = result.parseList(classParser<Classroom>())
-            if (data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 checkDataClass.addAll(data)
             }
         }
     }
 
-    private fun submit(){
+    private fun submit() {
         val submit: Boolean
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
 
         val countWords = className.text.toString().split("")
-        if(countWords.size > 17){
+        if (countWords.size > 17) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Judul terlalu panjang"
@@ -340,27 +367,27 @@ class EditClass : AppCompatActivity() {
             return
         }
 
-        if(classStart.text.toString() >= currentDate){
-            if(classEnd.text.toString() < classStart.text.toString()){
+        if (classStart.text.toString() >= currentDate) {
+            if (classEnd.text.toString() < classStart.text.toString()) {
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialog.titleText = "Tanggal Selesai Kelas Harus Setelah Tanggal Mulai Kelas"
                 dialog.setCancelable(false)
                 dialog.show()
                 return
-            }else{
-                if(timeEnd.text.toString() <= timeStart.text.toString()){
+            } else {
+                if (timeEnd.text.toString() <= timeStart.text.toString()) {
                     val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                     dialog.titleText = "Jadwal Selesai Kelas Harus Setelah Jadwal Mulai Kelas"
                     dialog.setCancelable(false)
                     dialog.show()
                     return
-                }else{
+                } else {
                     submit = true
                 }
             }
-        }else{
+        } else {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Tanggal Mulai Kelas Harus Dimulai Dari Hari Ini atau Setelahnya"
@@ -369,19 +396,19 @@ class EditClass : AppCompatActivity() {
             return
         }
 
-        if(submit){
+        if (submit) {
             checkData()
-            if(checkDataClass.isNotEmpty()){
+            if (checkDataClass.isNotEmpty()) {
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialog.contentText = "Anda Tidak Melakukan Perubahan Apapun"
                 dialog.setCancelable(false)
                 dialog.show()
-            }else{
+            } else {
                 val classroom: Classroom? = intent.getParcelableExtra(data)
-                if (className.text.toString() != classroom?.name.toString()){
+                if (className.text.toString() != classroom?.name.toString()) {
                     checkClass(className.text.toString())
-                    if(classExist){
+                    if (classExist) {
                         val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                         dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                         dialog.titleText = "Nama Kelas Sudah Terpakai"
@@ -391,42 +418,49 @@ class EditClass : AppCompatActivity() {
                     }
                 }
                 var day = ""
-                when(count){
-                    1 ->{
+                when (count) {
+                    1 -> {
                         day = "" + firstDay.selectedItem.toString()
                     }
                     2 -> {
-                        day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString()
+                        day =
+                            "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString()
                     }
 
                     3 -> {
-                        day = "" + firstDay.selectedItem.toString() + ", " +secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
+                        day =
+                            "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString()
                     }
 
                     4 -> {
-                        day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString()
+                        day =
+                            "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString()
                     }
 
                     5 -> {
-                        day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString()
+                        day =
+                            "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString()
                     }
 
                     6 -> {
-                        day = "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
+                        day =
+                            "" + firstDay.selectedItem.toString() + ", " + secondDay.selectedItem.toString() + ", " + thirdDay.selectedItem.toString() + ", " + fourthDay.selectedItem.toString() + ", " + fifthDay.selectedItem.toString() + ", " + sixthDay.selectedItem.toString()
 
                     }
                 }
                 val name = className.text.toString()
                 var category: String = ""
-                if(rowOldCategory.visibility == View.VISIBLE){
-                    if (classCategory.selectedItem.toString().equals("Tidak ada pilihan", ignoreCase = true)){
+                if (rowOldCategory.visibility == View.VISIBLE) {
+                    if (classCategory.selectedItem.toString()
+                            .equals("Tidak ada pilihan", ignoreCase = true)
+                    ) {
                         category = newCategory.text.toString()
-                    }else{
+                    } else {
                         category = classCategory.selectedItem.toString()
                     }
                 }
                 var image = R.drawable.ic_class
-                when(category){
+                when (category) {
                     "Bahasa Indonesia" -> image = R.drawable.ic_indonesia
                     "Bahasa Inggris" -> image = R.drawable.ic_english
                     "IPA" -> image = R.drawable.ic_science
@@ -434,7 +468,7 @@ class EditClass : AppCompatActivity() {
                     "Pemrograman" -> image = R.drawable.ic_programming
                 }
                 checkAvailableCategory(category)
-                if(checkCategory.isEmpty()){
+                if (checkCategory.isEmpty()) {
                     addCategory(category)
                 }
                 val startDate = classStart.text.toString()
@@ -451,7 +485,12 @@ class EditClass : AppCompatActivity() {
                         Classroom.END_DATE to endDate,
                         Classroom.START_TIME to startTime,
                         Classroom.END_TIME to endTime,
-                        Classroom.DAY to day).whereArgs("(ID_ = {id}) AND (TEACHER_ID = {teacher_id})", "id" to classroom?.id.toString(), "teacher_id" to classroom?.teacher_id.toString())
+                        Classroom.DAY to day
+                    ).whereArgs(
+                        "(ID_ = {id}) AND (TEACHER_ID = {teacher_id})",
+                        "id" to classroom?.id.toString(),
+                        "teacher_id" to classroom?.teacher_id.toString()
+                    )
 
                     queryUpdate.exec()
                 }
@@ -467,312 +506,346 @@ class EditClass : AppCompatActivity() {
         }
     }
 
-    private fun addCategory(categoryName: String){
+    private fun addCategory(categoryName: String) {
         try {
             database.use {
                 insert(
                     Category.TABLE_CATEGORY,
                     Category.NAME to categoryName,
-                    Category.TEACHER_ID to auth.currentUser?.uid.toString())
+                    Category.TEACHER_ID to auth.currentUser?.uid.toString()
+                )
             }
-        }catch (e: SQLiteConstraintException){
+        } catch (e: SQLiteConstraintException) {
         }
     }
 
-    private fun showDataClass(){
+    private fun showDataClass() {
         val classroom: Classroom? = intent.getParcelableExtra(data)
         dataClass.clear()
         database.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(ID_ = {id}) AND (TEACHER_ID = {teacher_id})", "id" to classroom?.id.toString(),"teacher_id" to classroom?.teacher_id.toString())
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs(
+                "(ID_ = {id}) AND (TEACHER_ID = {teacher_id})",
+                "id" to classroom?.id.toString(),
+                "teacher_id" to classroom?.teacher_id.toString()
+            )
             val data = result.parseList(classParser<Classroom>())
-            if (data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 dataClass.addAll(data)
             }
         }
     }
 
-    private fun initDateStart(year: Int, month: Int, day: Int){
-        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{ view, mYear, mMonth, mDay ->
-            val formatDay = if(mDay < 10){
-                "0$mDay"
-            }else{
-                mDay.toString()
-            }
-            val formatMonth = if((mMonth + 1) < 10){
-                "0" + (mMonth + 1)
-            }else{
-                (mMonth + 1).toString()
-            }
-            val text = "$formatDay/$formatMonth/$mYear"
-            classStart.text = text
-        }, year, month, day)
+    private fun initDateStart(year: Int, month: Int, day: Int) {
+        val datePickerDialog =
+            DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                val formatDay = if (mDay < 10) {
+                    "0$mDay"
+                } else {
+                    mDay.toString()
+                }
+                val formatMonth = if ((mMonth + 1) < 10) {
+                    "0" + (mMonth + 1)
+                } else {
+                    (mMonth + 1).toString()
+                }
+                val text = "$formatDay/$formatMonth/$mYear"
+                classStart.text = text
+            }, year, month, day)
 
         datePickerDialog.show()
     }
 
-    private fun initDateEnd(year: Int, month: Int, day: Int){
-        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{ view, mYear, mMonth, mDay ->
-            val formatDay = if(mDay < 10){
-                "0$mDay"
-            }else{
-                mDay.toString()
-            }
-            val formatMonth = if((mMonth + 1) < 10){
-                "0" + (mMonth + 1)
-            }else{
-                (mMonth+1).toString()
-            }
-            val text = "$formatDay/$formatMonth/$mYear"
-            classEnd.text = text
-        }, year, month, day)
+    private fun initDateEnd(year: Int, month: Int, day: Int) {
+        val datePickerDialog =
+            DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                val formatDay = if (mDay < 10) {
+                    "0$mDay"
+                } else {
+                    mDay.toString()
+                }
+                val formatMonth = if ((mMonth + 1) < 10) {
+                    "0" + (mMonth + 1)
+                } else {
+                    (mMonth + 1).toString()
+                }
+                val text = "$formatDay/$formatMonth/$mYear"
+                classEnd.text = text
+            }, year, month, day)
 
         datePickerDialog.show()
     }
 
-    private fun initTimeStart(hour: Int, minute: Int){
-        val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
-            val formatHours: String = if(hourOfDay < 10){
-                "0$hourOfDay"
-            }else{
-                hourOfDay.toString()
-            }
-            val formatMinutes: String = if(minutes < 10){
-                "0$minutes"
-            }else {
-                minutes.toString()
-            }
-            val text = "$formatHours : $formatMinutes"
-            timeStart.text = text
-        }, hour, minute, true)
+    private fun initTimeStart(hour: Int, minute: Int) {
+        val timePickerDialog =
+            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
+                val formatHours: String = if (hourOfDay < 10) {
+                    "0$hourOfDay"
+                } else {
+                    hourOfDay.toString()
+                }
+                val formatMinutes: String = if (minutes < 10) {
+                    "0$minutes"
+                } else {
+                    minutes.toString()
+                }
+                val text = "$formatHours : $formatMinutes"
+                timeStart.text = text
+            }, hour, minute, true)
         timePickerDialog.show()
     }
 
-    private fun initTimeEnd(hour: Int, minute: Int){
-        val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
-            val formatHours: String = if(hourOfDay < 10){
-                "0$hourOfDay"
-            }else{
-                hourOfDay.toString()
-            }
-            val formatMinutes: String = if(minutes < 10){
-                "0$minutes"
-            }else {
-                minutes.toString()
-            }
-            val text = "$formatHours : $formatMinutes"
-            timeEnd.text = text
-        }, hour, minute, true)
+    private fun initTimeEnd(hour: Int, minute: Int) {
+        val timePickerDialog =
+            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minutes ->
+                val formatHours: String = if (hourOfDay < 10) {
+                    "0$hourOfDay"
+                } else {
+                    hourOfDay.toString()
+                }
+                val formatMinutes: String = if (minutes < 10) {
+                    "0$minutes"
+                } else {
+                    minutes.toString()
+                }
+                val text = "$formatHours : $formatMinutes"
+                timeEnd.text = text
+            }, hour, minute, true)
         timePickerDialog.show()
     }
 
-    private fun checkDay(){
+    private fun checkDay() {
         val split = dataClass[0].day?.split(", ")
         count = split?.size!!
 
-        when(split.size){
+        when (split.size) {
             1 -> {
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    firstDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        firstDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[0])
-                    firstDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[0])
+                        firstDay.setSelection(classPosition)
+                    }
             }
             2 -> {
 
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    firstDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        firstDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[0])
-                    firstDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[0])
+                        firstDay.setSelection(classPosition)
+                    }
 
                 rowDay2.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    secondDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        secondDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[1])
-                    secondDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[1])
+                        secondDay.setSelection(classPosition)
+                    }
             }
             3 -> {
 
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    firstDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        firstDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[0])
-                    firstDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[0])
+                        firstDay.setSelection(classPosition)
+                    }
 
                 rowDay2.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    secondDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        secondDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[1])
-                    secondDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[1])
+                        secondDay.setSelection(classPosition)
+                    }
 
                 rowDay3.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    thirdDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        thirdDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[2])
-                    thirdDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[2])
+                        thirdDay.setSelection(classPosition)
+                    }
             }
             4 -> {
 
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    firstDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        firstDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[0])
-                    firstDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[0])
+                        firstDay.setSelection(classPosition)
+                    }
 
                 rowDay2.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    secondDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        secondDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[1])
-                    secondDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[1])
+                        secondDay.setSelection(classPosition)
+                    }
 
                 rowDay3.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    thirdDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        thirdDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[2])
-                    thirdDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[2])
+                        thirdDay.setSelection(classPosition)
+                    }
 
                 rowDay4.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fourthDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fourthDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[3])
-                    fourthDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[3])
+                        fourthDay.setSelection(classPosition)
+                    }
             }
             5 -> {
 
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    firstDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        firstDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[0])
-                    firstDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[0])
+                        firstDay.setSelection(classPosition)
+                    }
 
                 rowDay2.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    secondDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        secondDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[1])
-                    secondDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[1])
+                        secondDay.setSelection(classPosition)
+                    }
 
                 rowDay3.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    thirdDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        thirdDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[2])
-                    thirdDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[2])
+                        thirdDay.setSelection(classPosition)
+                    }
 
                 rowDay4.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fourthDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fourthDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[3])
-                    fourthDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[3])
+                        fourthDay.setSelection(classPosition)
+                    }
 
                 rowDay5.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fifthDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fifthDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[4])
-                    fifthDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[4])
+                        fifthDay.setSelection(classPosition)
+                    }
             }
             6 -> {
 
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    firstDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        firstDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[0])
-                    firstDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[0])
+                        firstDay.setSelection(classPosition)
+                    }
 
                 rowDay2.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    secondDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        secondDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[1])
-                    secondDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[1])
+                        secondDay.setSelection(classPosition)
+                    }
 
                 rowDay3.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    thirdDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        thirdDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[2])
-                    thirdDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[2])
+                        thirdDay.setSelection(classPosition)
+                    }
 
                 rowDay4.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fourthDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fourthDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[3])
-                    fourthDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[3])
+                        fourthDay.setSelection(classPosition)
+                    }
 
                 rowDay5.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    fifthDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fifthDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[4])
-                    fifthDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[4])
+                        fifthDay.setSelection(classPosition)
+                    }
 
                 addDay.visibility = View.GONE
                 rowDay6.visibility = View.VISIBLE
-                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    sixthDay.adapter = adapter
+                ArrayAdapter.createFromResource(this, R.array.day_name, R.layout.spinner_item)
+                    .also { adapter ->
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        sixthDay.adapter = adapter
 
-                    val classPosition = adapter.getPosition(split[5])
-                    sixthDay.setSelection(classPosition)
-                }
+                        val classPosition = adapter.getPosition(split[5])
+                        sixthDay.setSelection(classPosition)
+                    }
             }
         }
     }
 
-    private fun checkClass(class_name: String){
+    private fun checkClass(class_name: String) {
         database.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(NAME = {class_name}) AND (TEACHER_ID = {teacher_id})", "class_name" to class_name, "teacher_id" to auth.currentUser?.uid.toString())
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs(
+                "(NAME = {class_name}) AND (TEACHER_ID = {teacher_id})",
+                "class_name" to class_name,
+                "teacher_id" to auth.currentUser?.uid.toString()
+            )
             val data = result.parseList(classParser<Classroom>())
-            if(data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 classExist = true
             }
         }

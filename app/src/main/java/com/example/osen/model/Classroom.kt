@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Classroom (
+class Classroom(
     val id: Int?,
     val image: String?,
     val name: String?,
@@ -16,8 +16,8 @@ class Classroom (
     val endTime: String,
     val day: String?,
     val teacher_id: String?
-    ): Parcelable{
-    companion object{
+) : Parcelable {
+    companion object {
         const val TABLE_CLASSROOM: String = "CLASSROOM"
         const val ID_: String = "ID_"
         const val IMAGE: String = "IMAGE"

@@ -2,11 +2,11 @@ package com.example.osen.activity
 
 import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
@@ -22,8 +22,8 @@ import org.jetbrains.anko.db.select
 
 class AddStudent : AppCompatActivity() {
 
-    lateinit var studentName : EditText
-    lateinit var className : Spinner
+    lateinit var studentName: EditText
+    lateinit var className: Spinner
     private var list: MutableList<Classroom> = mutableListOf()
     private var listStudent: MutableList<Student> = mutableListOf()
     private var listClass: MutableList<String> = mutableListOf()
@@ -39,22 +39,23 @@ class AddStudent : AppCompatActivity() {
         studentName = findViewById(R.id.studentName)
         className = findViewById(R.id.className)
 
-        ArrayAdapter.createFromResource(this, R.array.gender, R.layout.spinner_item).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            gender.adapter = adapter
-        }
+        ArrayAdapter.createFromResource(this, R.array.gender, R.layout.spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                gender.adapter = adapter
+            }
 
         showClass()
 
-        if(list.isNotEmpty()){
-            for(i in 0 until list.size){
+        if (list.isNotEmpty()) {
+            for (i in 0 until list.size) {
                 listClass.add(list.get(i).name.toString())
             }
-        }else{
+        } else {
             listClass.add("Belum ada kelas")
         }
 
-        if(listClass[0].equals("Belum ada kelas", ignoreCase = true)){
+        if (listClass[0].equals("Belum ada kelas", ignoreCase = true)) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Harap membuat kelas terlebih dahulu"
@@ -63,7 +64,7 @@ class AddStudent : AppCompatActivity() {
                 finish()
             }
             dialog.show()
-        }else{
+        } else {
             val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, listClass)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             className.adapter = adapter
@@ -73,19 +74,19 @@ class AddStudent : AppCompatActivity() {
             clear()
         }
         submit.setOnClickListener {
-            if(studentName.text.toString() == ""){
+            if (studentName.text.toString() == "") {
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
                 dialog.titleText = "Harap masukkan data secara lengkap dan benar"
                 dialog.setCancelable(false)
                 dialog.show()
-            }else{
+            } else {
                 addStudent()
             }
         }
     }
 
-    private fun addStudent(){
+    private fun addStudent() {
         try {
             database.use {
                 insert(
@@ -94,9 +95,14 @@ class AddStudent : AppCompatActivity() {
                     Student.CLASS_NAME to className.selectedItem.toString(),
                     Student.GENDER to gender.selectedItem.toString(),
                     Student.SCORE to 0,
-                    Student.TEACHER_ID to auth.currentUser?.uid.toString())
+                    Student.TEACHER_ID to auth.currentUser?.uid.toString()
+                )
 
-                getStudentId(className.selectedItem.toString(), auth.currentUser?.uid.toString(), studentName.text.toString())
+                getStudentId(
+                    className.selectedItem.toString(),
+                    auth.currentUser?.uid.toString(),
+                    studentName.text.toString()
+                )
 
                 insert(
                     Absent.TABLE_ABSENT,
@@ -106,7 +112,8 @@ class AddStudent : AppCompatActivity() {
                     Absent.IZIN to 0,
                     Absent.HADIR to 0,
                     Absent.CLASS to className.selectedItem.toString(),
-                    Absent.TEACHER_ID to listStudent[0].teacher_id)
+                    Absent.TEACHER_ID to listStudent[0].teacher_id
+                )
 
                 insert(
                     Score.TABLE_SCORE,
@@ -122,7 +129,8 @@ class AddStudent : AppCompatActivity() {
                     Score.ASSESSMENT_3 to 0,
                     Score.PERSENTASE_ASSESSMENT_3 to 0,
                     Score.CLASS_NAME to listStudent[0].className,
-                    Score.TEACHER_ID to listStudent[0].teacher_id)
+                    Score.TEACHER_ID to listStudent[0].teacher_id
+                )
             }
             clear()
             val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
@@ -130,7 +138,7 @@ class AddStudent : AppCompatActivity() {
             dialog.titleText = "Data berhasil ditambahkan"
             dialog.setCancelable(false)
             dialog.show()
-        }catch (e: SQLiteConstraintException){
+        } catch (e: SQLiteConstraintException) {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
             dialog.titleText = "Gagal menambah data"
@@ -139,29 +147,37 @@ class AddStudent : AppCompatActivity() {
         }
     }
 
-    private fun clear(){
+    private fun clear() {
         studentName.setText("")
         className.setSelection(0)
         gender.setSelection(0)
     }
 
-    private fun showClass(){
+    private fun showClass() {
         list.clear()
         database.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to auth.currentUser?.uid.toString())
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs(
+                "(TEACHER_ID = {teacher_id})",
+                "teacher_id" to auth.currentUser?.uid.toString()
+            )
             val data = result.parseList(classParser<Classroom>())
-            if (data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 list.addAll(data)
             }
         }
     }
 
-    private fun getStudentId(className: String, teacherId: String, studentName: String){
+    private fun getStudentId(className: String, teacherId: String, studentName: String) {
         listStudent.clear()
         database.use {
-            val result = select(Student.TABLE_STUDENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (CLASS = {class_name}) AND (NAME = {student_name}) LIMIT 1", "teacher_id" to teacherId, "class_name" to className, "student_name" to studentName)
+            val result = select(Student.TABLE_STUDENT).whereArgs(
+                "(TEACHER_ID = {teacher_id}) AND (CLASS = {class_name}) AND (NAME = {student_name}) LIMIT 1",
+                "teacher_id" to teacherId,
+                "class_name" to className,
+                "student_name" to studentName
+            )
             val data = result.parseList(classParser<Student>())
-            if (data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 listStudent.addAll(data)
             }
         }

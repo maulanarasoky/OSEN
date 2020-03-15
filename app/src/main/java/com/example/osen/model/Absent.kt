@@ -9,8 +9,8 @@ data class Absent(
     val alfa: Int?,
     val class_name: String?,
     val teacher_id: String?
-){
-    companion object{
+) {
+    companion object {
         const val TABLE_ABSENT = "ABSENT"
         const val ID_ = "ID_"
         const val STUDENT_ID = "STUDENT_ID"

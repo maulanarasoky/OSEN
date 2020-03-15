@@ -1,11 +1,11 @@
 package com.example.osen.fragment
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import cn.pedant.SweetAlert.SweetAlertDialog
-import com.bumptech.glide.Glide
-
 import com.example.osen.R
 import com.example.osen.activity.BackupRestore
 import com.example.osen.activity.ChangePassword
@@ -15,10 +15,8 @@ import com.example.osen.database.database
 import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import com.example.osen.model.Student
-import com.google.android.material.bottomnavigation.BottomNavigationMenu
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
@@ -92,31 +90,40 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun countClass(teacher_id: String){
+    private fun countClass(teacher_id: String) {
         database.use {
-            val result = select(Classroom.TABLE_CLASSROOM).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to teacher_id)
+            val result = select(Classroom.TABLE_CLASSROOM).whereArgs(
+                "(TEACHER_ID = {teacher_id})",
+                "teacher_id" to teacher_id
+            )
             val data = result.parseList(classParser<Classroom>())
-            if(data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 totalClasses = data.size
             }
         }
     }
 
-    private fun countStudent(teacher_id: String){
+    private fun countStudent(teacher_id: String) {
         database.use {
-            val result = select(Student.TABLE_STUDENT).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to teacher_id)
+            val result = select(Student.TABLE_STUDENT).whereArgs(
+                "(TEACHER_ID = {teacher_id})",
+                "teacher_id" to teacher_id
+            )
             val data = result.parseList(classParser<Student>())
-            if(data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 totalStudents = data.size
             }
         }
     }
 
-    private fun countCategory(teacher_id: String){
+    private fun countCategory(teacher_id: String) {
         database.use {
-            val result = select(Category.TABLE_CATEGORY).whereArgs("(TEACHER_ID = {teacher_id})", "teacher_id" to teacher_id)
+            val result = select(Category.TABLE_CATEGORY).whereArgs(
+                "(TEACHER_ID = {teacher_id})",
+                "teacher_id" to teacher_id
+            )
             val data = result.parseList(classParser<Category>())
-            if(data.isNotEmpty()){
+            if (data.isNotEmpty()) {
                 totalCategories = data.size
             }
         }

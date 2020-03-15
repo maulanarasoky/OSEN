@@ -1,7 +1,6 @@
 package com.example.osen.activity
 
 import android.content.Context
-import android.content.Intent
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
@@ -21,7 +20,6 @@ import java.io.File
 import java.io.IOException
 import java.io.OutputStreamWriter
 
-
 class Backup : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
@@ -35,7 +33,7 @@ class Backup : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         backupClasses.setOnClickListener {
-            val fileName = "Osen_Classeses.json"
+            val fileName = "Osen_Classes.json"
             export(this, Classroom.TABLE_CLASSROOM, fileName)
         }
         backupStudents.setOnClickListener {
@@ -87,16 +85,19 @@ class Backup : AppCompatActivity() {
         Log.d("TAG_NAME", resultSet.toString())
         return resultSet
     }
+
     private val TAG = Export::class.java.name
 
     private fun export(context: Context, myTable: String, fileName: String) {
         try {
-            val outputStreamWriter = OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE))
+            val outputStreamWriter =
+                OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE))
             outputStreamWriter.write(getResults(myTable).toString())
             outputStreamWriter.close()
 
             val fileLocation: File = File(filesDir, fileName)
-            val path: Uri = FileProvider.getUriForFile(this, "com.example.osen.fileprovider", fileLocation)
+            val path: Uri =
+                FileProvider.getUriForFile(this, "com.example.osen.fileprovider", fileLocation)
             onFileClick(path)
         } catch (e: IOException) {
             Log.e(TAG, "File write failed :", e)

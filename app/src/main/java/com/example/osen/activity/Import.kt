@@ -50,16 +50,16 @@ class Import : AppCompatActivity() {
         }
     }
 
-    private fun readFile(requestCode: Int){
+    private fun readFile(requestCode: Int) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "application/*";
+        intent.type = "application/*"
         startActivityForResult(intent, requestCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(data != null){
-            val selectedFile: Uri? = data.data;
+        if (data != null) {
+            val selectedFile: Uri? = data.data
             val file = File(selectedFile?.path.toString())
             Log.d("FILE DIR", selectedFile.toString())
             when (requestCode) {
@@ -67,16 +67,25 @@ class Import : AppCompatActivity() {
                     textImportClass.text = file.name
                     textImportClass.textSize = 10f
                     importClasses.setOnClickListener {
-                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if (ContextCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                    this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                )
+                            ) {
                                 toast("Permission Denied").show()
                             } else {
-                                ActivityCompat.requestPermissions(this,
+                                ActivityCompat.requestPermissions(
+                                    this,
                                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                    0)
+                                    0
+                                )
                             }
-                        }else{
+                        } else {
                             if (selectedFile != null) {
                                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                                 dialog.setCancelable(false)
@@ -104,16 +113,25 @@ class Import : AppCompatActivity() {
                     textImportStudent.textSize = 10f
 
                     importStudents.setOnClickListener {
-                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if (ContextCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                    this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                )
+                            ) {
                                 toast("Permission Denied").show()
                             } else {
-                                ActivityCompat.requestPermissions(this,
+                                ActivityCompat.requestPermissions(
+                                    this,
                                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                    0)
+                                    0
+                                )
                             }
-                        }else{
+                        } else {
                             if (selectedFile != null) {
                                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                                 dialog.setCancelable(false)
@@ -141,16 +159,25 @@ class Import : AppCompatActivity() {
                     textImportAbsent.textSize = 10f
 
                     importAbsents.setOnClickListener {
-                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if (ContextCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                    this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                )
+                            ) {
                                 toast("Permission Denied").show()
                             } else {
-                                ActivityCompat.requestPermissions(this,
+                                ActivityCompat.requestPermissions(
+                                    this,
                                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                    0)
+                                    0
+                                )
                             }
-                        }else{
+                        } else {
                             if (selectedFile != null) {
                                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                                 dialog.setCancelable(false)
@@ -178,16 +205,25 @@ class Import : AppCompatActivity() {
                     textImportScore.textSize = 10f
 
                     importScores.setOnClickListener {
-                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if (ContextCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                    this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                )
+                            ) {
                                 toast("Permission Denied").show()
                             } else {
-                                ActivityCompat.requestPermissions(this,
+                                ActivityCompat.requestPermissions(
+                                    this,
                                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                    0)
+                                    0
+                                )
                             }
-                        }else{
+                        } else {
                             if (selectedFile != null) {
                                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                                 dialog.setCancelable(false)
@@ -215,16 +251,25 @@ class Import : AppCompatActivity() {
                     textImportCategory.textSize = 10f
 
                     importCategories.setOnClickListener {
-                        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if (ContextCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                    this,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                )
+                            ) {
                                 toast("Permission Denied").show()
                             } else {
-                                ActivityCompat.requestPermissions(this,
+                                ActivityCompat.requestPermissions(
+                                    this,
                                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                    0)
+                                    0
+                                )
                             }
-                        }else{
+                        } else {
                             if (selectedFile != null) {
                                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                                 dialog.setCancelable(false)
@@ -407,6 +452,7 @@ class Import : AppCompatActivity() {
         val PERSENTASE_ASSESSMENT_2 = "PERSENTASE_ASSESSMENT_2"
         val ASSESSMENT_3 = "ASSESSMENT_3"
         val PERSENTASE_ASSESSMENT_3 = "PERSENTASE_ASSESSMENT_3"
+        val CLASS_NAME = "CLASS"
         val TEACHER_ID = "TEACHER_ID"
         try {
             val jsonDataString = readJsonFile(data)
@@ -421,11 +467,21 @@ class Import : AppCompatActivity() {
                 contentValue.put(UAS, jsonObject.getString(UAS))
                 contentValue.put(PERSENTASE_UAS, jsonObject.getString(PERSENTASE_UAS))
                 contentValue.put(ASSESSMENT_1, jsonObject.getString(ASSESSMENT_1))
-                contentValue.put(PERSENTASE_ASSESSMENT_1, jsonObject.getString(PERSENTASE_ASSESSMENT_1))
+                contentValue.put(
+                    PERSENTASE_ASSESSMENT_1,
+                    jsonObject.getString(PERSENTASE_ASSESSMENT_1)
+                )
                 contentValue.put(ASSESSMENT_2, jsonObject.getString(ASSESSMENT_2))
-                contentValue.put(PERSENTASE_ASSESSMENT_2, jsonObject.getString(PERSENTASE_ASSESSMENT_2))
+                contentValue.put(
+                    PERSENTASE_ASSESSMENT_2,
+                    jsonObject.getString(PERSENTASE_ASSESSMENT_2)
+                )
                 contentValue.put(ASSESSMENT_3, jsonObject.getString(ASSESSMENT_3))
-                contentValue.put(PERSENTASE_ASSESSMENT_3, jsonObject.getString(PERSENTASE_ASSESSMENT_3))
+                contentValue.put(
+                    PERSENTASE_ASSESSMENT_3,
+                    jsonObject.getString(PERSENTASE_ASSESSMENT_3)
+                )
+                contentValue.put(CLASS_NAME, jsonObject.getString(CLASS_NAME))
                 contentValue.put(TEACHER_ID, jsonObject.getString(TEACHER_ID))
 
                 database.use {

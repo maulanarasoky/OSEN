@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.Restore">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/gray_circle"/>
+            android:background="@drawable/gray_circle" />
 
         <LinearLayout
             android:id="@+id/linear1"
@@ -51,11 +52,13 @@
             android:layout_marginStart="48dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent">
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_class"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +78,7 @@
             app:layout_constraintTop_toBottomOf="@id/linear1"
             app:layout_constraintStart_toStartOf="@id/linear1"
             app:layout_constraintEnd_toEndOf="@id/linear1"
-            app:showText="false"/>
+            app:showText="false" />
 
         <LinearLayout
             android:id="@+id/linear2"
@@ -88,11 +91,13 @@
             android:layout_marginEnd="48dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent">
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_student"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,7 +117,7 @@
             app:layout_constraintTop_toBottomOf="@id/linear2"
             app:layout_constraintStart_toStartOf="@id/linear2"
             app:layout_constraintEnd_toEndOf="@id/linear2"
-            app:showText="false"/>
+            app:showText="false" />
 
         <LinearLayout
             android:id="@+id/linear3"
@@ -125,11 +130,13 @@
             android:layout_marginStart="48dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent">
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_absent"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,7 +156,7 @@
             app:layout_constraintTop_toBottomOf="@id/linear3"
             app:layout_constraintStart_toStartOf="@id/linear3"
             app:layout_constraintEnd_toEndOf="@id/linear3"
-            app:showText="false"/>
+            app:showText="false" />
 
         <LinearLayout
             android:id="@+id/linear4"
@@ -162,11 +169,13 @@
             android:layout_marginEnd="48dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent">
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_score"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -186,7 +195,7 @@
             app:layout_constraintTop_toBottomOf="@id/linear4"
             app:layout_constraintStart_toStartOf="@id/linear4"
             app:layout_constraintEnd_toEndOf="@id/linear4"
-            app:showText="false"/>
+            app:showText="false" />
 
         <LinearLayout
             android:id="@+id/linear5"
@@ -199,11 +208,13 @@
             app:layout_constraintTop_toBottomOf="@id/restoreScores"
             android:layout_marginTop="32dp"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_category"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -215,7 +226,6 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/restoreCategories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textOff="Off"
@@ -223,7 +233,7 @@
             app:layout_constraintTop_toBottomOf="@id/linear5"
             app:layout_constraintStart_toStartOf="@id/linear5"
             app:layout_constraintEnd_toEndOf="@id/linear5"
-            app:showText="false"/>
+            app:showText="false" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
