@@ -1,9 +1,11 @@
 package com.example.osen.activity
 
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -11,6 +13,7 @@ import androidx.core.content.ContextCompat
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
+import com.example.osen.interfaces.MyAsyncCallback
 import com.example.osen.model.Score
 import com.example.osen.model.Student
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -19,8 +22,9 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.update
 import java.lang.Exception
+import java.lang.ref.WeakReference
 
-class InputScore : AppCompatActivity() {
+class InputScore : AppCompatActivity(), MyAsyncCallback {
 
     companion object {
         const val data = "data"
@@ -36,12 +40,19 @@ class InputScore : AppCompatActivity() {
     var mPersentaseAss2: Int? = 0
     var mAss3: Int? = 0
     var mPersentaseAss3: Int? = 0
+    var student_id: Int = 0
+    var teacher_id: String = ""
+    var class_name: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_score)
 
         val parcel: Student? = intent.getParcelableExtra(data)
+
+        student_id = parcel?.id.toString().toInt()
+        teacher_id = parcel?.teacher_id.toString()
+        class_name = parcel?.className.toString()
 
         val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
         collapsingToolbar.setExpandedTitleColor(
@@ -60,15 +71,10 @@ class InputScore : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        initData(parcel?.id, parcel?.teacher_id)
-
-        inputScore.setOnClickListener {
-            checkConditionScore(parcel?.id, parcel?.teacher_id, parcel?.className)
-        }
+        DemoAsync(this).execute()
     }
 
-    private fun initData(student_id: Int?, teacher_id: String?) {
-        showScore(student_id, teacher_id)
+    private fun initData() {
 
         uts.setText(mUts.toString(), TextView.BufferType.EDITABLE)
         persentaseUts.setText(mPersentaseUts.toString(), TextView.BufferType.EDITABLE)
@@ -282,6 +288,52 @@ class InputScore : AppCompatActivity() {
             dialog.show()
         }catch (e : Exception){
             e.printStackTrace()
+        }
+    }
+
+    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<String, Unit, Unit>(){
+
+        private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+            val listener = myListener.get()
+            listener?.onPreExecute()
+        }
+
+        override fun doInBackground(vararg params: String?) {
+            showScore(student_id, teacher_id)
+        }
+
+        override fun onPostExecute(result: Unit?) {
+            super.onPostExecute(result)
+            val listener = myListener.get()
+            listener?.onPostExecute()
+        }
+
+    }
+
+    override fun onPreExecute() {
+        progressBar.visibility = View.VISIBLE
+        textInputScore.visibility = View.GONE
+        table1.visibility = View.GONE
+        table2.visibility = View.GONE
+        table3.visibility = View.GONE
+        table4.visibility = View.GONE
+        table5.visibility = View.GONE
+    }
+
+    override fun onPostExecute() {
+        progressBar.visibility = View.GONE
+        textInputScore.visibility = View.VISIBLE
+        table1.visibility = View.VISIBLE
+        table2.visibility = View.VISIBLE
+        table3.visibility = View.VISIBLE
+        table4.visibility = View.VISIBLE
+        table5.visibility = View.VISIBLE
+        initData()
+        inputScore.setOnClickListener {
+            checkConditionScore(student_id, teacher_id, class_name)
         }
     }
 }

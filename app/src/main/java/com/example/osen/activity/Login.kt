@@ -12,19 +12,10 @@ import org.jetbrains.anko.startActivity
 class Login : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-    lateinit var email: EditText
-    lateinit var password: EditText
-
-    companion object {
-        const val VERIFIED = 111
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        email = findViewById(R.id.email)
-        password = findViewById(R.id.password)
 
         auth = FirebaseAuth.getInstance()
 

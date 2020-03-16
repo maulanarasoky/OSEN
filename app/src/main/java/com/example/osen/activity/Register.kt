@@ -13,18 +13,12 @@ import org.jetbrains.anko.startActivity
 
 class Register : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
-    lateinit var email: EditText
-    lateinit var password: EditText
-    lateinit var reTypePass: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         auth = FirebaseAuth.getInstance()
-        email = findViewById(R.id.email)
-        password = findViewById(R.id.password)
-        reTypePass = findViewById(R.id.reTypePass)
 
         btnRegister.setOnClickListener {
             if (TextUtils.isEmpty(email.text.toString().trim())) {
