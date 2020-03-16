@@ -39,6 +39,7 @@ class ClassDetails : AppCompatActivity(), MyAsyncCallback {
         const val REQUEST_CODE_EDIT = 100
         const val REQUEST_CODE_DETAILS = 101
         const val RESULT_DELETE = 200
+        const val RESULT_UPDATE = 300
     }
 
     var listStudent: MutableList<Student> = mutableListOf()
