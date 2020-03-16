@@ -2,6 +2,7 @@ package com.example.osen.activity
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.isEmpty
 import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,20 +21,24 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.osen.R
 import com.example.osen.adapter.StudentList
 import com.example.osen.database.database
+import com.example.osen.interfaces.MyAsyncCallback
 import com.example.osen.model.*
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_class_details.*
 import org.jetbrains.anko.db.*
+import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ClassDetails : AppCompatActivity() {
+class ClassDetails : AppCompatActivity(), MyAsyncCallback {
 
     companion object {
         val data = "data"
 
         const val REQUEST_CODE_EDIT = 100
+        const val REQUEST_CODE_DETAILS = 101
+        const val RESULT_DELETE = 200
     }
 
     var listStudent: MutableList<Student> = mutableListOf()
@@ -50,75 +56,10 @@ class ClassDetails : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val currentDate = sdf.format(Date())
-
         showClass()
 
-        if (currentDate < dataClass[0].startDate.toString()) {
-            textClassFinish.text = "Kelas Belum Dimulai"
-            btnTandai.visibility = View.GONE
-            spinnerTandai.visibility = View.GONE
-            warning.visibility = View.GONE
-        } else if (currentDate >= dataClass[0].startDate.toString() && currentDate <= dataClass[0].endDate.toString()) {
-            textClassFinish.text = "Kelas Sedang Berlangsung"
-        } else if (currentDate > dataClass[0].endDate.toString()) {
-            btnTandai.visibility = View.GONE
-            spinnerTandai.visibility = View.GONE
-            warning.visibility = View.GONE
-        }
-
-        ArrayAdapter.createFromResource(this, R.array.keterangan_hadir, R.layout.spinner_item)
-            .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerTandai.adapter = adapter
-            }
-
-        val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
-        collapsingToolbar.setExpandedTitleColor(
-            ContextCompat.getColor(
-                applicationContext,
-                android.R.color.transparent
-            )
-        )
-
-        val toolbar: Toolbar = findViewById(R.id.toolBar)
-        setSupportActionBar(toolbar)
-
-        collapsingToolbar.setContentScrimColor(Color.parseColor("#48cfad"))
-
-        supportActionBar?.title = dataClass[0].name
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        initUI()
-
-        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-        studentList.layoutManager = layoutManager
-        studentList.adapter = adapter
-
-        showStudent()
-
-        checkAbsentOfToday(currentDate)
-
-        if (absentOfDay.isNotEmpty()) {
-            btnTandai.isEnabled = false
-            spinnerTandai.isEnabled = false
-        }
-
-        btnTandai.setOnClickListener {
-            val description = spinnerTandai.selectedItem.toString()
-
-            if (description != "-") {
-                insertAllAbsentToday(currentDate, description)
-
-                updateAbsent(description)
-                adapter.notifyDataSetChanged()
-                studentList.adapter = adapter
-                btnTandai.isEnabled = false
-                spinnerTandai.isEnabled = false
-            }
-        }
+        val demoAsync = DemoAsync(this)
+        demoAsync.execute()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -194,6 +135,7 @@ class ClassDetails : AppCompatActivity() {
                             dialogWarningDelete.setCancelable(false)
                             dialogWarningDelete.setConfirmClickListener {
                                 dialogWarningDelete.dismissWithAnimation()
+                                setResult(RESULT_DELETE)
                                 finish()
                             }
                         }
@@ -363,6 +305,105 @@ class ClassDetails : AppCompatActivity() {
             val data = result.parseList(classParser<Classroom>())
             if (data.isNotEmpty()) {
                 dataClass.addAll(data)
+            }
+        }
+    }
+
+    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<Void, Unit, Unit>(){
+
+        private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+            val myListener = myListener.get()
+            myListener?.onPreExecute()
+        }
+
+        override fun doInBackground(vararg params: Void?) {
+            showClass()
+        }
+
+        override fun onPostExecute(result: Unit?) {
+            super.onPostExecute(result)
+            val myListener = myListener.get()
+            myListener?.onPostExecute()
+        }
+
+    }
+
+    override fun onPreExecute() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun onPostExecute() {
+        progressBar.visibility = View.GONE
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val currentDate = sdf.format(Date())
+
+        if (currentDate < dataClass[0].startDate.toString()) {
+            textClassFinish.text = "Kelas Belum Dimulai"
+            linear4.visibility = View.GONE
+            warning.visibility = View.GONE
+        } else if (currentDate >= dataClass[0].startDate.toString() && currentDate <= dataClass[0].endDate.toString()) {
+            textClassFinish.text = "Kelas Sedang Berlangsung"
+        } else if (currentDate > dataClass[0].endDate.toString()) {
+            linear4.visibility = View.GONE
+            warning.visibility = View.GONE
+        }
+
+        ArrayAdapter.createFromResource(this, R.array.keterangan_hadir, R.layout.spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerTandai.adapter = adapter
+            }
+
+        val collapsingToolbar: CollapsingToolbarLayout = findViewById(R.id.collapsingToolbar)
+        collapsingToolbar.setExpandedTitleColor(
+            ContextCompat.getColor(
+                applicationContext,
+                android.R.color.transparent
+            )
+        )
+
+        val toolbar: Toolbar = findViewById(R.id.toolBar)
+        setSupportActionBar(toolbar)
+
+        collapsingToolbar.setContentScrimColor(Color.parseColor("#48cfad"))
+
+        supportActionBar?.title = dataClass[0].name
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        showStudent()
+
+        if (listStudent.isEmpty()){
+            linear4.visibility = View.GONE
+        }
+
+        initUI()
+
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
+        studentList.layoutManager = layoutManager
+        studentList.adapter = adapter
+
+        checkAbsentOfToday(currentDate)
+
+        if (absentOfDay.isNotEmpty()) {
+            btnTandai.isEnabled = false
+            spinnerTandai.isEnabled = false
+        }
+
+        btnTandai.setOnClickListener {
+            val description = spinnerTandai.selectedItem.toString()
+
+            if (description != "-") {
+                insertAllAbsentToday(currentDate, description)
+
+                updateAbsent(description)
+                adapter.notifyDataSetChanged()
+                studentList.adapter = adapter
+                btnTandai.isEnabled = false
+                spinnerTandai.isEnabled = false
             }
         }
     }

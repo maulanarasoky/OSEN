@@ -70,10 +70,4 @@ class Login : AppCompatActivity() {
     private fun registerActivity() {
         startActivity<Register>()
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        setResult(MainActivity.RESULT_CODE)
-        finish()
-    }
 }

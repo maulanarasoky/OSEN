@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
+import com.example.osen.interfaces.MyAsyncCallback
 import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import com.google.firebase.auth.FirebaseAuth
@@ -19,10 +21,11 @@ import kotlinx.android.synthetic.main.activity_add_classroom.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
+import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddClassroom : AppCompatActivity() {
+class AddClassroom : AppCompatActivity(), MyAsyncCallback {
 
     lateinit var className: EditText
     lateinit var classType: Spinner
@@ -371,7 +374,8 @@ class AddClassroom : AppCompatActivity() {
         } else if (rowFirstCategory.visibility == View.VISIBLE) {
             addCategory()
         }
-        addClassroom()
+        val demoAsync = DemoAsync(this)
+        demoAsync.execute()
     }
 
     private fun showCategorySpinner() {
@@ -486,20 +490,8 @@ class AddClassroom : AppCompatActivity() {
                     Classroom.TEACHER_ID to auth.currentUser?.uid
                 )
             }
-            if (result > 0) {
-                clear()
-                val dialog = SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-                dialog.titleText = "Kelas Berhasil Dibuat"
-                dialog.setCancelable(false)
-                dialog.show()
-            }
         } catch (e: SQLiteConstraintException) {
-            val dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-            dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
-            dialog.titleText = "Gagal membuat kelas"
-            dialog.setCancelable(false)
-            dialog.show()
+            e.printStackTrace()
         }
     }
 
@@ -563,5 +555,42 @@ class AddClassroom : AppCompatActivity() {
                 classExist = true
             }
         }
+    }
+
+    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<String, Unit, Unit>(){
+
+        private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+            val listener = myListener.get()
+            listener?.onPreExecute()
+        }
+
+        override fun doInBackground(vararg params: String?) {
+            addClassroom()
+        }
+
+        override fun onPostExecute(result: Unit?) {
+            super.onPostExecute(result)
+            val listener = myListener.get()
+            listener?.onPostExecute()
+        }
+
+    }
+
+    lateinit var dialog: SweetAlertDialog
+    override fun onPreExecute() {
+        dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
+    override fun onPostExecute() {
+        clear()
+        dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+        dialog.progressHelper.barColor = Color.parseColor("#A5DC86")
+        dialog.titleText = "Kelas Berhasil Dibuat"
+        dialog.show()
     }
 }

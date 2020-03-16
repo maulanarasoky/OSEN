@@ -98,10 +98,4 @@ class Register : AppCompatActivity() {
         }
         dialog.show()
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        setResult(MainActivity.RESULT_CODE)
-        finish()
-    }
 }

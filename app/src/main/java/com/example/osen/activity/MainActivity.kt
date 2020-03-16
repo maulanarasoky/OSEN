@@ -15,11 +15,6 @@ import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        const val REQUEST_CODE = 100
-        const val RESULT_CODE = 222
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -83,8 +78,10 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("resultCode", resultCode.toString())
-        if (requestCode == REQUEST_CODE) {
-            bottom_navigation.selectedItemId = R.id.home
+        if (requestCode == ClassDetails.REQUEST_CODE_DETAILS) {
+            if(resultCode == ClassDetails.RESULT_DELETE){
+                bottom_navigation.selectedItemId = R.id.home
+            }
         }
     }
 }
