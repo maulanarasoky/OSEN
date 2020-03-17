@@ -174,56 +174,6 @@ class InputScore : AppCompatActivity(), MyAsyncCallback {
             return
         }
 
-        if(uts.text.toString().length > 9){
-            uts.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(persentaseUts.text.toString().length > 9){
-            persentaseUts.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(uas.text.toString().length > 9){
-            uas.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(persentaseUas.text.toString().length > 9){
-            persentaseUas.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(ass1.text.toString().length > 9){
-            ass1.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(persentaseAss1.text.toString().length > 9){
-            persentaseAss1.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(ass2.text.toString().length > 9){
-            ass2.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(persentaseAss2.text.toString().length > 9){
-            persentaseAss2.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(ass3.text.toString().length > 9){
-            ass3.error = "Nilai field tidak valid"
-            return
-        }
-
-        if(persentaseAss3.text.toString().length > 9){
-            persentaseAss3.error = "Nilai field tidak valid"
-            return
-        }
-
         if (persentaseUts.text.toString().toInt().plus(persentaseUas.text.toString().toInt())
                 .plus(persentaseAss1.text.toString().toInt())
                 .plus(persentaseAss2.text.toString().toInt())
