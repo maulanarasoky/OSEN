@@ -123,56 +123,104 @@ class InputScore : AppCompatActivity(), MyAsyncCallback {
     }
 
     private fun checkConditionScore(student_id: Int?, teacher_id: String?, class_name: String?) {
-        var title = ""
         if (uts.text.toString() == "" || persentaseUts.text.toString() == "") {
             if (uts.text.toString() == "") {
-                title = "UTS"
+                uts.error = "Isi Field Dengan Benar"
             }
 
             if (persentaseUts.text.toString() == "") {
-                title = "Persentase UTS"
+                persentaseUts.error = "Isi Field Dengan Benar"
             }
-        } else if (uas.text.toString() == "" || persentaseUas.text.toString() == "") {
+            return
+        }
+        if (uas.text.toString() == "" || persentaseUas.text.toString() == "") {
             if (uas.text.toString() == "") {
-                title = "UAS"
+                uas.error = "Isi Field Dengan Benar"
             }
 
             if (persentaseUas.text.toString() == "") {
-                title = "Persentase UAS"
+                persentaseUas.error = "Isi Field Dengan Benar"
             }
-        } else if (ass1.text.toString() == "" || persentaseAss1.text.toString() == "") {
+            return
+        }
+        if (ass1.text.toString() == "" || persentaseAss1.text.toString() == "") {
             if (ass1.text.toString() == "") {
-                title = "Assessment 1"
+                ass1.error = "Isi Field Dengan Benar"
             }
 
             if (persentaseAss1.text.toString() == "") {
-                title = "Persentase Assessment 1"
+                persentaseAss1.error = "Isi Field Dengan Benar"
             }
-        } else if (ass2.text.toString() == "" || persentaseAss2.text.toString() == "") {
+            return
+        }
+        if (ass2.text.toString() == "" || persentaseAss2.text.toString() == "") {
             if (ass2.text.toString() == "") {
-                title = "Assessment 2"
+                ass2.error = "Isi Field Dengan Benar"
             }
 
             if (persentaseAss2.text.toString() == "") {
-                title = "Persentase Assessment 2"
+                persentaseAss2.error = "Isi Field Dengan Benar"
             }
-        } else if (ass3.text.toString() == "" || persentaseAss3.text.toString() == "") {
+            return
+        }
+        if (ass3.text.toString() == "" || persentaseAss3.text.toString() == "") {
             if (ass3.text.toString() == "") {
-                title = "Assessment 3"
+                ass3.error = "Isi Field Dengan Benar"
             }
 
             if (persentaseAss3.text.toString() == "") {
-                title = "Persentase Assessment 3"
+                persentaseAss3.error = "Isi Field Dengan Benar"
             }
+            return
         }
 
-        if (title != "") {
-            val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-            dialog.titleText = "Isi Field $title Dengan Benar"
-            dialog.setOnCancelListener {
-                dialog.dismissWithAnimation()
-            }
-            dialog.show()
+        if(uts.text.toString().length > 9){
+            uts.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(persentaseUts.text.toString().length > 9){
+            persentaseUts.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(uas.text.toString().length > 9){
+            uas.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(persentaseUas.text.toString().length > 9){
+            persentaseUas.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(ass1.text.toString().length > 9){
+            ass1.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(persentaseAss1.text.toString().length > 9){
+            persentaseAss1.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(ass2.text.toString().length > 9){
+            ass2.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(persentaseAss2.text.toString().length > 9){
+            persentaseAss2.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(ass3.text.toString().length > 9){
+            ass3.error = "Nilai field tidak valid"
+            return
+        }
+
+        if(persentaseAss3.text.toString().length > 9){
+            persentaseAss3.error = "Nilai field tidak valid"
             return
         }
 
@@ -231,19 +279,6 @@ class InputScore : AppCompatActivity(), MyAsyncCallback {
                 dialog.show()
                 return
             }
-            Log.d("a", uts.text.toString())
-            Log.d("b", persentaseUts.text.toString())
-            Log.d("c", uas.text.toString())
-            Log.d("d", persentaseUas.text.toString())
-            Log.d("e", ass1.text.toString())
-            Log.d("f", persentaseAss1.text.toString())
-            Log.d("g", ass2.text.toString())
-            Log.d("h", persentaseAss2.text.toString())
-            Log.d("i", ass3.text.toString())
-            Log.d("j", persentaseAss3.text.toString())
-            Log.d("CLASS", class_name.toString())
-            Log.d("student", student_id.toString())
-            Log.d("teacher", teacher_id.toString())
             inputScore(student_id, teacher_id, class_name)
         }
     }
