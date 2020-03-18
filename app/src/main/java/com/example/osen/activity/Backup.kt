@@ -8,11 +8,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import com.example.osen.R
 import com.example.osen.model.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_backup.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -23,40 +24,40 @@ import java.io.OutputStreamWriter
 class Backup : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
-
-    var teacher_id = ""
+    lateinit var storage: StorageReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_backup)
 
         auth = FirebaseAuth.getInstance()
+        storage = FirebaseStorage.getInstance().reference
 
         backupClasses.setOnClickListener {
             val fileName = "Osen_Classes.json"
-            export(this, Classroom.TABLE_CLASSROOM, fileName)
+            export(this, Classroom.TABLE_CLASSROOM, fileName, "Kelas")
         }
         backupStudents.setOnClickListener {
             val fileName = "Osen_Students.json"
-            export(this, Student.TABLE_STUDENT, fileName)
+            export(this, Student.TABLE_STUDENT, fileName, "Murid")
         }
         backupAbsents.setOnClickListener {
             val fileName = "Osen_Absents.json"
-            export(this, Absent.TABLE_ABSENT, fileName)
+            export(this, Absent.TABLE_ABSENT, fileName, "Absen")
         }
         backupScores.setOnClickListener {
             val fileName = "Osen_Scores.json"
-            export(this, Score.TABLE_SCORE, fileName)
+            export(this, Score.TABLE_SCORE, fileName, "Nilai")
         }
         backupCategories.setOnClickListener {
             val fileName = "Osen_Categories.json"
-            export(this, Category.TABLE_CATEGORY, fileName)
+            export(this, Category.TABLE_CATEGORY, fileName, "Kategori")
         }
     }
 
     private fun getResults(myTable: String): JSONArray? {
         val myPath: String = getDatabasePath("Osen.db").toString()
-        val searchQuery = "SELECT  * FROM $myTable WHERE TEACHER_ID = '$teacher_id'"
+        val searchQuery = "SELECT  * FROM $myTable WHERE TEACHER_ID = '${auth.currentUser?.uid}'"
         val myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY)
         val cursor: Cursor = myDataBase.rawQuery(searchQuery, null)
         val resultSet = JSONArray()
@@ -68,7 +69,6 @@ class Backup : AppCompatActivity() {
                 if (cursor.getColumnName(i) != null) {
                     try {
                         if (cursor.getString(i) != null) {
-                            Log.d("TAG_NAME", cursor.getString(i))
                             rowObject.put(cursor.getColumnName(i), cursor.getString(i))
                         } else {
                             rowObject.put(cursor.getColumnName(i), "")
@@ -86,9 +86,7 @@ class Backup : AppCompatActivity() {
         return resultSet
     }
 
-    private val TAG = Export::class.java.name
-
-    private fun export(context: Context, myTable: String, fileName: String) {
+    private fun export(context: Context, myTable: String, fileName: String, description: String) {
         try {
             val outputStreamWriter =
                 OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE))
@@ -98,27 +96,16 @@ class Backup : AppCompatActivity() {
             val fileLocation: File = File(filesDir, fileName)
             val path: Uri =
                 FileProvider.getUriForFile(this, "com.example.osen.fileprovider", fileLocation)
-            onFileClick(path)
+            val folder = storage.child("${auth.currentUser?.email}/${fileName}")
+            folder.putFile(path)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Data $description berhasil di backup", Toast.LENGTH_LONG).show()
+                }
+                .addOnFailureListener{
+                    Log.d("TAG", "GAGAL")
+                }
         } catch (e: IOException) {
-            Log.e(TAG, "File write failed :", e)
-        }
-    }
-
-    private fun onFileClick(data: Uri) {
-        val file = File(data.toString())
-        val split = file.path.split(":").toTypedArray()
-        val uploadUri = Uri.parse(split[1])
-        Toast.makeText(this, "This file is located at: $uploadUri", Toast.LENGTH_SHORT).show()
-        if (data.path?.contains(".json")!!) {
-            val uploadIntent = ShareCompat.IntentBuilder.from(this)
-                .setText("Share Document")
-                .setType("application/json")
-                .setStream(uploadUri)
-                .intent
-                .setPackage("com.google.android.apps.docs")
-            startActivity(uploadIntent)
-        } else {
-            //TODO: what to do when it is other file format
+            Log.e("ERROR", "File write failed :", e)
         }
     }
 }
