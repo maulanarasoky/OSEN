@@ -1,15 +1,23 @@
 package com.example.osen.alarm
 
+import android.R
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.Color
+import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
+import com.example.osen.activity.MainActivity
 import com.example.osen.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
@@ -44,6 +52,7 @@ class AutoBackup: BroadcastReceiver() {
 
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        Log.d("CONTEXT", context.toString())
         if(context != null){
             auth = FirebaseAuth.getInstance()
             storage = FirebaseStorage.getInstance().reference
@@ -51,25 +60,82 @@ class AutoBackup: BroadcastReceiver() {
             when(type){
                 TYPE_BACKUP_CLASSES -> {
                     export(context, Classroom.TABLE_CLASSROOM, "Osen_Classes.json")
+                    showNotif(context, "Osen", "Data kelas Osen berhasil di backup", ID_BACKUP_CLASSES)
                     Log.d("BACKUP", "BACKUP AKTIF")
                 }
                 TYPE_BACKUP_STUDENTS -> {
                     export(context, Student.TABLE_STUDENT, "Osen_Students.json")
+                    showNotif(context, "Osen", "Data murid Osen berhasil di backup", ID_BACKUP_STUDENTS)
                 }
                 TYPE_BACKUP_ABSENTS -> {
                     export(context, Absent.TABLE_ABSENT, "Osen_Absents.json")
+                    showNotif(context, "Osen", "Data absen Osen berhasil di backup", ID_BACKUP_ABSENTS)
                 }
                 TYPE_BACKUP_SCORES -> {
                     export(context, Score.TABLE_SCORE, "Osen_Scores.json")
+                    showNotif(context, "Osen", "Data nilai Osen berhasil di backup", ID_BACKUP_SCORES)
                 }
                 TYPE_BACKUP_CATEGORIES -> {
                     export(context, Category.TABLE_CATEGORY, "Osen_Categories.json")
+                    showNotif(context, "Osen", "Data kategori Osen berhasil di backup", ID_BACKUP_CATEGORIES)
                 }
                 else -> {
                     Log.d("ERROR", "ERROR BACK UP")
                 }
             }
         }
+    }
+
+    private fun showNotif(context: Context, title: String, message: String, notifId: Int){
+        val CHANNEL_ID = "channel_01"
+        val CHANNEL_NAME = "AlarmManager channel"
+
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val alarmSound =
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+
+        val builder =
+            NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_dialog_info)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setColor(Color.parseColor("#48cfad"))
+                .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
+                .setSound(alarmSound)
+
+        val notificationIntent = Intent(context, MainActivity::class.java)
+
+        notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+
+        builder.setContentIntent(pendingIntent)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            /* Create or update. */
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.enableVibration(true)
+            channel.vibrationPattern = longArrayOf(1000, 1000, 1000, 1000, 1000)
+            builder.setChannelId(CHANNEL_ID)
+            notificationManager?.createNotificationChannel(channel)
+        }
+
+        val notification = builder.build()
+
+        notificationManager.notify(notifId, notification)
     }
 
     fun setAutoBackup(context: Context, type: String, id: Int){
@@ -138,6 +204,12 @@ class AutoBackup: BroadcastReceiver() {
                 FileProvider.getUriForFile(context, "com.example.osen.fileprovider", fileLocation)
             val folder = storage.child("${auth.currentUser?.email}/${fileName}")
             folder.putFile(path)
+                .addOnSuccessListener{
+                    Log.d("FIREBASE", "BERHASIL")
+                }
+                .addOnFailureListener {
+                    Log.d("FIREBASE", "GAGAL")
+                }
         } catch (e: IOException) {
             Log.e("ERROR", "File write failed :", e)
         }
