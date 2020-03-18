@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.example.osen.R
 import com.example.osen.model.*
+import com.example.osen.preference.BackupPreference
+import com.example.osen.preference.DataPreference
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -26,32 +28,86 @@ class Backup : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var storage: StorageReference
 
+    var dataPreference = DataPreference()
+    lateinit var backupPreference: BackupPreference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_backup)
 
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance().reference
+        backupPreference = BackupPreference(this)
+
+        showExistingPreference()
 
         backupClasses.setOnClickListener {
-            val fileName = "Osen_Classes.json"
-            export(this, Classroom.TABLE_CLASSROOM, fileName, "Kelas")
+            if(!dataPreference.osen_classes){
+                dataPreference.osen_classes = true
+                Toast.makeText(this, "Auto Backup kelas dinyalakan", Toast.LENGTH_SHORT).show()
+//                val fileName = "Osen_Classes.json"
+//                export(this, Classroom.TABLE_CLASSROOM, fileName, "Kelas")
+            }else{
+                dataPreference.osen_classes = false
+                Toast.makeText(this, "Auto Backup kelas dimatikan", Toast.LENGTH_SHORT).show()
+            }
+            backupPreference.setClasses(dataPreference)
         }
         backupStudents.setOnClickListener {
-            val fileName = "Osen_Students.json"
-            export(this, Student.TABLE_STUDENT, fileName, "Murid")
+            if(!dataPreference.osen_students){
+                dataPreference.osen_students = true
+                Toast.makeText(this, "Auto Backup murid dinyalakan", Toast.LENGTH_SHORT).show()
+//                val fileName = "Osen_Classes.json"
+//                export(this, Classroom.TABLE_CLASSROOM, fileName, "Kelas")
+            }else{
+                dataPreference.osen_students = false
+                Toast.makeText(this, "Auto Backup murid dimatikan", Toast.LENGTH_SHORT).show()
+            }
+            backupPreference.setStudents(dataPreference)
+//            val fileName = "Osen_Students.json"
+//            export(this, Student.TABLE_STUDENT, fileName, "Murid")
         }
         backupAbsents.setOnClickListener {
-            val fileName = "Osen_Absents.json"
-            export(this, Absent.TABLE_ABSENT, fileName, "Absen")
+            if(!dataPreference.osen_absents){
+                dataPreference.osen_absents = true
+                Toast.makeText(this, "Auto Backup absen dinyalakan", Toast.LENGTH_SHORT).show()
+//                val fileName = "Osen_Classes.json"
+//                export(this, Classroom.TABLE_CLASSROOM, fileName, "Kelas")
+            }else{
+                dataPreference.osen_absents = false
+                Toast.makeText(this, "Auto Backup absen dimatikan", Toast.LENGTH_SHORT).show()
+            }
+            backupPreference.setAbsents(dataPreference)
+//            val fileName = "Osen_Absents.json"
+//            export(this, Absent.TABLE_ABSENT, fileName, "Absen")
         }
         backupScores.setOnClickListener {
-            val fileName = "Osen_Scores.json"
-            export(this, Score.TABLE_SCORE, fileName, "Nilai")
+            if(!dataPreference.osen_scores){
+                dataPreference.osen_scores = true
+                Toast.makeText(this, "Auto Backup nilai dinyalakan", Toast.LENGTH_SHORT).show()
+//                val fileName = "Osen_Classes.json"
+//                export(this, Classroom.TABLE_CLASSROOM, fileName, "Kelas")
+            }else{
+                dataPreference.osen_scores = false
+                Toast.makeText(this, "Auto Backup nilai dimatikan", Toast.LENGTH_SHORT).show()
+            }
+            backupPreference.setScores(dataPreference)
+//            val fileName = "Osen_Scores.json"
+//            export(this, Score.TABLE_SCORE, fileName, "Nilai")
         }
         backupCategories.setOnClickListener {
-            val fileName = "Osen_Categories.json"
-            export(this, Category.TABLE_CATEGORY, fileName, "Kategori")
+            if(!dataPreference.osen_categories){
+                dataPreference.osen_categories = true
+                Toast.makeText(this, "Auto Backup kategori dinyalakan", Toast.LENGTH_SHORT).show()
+//                val fileName = "Osen_Classes.json"
+//                export(this, Classroom.TABLE_CLASSROOM, fileName, "Kelas")
+            }else{
+                dataPreference.osen_categories = false
+                Toast.makeText(this, "Auto Backup kategori dimatikan", Toast.LENGTH_SHORT).show()
+            }
+            backupPreference.setCategories(dataPreference)
+//            val fileName = "Osen_Categories.json"
+//            export(this, Category.TABLE_CATEGORY, fileName, "Kategori")
         }
     }
 
@@ -98,14 +154,22 @@ class Backup : AppCompatActivity() {
                 FileProvider.getUriForFile(this, "com.example.osen.fileprovider", fileLocation)
             val folder = storage.child("${auth.currentUser?.email}/${fileName}")
             folder.putFile(path)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Data $description berhasil di backup", Toast.LENGTH_LONG).show()
-                }
-                .addOnFailureListener{
-                    Log.d("TAG", "GAGAL")
-                }
         } catch (e: IOException) {
             Log.e("ERROR", "File write failed :", e)
         }
+    }
+
+    private fun showExistingPreference(){
+        dataPreference = backupPreference.getPreference()
+
+        setCheckView(dataPreference)
+    }
+
+    private fun setCheckView(dataPreference: DataPreference){
+        backupClasses.isChecked = dataPreference.osen_classes
+        backupStudents.isChecked = dataPreference.osen_students
+        backupAbsents.isChecked = dataPreference.osen_absents
+        backupScores.isChecked = dataPreference.osen_scores
+        backupCategories.isChecked = dataPreference.osen_categories
     }
 }
