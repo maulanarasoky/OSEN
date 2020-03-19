@@ -60,24 +60,24 @@ class AutoBackup: BroadcastReceiver() {
             when(type){
                 TYPE_BACKUP_CLASSES -> {
                     export(context, Classroom.TABLE_CLASSROOM, "Osen_Classes.json")
-                    showNotif(context, "Osen", "Data kelas Osen berhasil di backup", ID_BACKUP_CLASSES)
+                    showNotif(context,"Data kelas Osen berhasil di backup", ID_BACKUP_CLASSES)
                     Log.d("BACKUP", "BACKUP AKTIF")
                 }
                 TYPE_BACKUP_STUDENTS -> {
                     export(context, Student.TABLE_STUDENT, "Osen_Students.json")
-                    showNotif(context, "Osen", "Data murid Osen berhasil di backup", ID_BACKUP_STUDENTS)
+                    showNotif(context,"Data murid Osen berhasil di backup", ID_BACKUP_STUDENTS)
                 }
                 TYPE_BACKUP_ABSENTS -> {
                     export(context, Absent.TABLE_ABSENT, "Osen_Absents.json")
-                    showNotif(context, "Osen", "Data absen Osen berhasil di backup", ID_BACKUP_ABSENTS)
+                    showNotif(context,"Data absen Osen berhasil di backup", ID_BACKUP_ABSENTS)
                 }
                 TYPE_BACKUP_SCORES -> {
                     export(context, Score.TABLE_SCORE, "Osen_Scores.json")
-                    showNotif(context, "Osen", "Data nilai Osen berhasil di backup", ID_BACKUP_SCORES)
+                    showNotif(context,"Data nilai Osen berhasil di backup", ID_BACKUP_SCORES)
                 }
                 TYPE_BACKUP_CATEGORIES -> {
                     export(context, Category.TABLE_CATEGORY, "Osen_Categories.json")
-                    showNotif(context, "Osen", "Data kategori Osen berhasil di backup", ID_BACKUP_CATEGORIES)
+                    showNotif(context,"Data kategori Osen berhasil di backup", ID_BACKUP_CATEGORIES)
                 }
                 else -> {
                     Log.d("ERROR", "ERROR BACK UP")
@@ -86,7 +86,7 @@ class AutoBackup: BroadcastReceiver() {
         }
     }
 
-    private fun showNotif(context: Context, title: String, message: String, notifId: Int){
+    private fun showNotif(context: Context, message: String, notifId: Int){
         val CHANNEL_ID = "channel_01"
         val CHANNEL_NAME = "AlarmManager channel"
 
@@ -99,7 +99,7 @@ class AutoBackup: BroadcastReceiver() {
         val builder =
             NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_dialog_info)
-                .setContentTitle(title)
+                .setContentTitle("Osen")
                 .setContentText(message)
                 .setColor(Color.parseColor("#48cfad"))
                 .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
@@ -145,7 +145,7 @@ class AutoBackup: BroadcastReceiver() {
         intent.putExtra(EXTRA_TYPE, type)
 
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 7)
+        calendar.set(Calendar.HOUR_OF_DAY, 1)
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
 

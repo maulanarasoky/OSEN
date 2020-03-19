@@ -51,7 +51,7 @@
                 android:fontFamily="@font/firasans"
                 android:text="Kelas Sudah Selesai"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="italic" />
 
             <androidx.appcompat.widget.Toolbar
@@ -327,11 +327,23 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
+            <Button
+                android:id="@+id/exportCsv"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/background_button_delete"
+                android:text="Export"
+                android:layout_below="@id/linear4"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/linear4"
+                android:layout_below="@id/exportCsv"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="230dp" />
