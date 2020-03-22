@@ -1,18 +1,17 @@
 package com.example.osen.activity
 
 import android.content.ContentValues
-import android.net.Uri
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
 import com.example.osen.model.Classroom
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
@@ -20,11 +19,14 @@ import kotlinx.android.synthetic.main.activity_restore.*
 import org.json.JSONArray
 import org.json.JSONException
 import java.io.*
+import java.net.HttpURLConnection
+import java.net.URL
 
 class Restore : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
     lateinit var storage: StorageReference
+    lateinit var dialog: SweetAlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,22 +36,48 @@ class Restore : AppCompatActivity() {
         storage = FirebaseStorage.getInstance().reference
 
         restoreClasses.setOnClickListener {
-            downloadFile("Osen_Classes.json")
+            downloadFile("Osen_Classes.json", "Kelas", restoreClasses)
+        }
+        restoreStudents.setOnClickListener {
+            downloadFile("Osen_Students.json", "Murid", restoreStudents)
+        }
+        restoreAbsents.setOnClickListener {
+            downloadFile("Osen_Absents.json", "Absen", restoreAbsents)
+        }
+        restoreScores.setOnClickListener {
+            downloadFile("Osen_Scores.json", "Nilai", restoreScores)
+        }
+        restoreCategories.setOnClickListener {
+            downloadFile("Osen_Categories.json", "Kategori", restoreCategories)
         }
     }
 
-    private fun downloadFile(fileName: String){
+    private fun downloadFile(fileName: String, restoreName: String, view: SwitchCompat){
+        if(!isNetworkConnected()){
+            dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            dialog.setCancelable(false)
+            dialog.titleText = "Pastikan Anda terhubung ke Internet"
+            dialog.show()
+            view.isChecked = false
+            return
+        }
+
+        dialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        dialog.setCancelable(false)
+        dialog.show()
         try {
             val folder = storage.child("${auth.currentUser?.email}/${fileName}")
             val location = File.createTempFile("application", ".json")
 
             folder.getFile(location)
-                .addOnSuccessListener { p0 ->
-                    Log.d("HASILNYA", location.toString())
-                    importClasses(location.toString())
+                .addOnSuccessListener {
+                    importClasses(location.toString(), restoreName)
                 }
                 .addOnFailureListener{
-                    Log.d("TAG", "GAGAL")
+                    dialog.changeAlertType(SweetAlertDialog.ERROR_TYPE)
+                    dialog.confirmText = "OK"
+                    dialog.titleText = "Anda belum melakukan backup data $restoreName"
+                    view.isChecked = false
                 }
         }catch (e: StorageException){
             e.printStackTrace()
@@ -83,7 +111,7 @@ class Restore : AppCompatActivity() {
     }
 
     @Throws(IOException::class, JSONException::class)
-    fun importClasses(data: String) {
+    fun importClasses(data: String, restoreName: String) {
         val ID_ = "ID_"
         val IMAGE = "IMAGE"
         val NAME = "NAME"
@@ -114,7 +142,12 @@ class Restore : AppCompatActivity() {
                 contentValue.put(TEACHER_ID, jsonObject.getString(TEACHER_ID))
 
                 database.use {
-                    insert(Classroom.TABLE_CLASSROOM, null, contentValue)
+                    val insert = insert(Classroom.TABLE_CLASSROOM, null, contentValue)
+                    if(insert > 0){
+                        dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                        dialog.titleText = "Data $restoreName berhasil di restore"
+                        dialog.confirmText = "OK"
+                    }
                 }
 
                 Log.d("IMPORT CLASSES SUCCESS", contentValue.toString())
@@ -123,5 +156,10 @@ class Restore : AppCompatActivity() {
             Log.e("ERROR", e.message.toString())
             e.printStackTrace()
         }
+    }
+
+    private fun isNetworkConnected(): Boolean{
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected
     }
 }
