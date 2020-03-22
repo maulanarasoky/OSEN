@@ -3,6 +3,7 @@ package com.example.osen.activity
 import android.content.ContentValues
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +11,7 @@ import androidx.appcompat.widget.SwitchCompat
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
-import com.example.osen.model.Classroom
+import com.example.osen.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
@@ -36,29 +37,28 @@ class Restore : AppCompatActivity() {
         storage = FirebaseStorage.getInstance().reference
 
         restoreClasses.setOnClickListener {
-            downloadFile("Osen_Classes.json", "Kelas", restoreClasses)
+            downloadFile("Osen_Classes.json", "Kelas")
         }
         restoreStudents.setOnClickListener {
-            downloadFile("Osen_Students.json", "Murid", restoreStudents)
+            downloadFile("Osen_Students.json", "Murid")
         }
         restoreAbsents.setOnClickListener {
-            downloadFile("Osen_Absents.json", "Absen", restoreAbsents)
+            downloadFile("Osen_Absents.json", "Absen")
         }
         restoreScores.setOnClickListener {
-            downloadFile("Osen_Scores.json", "Nilai", restoreScores)
+            downloadFile("Osen_Scores.json", "Nilai")
         }
         restoreCategories.setOnClickListener {
-            downloadFile("Osen_Categories.json", "Kategori", restoreCategories)
+            downloadFile("Osen_Categories.json", "Kategori")
         }
     }
 
-    private fun downloadFile(fileName: String, restoreName: String, view: SwitchCompat){
+    private fun downloadFile(fileName: String, restoreName: String){
         if(!isNetworkConnected()){
             dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.setCancelable(false)
             dialog.titleText = "Pastikan Anda terhubung ke Internet"
             dialog.show()
-            view.isChecked = false
             return
         }
 
@@ -71,13 +71,18 @@ class Restore : AppCompatActivity() {
 
             folder.getFile(location)
                 .addOnSuccessListener {
-                    importClasses(location.toString(), restoreName)
+                    when(restoreName){
+                        "Kelas" -> importClasses(location.toString(), restoreName)
+                        "Murid" -> importStudent(location.toString(), restoreName)
+                        "Absen" -> importAbsents(location.toString(), restoreName)
+                        "Nilai" -> importScores(location.toString(), restoreName)
+                        "Kategori" -> importCategories(location.toString(), restoreName)
+                    }
                 }
                 .addOnFailureListener{
                     dialog.changeAlertType(SweetAlertDialog.ERROR_TYPE)
                     dialog.confirmText = "OK"
                     dialog.titleText = "Anda belum melakukan backup data $restoreName"
-                    view.isChecked = false
                 }
         }catch (e: StorageException){
             e.printStackTrace()
@@ -125,6 +130,12 @@ class Restore : AppCompatActivity() {
         val TEACHER_ID = "TEACHER_ID"
         try {
             val jsonDataString = readJsonFile(data)
+            if (jsonDataString == "[]"){
+                dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "Data $restoreName kosong"
+                dialog.confirmText = "OK"
+                return
+            }
             val menuItemJsonArray = JSONArray(jsonDataString)
             for (i in 0 until menuItemJsonArray.length()) {
                 val jsonObject = menuItemJsonArray.getJSONObject(i)
@@ -151,6 +162,205 @@ class Restore : AppCompatActivity() {
                 }
 
                 Log.d("IMPORT CLASSES SUCCESS", contentValue.toString())
+            }
+        } catch (e: JSONException) {
+            Log.e("ERROR", e.message.toString())
+            e.printStackTrace()
+        }
+    }
+
+    @Throws(IOException::class, JSONException::class)
+    fun importStudent(data: String, restoreName: String) {
+        val ID_ = "ID_"
+        val NAME = "NAME"
+        val CLASS_NAME = "CLASS"
+        val GENDER = "GENDER"
+        val SCORE = "SCORE"
+        val TEACHER_ID = "TEACHER_ID"
+        try {
+            val jsonDataString = readJsonFile(data)
+            if (jsonDataString == "[]"){
+                dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "Data $restoreName kosong"
+                dialog.confirmText = "OK"
+                return
+            }
+            val menuItemJsonArray = JSONArray(jsonDataString)
+            for (i in 0 until menuItemJsonArray.length()) {
+                val jsonObject = menuItemJsonArray.getJSONObject(i)
+                val contentValue = ContentValues()
+                contentValue.put(ID_, jsonObject.getString(ID_))
+                contentValue.put(NAME, jsonObject.getString(NAME))
+                contentValue.put(CLASS_NAME, jsonObject.getString(CLASS_NAME))
+                contentValue.put(GENDER, jsonObject.getString(GENDER))
+                contentValue.put(SCORE, jsonObject.getString(SCORE))
+                contentValue.put(TEACHER_ID, jsonObject.getString(TEACHER_ID))
+
+                database.use {
+                    val insert = insert(Student.TABLE_STUDENT, null, contentValue)
+                    if (insert > 0){
+                        dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                        dialog.titleText = "Data $restoreName berhasil di restore"
+                        dialog.confirmText = "OK"
+                    }
+                }
+
+                Log.d("IMPORT STUDENTS SUCCESS", contentValue.toString())
+            }
+        } catch (e: JSONException) {
+            Log.e("ERROR", e.message.toString())
+            e.printStackTrace()
+        }
+    }
+
+    @Throws(IOException::class, JSONException::class)
+    fun importAbsents(data: String, restoreName: String) {
+        val ID_ = "ID_"
+        val STUDENT_ID = "STUDENT_ID"
+        val HADIR = "HADIR"
+        val IZIN = "IZIN"
+        val SAKIT = "SAKIT"
+        val ALFA = "ALFA"
+        val CLASS = "CLASS"
+        val TEACHER_ID = "TEACHER_ID"
+        try {
+            val jsonDataString = readJsonFile(data)
+            if (jsonDataString == "[]"){
+                dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "Data $restoreName kosong"
+                dialog.confirmText = "OK"
+                return
+            }
+            val menuItemJsonArray = JSONArray(jsonDataString)
+            for (i in 0 until menuItemJsonArray.length()) {
+                val jsonObject = menuItemJsonArray.getJSONObject(i)
+                val contentValue = ContentValues()
+                contentValue.put(ID_, jsonObject.getString(ID_))
+                contentValue.put(STUDENT_ID, jsonObject.getString(STUDENT_ID))
+                contentValue.put(HADIR, jsonObject.getString(HADIR))
+                contentValue.put(IZIN, jsonObject.getString(IZIN))
+                contentValue.put(SAKIT, jsonObject.getString(SAKIT))
+                contentValue.put(ALFA, jsonObject.getString(ALFA))
+                contentValue.put(CLASS, jsonObject.getString(CLASS))
+                contentValue.put(TEACHER_ID, jsonObject.getString(TEACHER_ID))
+
+                database.use {
+                    val insert = insert(Absent.TABLE_ABSENT, null, contentValue)
+                    if (insert > 0){
+                        dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                        dialog.titleText = "Data $restoreName berhasil di restore"
+                        dialog.confirmText = "OK"
+                    }
+                }
+
+                Log.d("IMPORT ABSENTS SUCCESS", contentValue.toString())
+            }
+        } catch (e: JSONException) {
+            Log.e("ERROR", e.message.toString())
+            e.printStackTrace()
+        }
+    }
+
+    @Throws(IOException::class, JSONException::class)
+    fun importScores(data: String, restoreName: String) {
+        val ID_ = "ID_"
+        val STUDENT_ID = "STUDENT_ID"
+        val UTS = "UTS"
+        val PERSENTASE_UTS = "PERSENTASE_UTS"
+        val UAS = "UAS"
+        val PERSENTASE_UAS = "PERSENTASE_UAS"
+        val ASSESSMENT_1 = "ASSESSMENT_1"
+        val PERSENTASE_ASSESSMENT_1 = "PERSENTASE_ASSESSMENT_1"
+        val ASSESSMENT_2 = "ASSESSMENT_2"
+        val PERSENTASE_ASSESSMENT_2 = "PERSENTASE_ASSESSMENT_2"
+        val ASSESSMENT_3 = "ASSESSMENT_3"
+        val PERSENTASE_ASSESSMENT_3 = "PERSENTASE_ASSESSMENT_3"
+        val CLASS_NAME = "CLASS"
+        val TEACHER_ID = "TEACHER_ID"
+        try {
+            val jsonDataString = readJsonFile(data)
+            if (jsonDataString == "[]"){
+                dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "Data $restoreName kosong"
+                dialog.confirmText = "OK"
+                return
+            }
+            val menuItemJsonArray = JSONArray(jsonDataString)
+            for (i in 0 until menuItemJsonArray.length()) {
+                val jsonObject = menuItemJsonArray.getJSONObject(i)
+                val contentValue = ContentValues()
+                contentValue.put(ID_, jsonObject.getString(ID_))
+                contentValue.put(STUDENT_ID, jsonObject.getString(STUDENT_ID))
+                contentValue.put(UTS, jsonObject.getString(UTS))
+                contentValue.put(PERSENTASE_UTS, jsonObject.getString(PERSENTASE_UTS))
+                contentValue.put(UAS, jsonObject.getString(UAS))
+                contentValue.put(PERSENTASE_UAS, jsonObject.getString(PERSENTASE_UAS))
+                contentValue.put(ASSESSMENT_1, jsonObject.getString(ASSESSMENT_1))
+                contentValue.put(
+                    PERSENTASE_ASSESSMENT_1,
+                    jsonObject.getString(PERSENTASE_ASSESSMENT_1)
+                )
+                contentValue.put(ASSESSMENT_2, jsonObject.getString(ASSESSMENT_2))
+                contentValue.put(
+                    PERSENTASE_ASSESSMENT_2,
+                    jsonObject.getString(PERSENTASE_ASSESSMENT_2)
+                )
+                contentValue.put(ASSESSMENT_3, jsonObject.getString(ASSESSMENT_3))
+                contentValue.put(
+                    PERSENTASE_ASSESSMENT_3,
+                    jsonObject.getString(PERSENTASE_ASSESSMENT_3)
+                )
+                contentValue.put(CLASS_NAME, jsonObject.getString(CLASS_NAME))
+                contentValue.put(TEACHER_ID, jsonObject.getString(TEACHER_ID))
+
+                database.use {
+                    val insert = insert(Score.TABLE_SCORE, null, contentValue)
+                    if (insert > 0){
+                        dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                        dialog.titleText = "Data $restoreName berhasil di restore"
+                        dialog.confirmText = "OK"
+                    }
+                }
+
+                Log.d("IMPORT SCORES SUCCESS", contentValue.toString())
+            }
+        } catch (e: JSONException) {
+            Log.e("ERROR", e.message.toString())
+            e.printStackTrace()
+        }
+    }
+
+    @Throws(IOException::class, JSONException::class)
+    fun importCategories(data: String, restoreName: String) {
+        val ID_: String = "ID_"
+        val NAME: String = "NAME"
+        val TEACHER_ID: String = "TEACHER_ID"
+        try {
+            val jsonDataString = readJsonFile(data)
+            if (jsonDataString == "[]"){
+                dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "Data $restoreName kosong"
+                dialog.confirmText = "OK"
+                return
+            }
+            val menuItemJsonArray = JSONArray(jsonDataString)
+            for (i in 0 until menuItemJsonArray.length()) {
+                val jsonObject = menuItemJsonArray.getJSONObject(i)
+                val contentValue = ContentValues()
+                contentValue.put(ID_, jsonObject.getString(ID_))
+                contentValue.put(NAME, jsonObject.getString(NAME))
+                contentValue.put(TEACHER_ID, jsonObject.getString(TEACHER_ID))
+
+                database.use {
+                    val insert = insert(Category.TABLE_CATEGORY, null, contentValue)
+                    if (insert > 0){
+                        dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                        dialog.titleText = "Data $restoreName berhasil di restore"
+                        dialog.confirmText = "OK"
+                    }
+                }
+
+                Log.d("IMPORT CATEGORY SUCCESS", contentValue.toString())
             }
         } catch (e: JSONException) {
             Log.e("ERROR", e.message.toString())

@@ -34,7 +34,7 @@ class Export : AppCompatActivity() {
 
         teacher_id = auth.currentUser?.uid.toString()
 
-        exportClass.setOnClickListener {
+        exportClasses.setOnClickListener {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.setCancelable(false)
             dialog.showCancelButton(true)
@@ -50,7 +50,7 @@ class Export : AppCompatActivity() {
             dialog.show()
         }
 
-        exportStudent.setOnClickListener {
+        exportStudents.setOnClickListener {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.setCancelable(false)
             dialog.showCancelButton(true)
@@ -66,7 +66,7 @@ class Export : AppCompatActivity() {
             dialog.show()
         }
 
-        exportAbsent.setOnClickListener {
+        exportAbsents.setOnClickListener {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.setCancelable(false)
             dialog.showCancelButton(true)
@@ -82,7 +82,7 @@ class Export : AppCompatActivity() {
             dialog.show()
         }
 
-        exportScore.setOnClickListener {
+        exportScores.setOnClickListener {
             val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             dialog.setCancelable(false)
             dialog.showCancelButton(true)
