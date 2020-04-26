@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("resultCode", resultCode.toString())
         if (requestCode == ClassDetails.REQUEST_CODE_DETAILS) {
-            if(resultCode == ClassDetails.RESULT_DELETE || resultCode == ClassDetails.RESULT_UPDATE){
+            if (resultCode == ClassDetails.RESULT_DELETE || resultCode == ClassDetails.RESULT_UPDATE) {
                 bottom_navigation.selectedItemId = R.id.home
             }
         }

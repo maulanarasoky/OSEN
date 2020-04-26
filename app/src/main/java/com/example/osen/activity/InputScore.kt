@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_input_score.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.update
-import java.lang.Exception
 import java.lang.ref.WeakReference
 
 class InputScore : AppCompatActivity(), MyAsyncCallback {
@@ -220,7 +219,7 @@ class InputScore : AppCompatActivity(), MyAsyncCallback {
                 condition = "Assessment 3"
             }
 
-            if(condition != ""){
+            if (condition != "") {
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = "Nilai $condition Tidak Boleh Lebih Dari 100"
                 dialog.setOnCancelListener {
@@ -256,13 +255,13 @@ class InputScore : AppCompatActivity(), MyAsyncCallback {
                     "class_name" to class_name.toString()
                 )
                 Log.d("update", query.exec().toString())
-                if(query.exec() > 0){
+                if (query.exec() > 0) {
                     dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                     dialog.titleText = "Nilai Berhasil Di Input"
                     dialog.setOnCancelListener {
                         dialog.dismissWithAnimation()
                     }
-                }else{
+                } else {
                     dialog.changeAlertType(SweetAlertDialog.ERROR_TYPE)
                     dialog.titleText = "Nilai Gagal Di Input"
                     dialog.setOnCancelListener {
@@ -271,12 +270,12 @@ class InputScore : AppCompatActivity(), MyAsyncCallback {
                 }
             }
             dialog.show()
-        }catch (e : Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<String, Unit, Unit>(){
+    inner class DemoAsync(listener: MyAsyncCallback) : AsyncTask<String, Unit, Unit>() {
 
         private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
 

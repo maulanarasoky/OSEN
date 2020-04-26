@@ -17,7 +17,6 @@ import com.example.osen.interfaces.MyAsyncCallback
 import com.example.osen.model.Category
 import com.example.osen.model.Classroom
 import com.example.osen.model.Student
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.jetbrains.anko.db.classParser
@@ -92,7 +91,7 @@ class ProfileFragment : Fragment(), MyAsyncCallback {
         }
     }
 
-    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<Void, Unit, Unit>(){
+    inner class DemoAsync(listener: MyAsyncCallback) : AsyncTask<Void, Unit, Unit>() {
 
         private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
 

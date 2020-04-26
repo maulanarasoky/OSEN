@@ -10,48 +10,48 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:text="1"
         android:fontFamily="@font/firasans"
+        android:text="1"
         android:textColor="@android:color/black"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/studentName"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:fontFamily="@font/firasans"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:text="Nama"
-        android:fontFamily="@font/firasans"
         android:textColor="@android:color/black"
         android:textSize="14sp" />
 
     <Spinner
         android:id="@+id/action"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:spinnerMode="dropdown"
         android:theme="@style/Spinner" />
 
     <TextView
         android:id="@+id/done"
-        android:visibility="gone"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:fontFamily="@font/firasans"
         android:textColor="@android:color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/deleteStudent"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:background="@drawable/background_button_delete"
         android:text="Hapus"
         android:textColor="@android:color/white"
-        android:background="@drawable/background_button_delete"
         android:textSize="14sp" />
 
 </LinearLayout>

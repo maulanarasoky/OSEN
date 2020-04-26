@@ -12,37 +12,37 @@ class BackupPreference(context: Context) {
 
     private val preference = context.getSharedPreferences(pref_name, Context.MODE_PRIVATE)
 
-    public fun setClasses(value: DataPreference){
+    fun setClasses(value: DataPreference) {
         val editor = preference.edit()
         editor.putBoolean(osen_classes, value.osen_classes)
         editor.apply()
     }
 
-    public fun setStudents(value: DataPreference){
+    fun setStudents(value: DataPreference) {
         val editor = preference.edit()
         editor.putBoolean(osen_students, value.osen_students)
         editor.apply()
     }
 
-    public fun setAbsents(value: DataPreference){
+    fun setAbsents(value: DataPreference) {
         val editor = preference.edit()
         editor.putBoolean(osen_absents, value.osen_absents)
         editor.apply()
     }
 
-    public fun setScores(value: DataPreference){
+    fun setScores(value: DataPreference) {
         val editor = preference.edit()
         editor.putBoolean(osen_scores, value.osen_scores)
         editor.apply()
     }
 
-    public fun setCategories(value: DataPreference){
+    fun setCategories(value: DataPreference) {
         val editor = preference.edit()
         editor.putBoolean(osen_categories, value.osen_categories)
         editor.apply()
     }
 
-    public fun getPreference(): DataPreference{
+    fun getPreference(): DataPreference {
         val data = DataPreference()
         data.osen_classes = preference.getBoolean(osen_classes, false)
         data.osen_students = preference.getBoolean(osen_students, false)

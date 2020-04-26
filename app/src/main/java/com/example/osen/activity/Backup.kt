@@ -26,11 +26,15 @@ class Backup : AppCompatActivity() {
         showExistingPreference()
 
         backupClasses.setOnClickListener {
-            if(!dataPreference.osen_classes){
+            if (!dataPreference.osen_classes) {
                 dataPreference.osen_classes = true
-                alarmManager.setAutoBackup(this, AutoBackup.TYPE_BACKUP_CLASSES, AutoBackup.ID_BACKUP_CLASSES)
+                alarmManager.setAutoBackup(
+                    this,
+                    AutoBackup.TYPE_BACKUP_CLASSES,
+                    AutoBackup.ID_BACKUP_CLASSES
+                )
                 Toast.makeText(this, "Auto Backup kelas dinyalakan", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 dataPreference.osen_classes = false
                 alarmManager.cancelAutoBackup(this, AutoBackup.ID_BACKUP_CLASSES)
                 Toast.makeText(this, "Auto Backup kelas dimatikan", Toast.LENGTH_SHORT).show()
@@ -38,11 +42,15 @@ class Backup : AppCompatActivity() {
             backupPreference.setClasses(dataPreference)
         }
         backupStudents.setOnClickListener {
-            if(!dataPreference.osen_students){
+            if (!dataPreference.osen_students) {
                 dataPreference.osen_students = true
-                alarmManager.setAutoBackup(this, AutoBackup.TYPE_BACKUP_STUDENTS, AutoBackup.ID_BACKUP_STUDENTS)
+                alarmManager.setAutoBackup(
+                    this,
+                    AutoBackup.TYPE_BACKUP_STUDENTS,
+                    AutoBackup.ID_BACKUP_STUDENTS
+                )
                 Toast.makeText(this, "Auto Backup murid dinyalakan", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 dataPreference.osen_students = false
                 alarmManager.cancelAutoBackup(this, AutoBackup.ID_BACKUP_STUDENTS)
                 Toast.makeText(this, "Auto Backup murid dimatikan", Toast.LENGTH_SHORT).show()
@@ -50,11 +58,15 @@ class Backup : AppCompatActivity() {
             backupPreference.setStudents(dataPreference)
         }
         backupAbsents.setOnClickListener {
-            if(!dataPreference.osen_absents){
+            if (!dataPreference.osen_absents) {
                 dataPreference.osen_absents = true
-                alarmManager.setAutoBackup(this, AutoBackup.TYPE_BACKUP_ABSENTS, AutoBackup.ID_BACKUP_ABSENTS)
+                alarmManager.setAutoBackup(
+                    this,
+                    AutoBackup.TYPE_BACKUP_ABSENTS,
+                    AutoBackup.ID_BACKUP_ABSENTS
+                )
                 Toast.makeText(this, "Auto Backup absen dinyalakan", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 dataPreference.osen_absents = false
                 alarmManager.cancelAutoBackup(this, AutoBackup.ID_BACKUP_ABSENTS)
                 Toast.makeText(this, "Auto Backup absen dimatikan", Toast.LENGTH_SHORT).show()
@@ -62,11 +74,15 @@ class Backup : AppCompatActivity() {
             backupPreference.setAbsents(dataPreference)
         }
         backupScores.setOnClickListener {
-            if(!dataPreference.osen_scores){
+            if (!dataPreference.osen_scores) {
                 dataPreference.osen_scores = true
-                alarmManager.setAutoBackup(this, AutoBackup.TYPE_BACKUP_SCORES, AutoBackup.ID_BACKUP_SCORES)
+                alarmManager.setAutoBackup(
+                    this,
+                    AutoBackup.TYPE_BACKUP_SCORES,
+                    AutoBackup.ID_BACKUP_SCORES
+                )
                 Toast.makeText(this, "Auto Backup nilai dinyalakan", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 dataPreference.osen_scores = false
                 alarmManager.cancelAutoBackup(this, AutoBackup.ID_BACKUP_SCORES)
                 Toast.makeText(this, "Auto Backup nilai dimatikan", Toast.LENGTH_SHORT).show()
@@ -74,11 +90,15 @@ class Backup : AppCompatActivity() {
             backupPreference.setScores(dataPreference)
         }
         backupCategories.setOnClickListener {
-            if(!dataPreference.osen_categories){
+            if (!dataPreference.osen_categories) {
                 dataPreference.osen_categories = true
-                alarmManager.setAutoBackup(this, AutoBackup.TYPE_BACKUP_CATEGORIES, AutoBackup.ID_BACKUP_CATEGORIES)
+                alarmManager.setAutoBackup(
+                    this,
+                    AutoBackup.TYPE_BACKUP_CATEGORIES,
+                    AutoBackup.ID_BACKUP_CATEGORIES
+                )
                 Toast.makeText(this, "Auto Backup kategori dinyalakan", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 dataPreference.osen_categories = false
                 alarmManager.cancelAutoBackup(this, AutoBackup.ID_BACKUP_CATEGORIES)
                 Toast.makeText(this, "Auto Backup kategori dimatikan", Toast.LENGTH_SHORT).show()
@@ -87,13 +107,13 @@ class Backup : AppCompatActivity() {
         }
     }
 
-    private fun showExistingPreference(){
+    private fun showExistingPreference() {
         dataPreference = backupPreference.getPreference()
 
         setCheckView(dataPreference)
     }
 
-    private fun setCheckView(dataPreference: DataPreference){
+    private fun setCheckView(dataPreference: DataPreference) {
         backupClasses.isChecked = dataPreference.osen_classes
         backupStudents.isChecked = dataPreference.osen_students
         backupAbsents.isChecked = dataPreference.osen_absents

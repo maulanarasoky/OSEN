@@ -8,9 +8,10 @@ import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
@@ -359,7 +360,7 @@ class EditClass : AppCompatActivity(), MyAsyncCallback {
                 ) {
                     category = newCategory.text.toString()
                     checkAvailableCategory(category)
-                    if(!availableCategory){
+                    if (!availableCategory) {
                         addCategory(category)
                     }
                 } else {
@@ -752,7 +753,7 @@ class EditClass : AppCompatActivity(), MyAsyncCallback {
         }
     }
 
-    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<String, Unit, Unit>(){
+    inner class DemoAsync(listener: MyAsyncCallback) : AsyncTask<String, Unit, Unit>() {
 
         private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
 

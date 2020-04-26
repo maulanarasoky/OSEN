@@ -3,16 +3,12 @@ package com.example.osen.adapter
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
@@ -25,7 +21,6 @@ import com.example.osen.model.Student
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.student_list.*
 import org.jetbrains.anko.db.*
-import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -65,7 +60,14 @@ class StudentList(
         val absentOfDay: MutableList<AbsentOfDay> = mutableListOf()
 
 
-        fun bindItem(activity: Activity, student: Student, startDate: String, endDate: String, image:String, position: Int) {
+        fun bindItem(
+            activity: Activity,
+            student: Student,
+            startDate: String,
+            endDate: String,
+            image: String,
+            position: Int
+        ) {
 
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val currentDate = sdf.format(Date())
@@ -73,18 +75,18 @@ class StudentList(
             studentId.text = student.id.toString()
             studentName.text = student.name
 
-            if(!(currentDate >= startDate && currentDate <= endDate)){
+            if (!(currentDate >= startDate && currentDate <= endDate)) {
                 action.visibility = View.GONE
                 done.text = "-"
                 done.visibility = View.VISIBLE
-            }else{
+            } else {
                 checkTodayAbsent(student.teacher_id, student.className, currentDate, student.id)
 
-                if(absentOfDay.isNotEmpty()){
+                if (absentOfDay.isNotEmpty()) {
                     action.visibility = View.GONE
                     done.visibility = View.VISIBLE
                     done.text = absentOfDay[0].keterangan
-                }else{
+                } else {
                     Log.d("kosong", "array")
                     initSpinnerKehadiran()
                     action.visibility = View.VISIBLE
@@ -98,7 +100,7 @@ class StudentList(
                             position: Int,
                             id: Long
                         ) {
-                            if(action.selectedItem.toString() != "Pilih"){
+                            if (action.selectedItem.toString() != "Pilih") {
                                 itemView.context.database.use {
                                     insert(
                                         AbsentOfDay.TABLE_ABSENTOFDAY,
@@ -132,8 +134,12 @@ class StudentList(
                                         else -> error("Error")
                                     }
                                     val queryUpdate = update(Absent.TABLE_ABSENT, column to add)
-                                        .whereArgs("(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})",
-                                            "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
+                                        .whereArgs(
+                                            "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})",
+                                            "student_id" to student.id.toString(),
+                                            "teacher_id" to student.teacher_id.toString(),
+                                            "class_name" to student.className.toString()
+                                        )
 
                                     queryUpdate.exec()
                                 }
@@ -152,15 +158,15 @@ class StudentList(
 
             itemView.setOnClickListener {
                 var statusAbsent = ""
-                if(absentOfDay.isNotEmpty()){
+                if (absentOfDay.isNotEmpty()) {
                     attendanceStatus = absentOfDay[0].keterangan.toString()
-                }else{
+                } else {
                     attendanceStatus = "Pilih"
                 }
 
-                if(absentOfDay.isEmpty()){
+                if (absentOfDay.isEmpty()) {
                     statusAbsent = "Tidak Ada"
-                }else{
+                } else {
                     statusAbsent = "Ada"
                 }
                 val intent = Intent(activity, EditStudent::class.java)
@@ -177,21 +183,46 @@ class StudentList(
             }
         }
 
-        fun deleteRow(student: Student, position: Int){
+        fun deleteRow(student: Student, position: Int) {
             val tempName = student.name
-            val dialogWarningDelete = SweetAlertDialog(itemView.context, SweetAlertDialog.WARNING_TYPE)
+            val dialogWarningDelete =
+                SweetAlertDialog(itemView.context, SweetAlertDialog.WARNING_TYPE)
             dialogWarningDelete.progressHelper.barColor = Color.parseColor("#A5DC86")
-            dialogWarningDelete.titleText = "Apakah Anda Yakin Ingin Menghapus " + student.name + " ?"
+            dialogWarningDelete.titleText =
+                "Apakah Anda Yakin Ingin Menghapus " + student.name + " ?"
             dialogWarningDelete.confirmText = "Hapus"
             dialogWarningDelete.cancelText = "Batalkan"
             dialogWarningDelete.showCancelButton(true)
             dialogWarningDelete.setConfirmClickListener {
                 itemView.context.database.use {
-                    delete(Absent.TABLE_ABSENT, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
-                    delete(AbsentOfDay.TABLE_ABSENTOFDAY, "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString(), "teacher_id" to student.teacher_id.toString(), "class_name" to student.className.toString())
-                    delete(Score.TABLE_SCORE, "(STUDENT_ID = {student_id}) AND (CLASS = {class_name})", "student_id" to student.id.toString() ,"class_name" to student.className.toString())
-                    val queryDeleteStudent = delete(Student.TABLE_STUDENT, "(ID_ = {student_id}) AND (CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})", "student_id" to student.id.toString(), "class_name" to student.className.toString(), "teacher_id" to student.teacher_id.toString())
-                    if(queryDeleteStudent > 0){
+                    delete(
+                        Absent.TABLE_ABSENT,
+                        "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})",
+                        "student_id" to student.id.toString(),
+                        "teacher_id" to student.teacher_id.toString(),
+                        "class_name" to student.className.toString()
+                    )
+                    delete(
+                        AbsentOfDay.TABLE_ABSENTOFDAY,
+                        "(STUDENT_ID = {student_id}) AND (TEACHER_ID = {teacher_id}) AND (CLASS = {class_name})",
+                        "student_id" to student.id.toString(),
+                        "teacher_id" to student.teacher_id.toString(),
+                        "class_name" to student.className.toString()
+                    )
+                    delete(
+                        Score.TABLE_SCORE,
+                        "(STUDENT_ID = {student_id}) AND (CLASS = {class_name})",
+                        "student_id" to student.id.toString(),
+                        "class_name" to student.className.toString()
+                    )
+                    val queryDeleteStudent = delete(
+                        Student.TABLE_STUDENT,
+                        "(ID_ = {student_id}) AND (CLASS = {class_name}) AND (TEACHER_ID = {teacher_id})",
+                        "student_id" to student.id.toString(),
+                        "class_name" to student.className.toString(),
+                        "teacher_id" to student.teacher_id.toString()
+                    )
+                    if (queryDeleteStudent > 0) {
                         delete(position)
                         dialogWarningDelete.titleText = "Berhasil Menghapus $tempName"
                         dialogWarningDelete.confirmText = "OK"
@@ -206,7 +237,7 @@ class StudentList(
             }.show()
         }
 
-        fun initSpinnerKehadiran(){
+        fun initSpinnerKehadiran() {
             ArrayAdapter.createFromResource(
                 itemView.context,
                 R.array.keterangan_hadir,
@@ -217,21 +248,36 @@ class StudentList(
             }
         }
 
-        fun checkTodayAbsent(teacherId: String?, className: String?, date: String?, studentId: Int?){
+        fun checkTodayAbsent(
+            teacherId: String?,
+            className: String?,
+            date: String?,
+            studentId: Int?
+        ) {
             itemView.context.database.use {
-                val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs("(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) AND (CLASS = {className}) AND (DATE = {todayDate}) LIMIT 1", "teacher_id" to teacherId.toString(), "student_id" to studentId.toString(), "className" to className.toString(), "todayDate" to date.toString())
+                val result = select(AbsentOfDay.TABLE_ABSENTOFDAY).whereArgs(
+                    "(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) AND (CLASS = {className}) AND (DATE = {todayDate}) LIMIT 1",
+                    "teacher_id" to teacherId.toString(),
+                    "student_id" to studentId.toString(),
+                    "className" to className.toString(),
+                    "todayDate" to date.toString()
+                )
                 val data = result.parseList(classParser<AbsentOfDay>())
-                if (data.isNotEmpty()){
+                if (data.isNotEmpty()) {
                     absentOfDay.addAll(data)
                 }
             }
         }
 
-        fun showAbsentData(teacherId: String?, studentId: Int?){
+        fun showAbsentData(teacherId: String?, studentId: Int?) {
             itemView.context.database.use {
-                val result = select(Absent.TABLE_ABSENT).whereArgs("(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) LIMIT 1", "teacher_id" to teacherId.toString(), "student_id" to studentId.toString())
+                val result = select(Absent.TABLE_ABSENT).whereArgs(
+                    "(TEACHER_ID = {teacher_id}) AND (STUDENT_ID = {student_id}) LIMIT 1",
+                    "teacher_id" to teacherId.toString(),
+                    "student_id" to studentId.toString()
+                )
                 val data = result.parseList(classParser<Absent>())
-                if (data.isNotEmpty()){
+                if (data.isNotEmpty()) {
                     absentData.addAll(data)
                 }
             }

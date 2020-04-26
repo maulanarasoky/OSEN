@@ -3,11 +3,9 @@ package com.example.osen.activity
 import android.content.ContentValues
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
 import com.example.osen.database.database
@@ -20,8 +18,6 @@ import kotlinx.android.synthetic.main.activity_restore.*
 import org.json.JSONArray
 import org.json.JSONException
 import java.io.*
-import java.net.HttpURLConnection
-import java.net.URL
 
 class Restore : AppCompatActivity() {
 
@@ -53,8 +49,8 @@ class Restore : AppCompatActivity() {
         }
     }
 
-    private fun downloadFile(fileName: String, restoreName: String){
-        if(!isNetworkConnected()){
+    private fun downloadFile(fileName: String, restoreName: String) {
+        if (!isNetworkConnected()) {
             dialog = SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
             dialog.setCancelable(false)
             dialog.titleText = "Pastikan Anda terhubung ke Internet"
@@ -71,7 +67,7 @@ class Restore : AppCompatActivity() {
 
             folder.getFile(location)
                 .addOnSuccessListener {
-                    when(restoreName){
+                    when (restoreName) {
                         "Kelas" -> importClasses(location.toString(), restoreName)
                         "Murid" -> importStudent(location.toString(), restoreName)
                         "Absen" -> importAbsents(location.toString(), restoreName)
@@ -79,12 +75,12 @@ class Restore : AppCompatActivity() {
                         "Kategori" -> importCategories(location.toString(), restoreName)
                     }
                 }
-                .addOnFailureListener{
+                .addOnFailureListener {
                     dialog.changeAlertType(SweetAlertDialog.ERROR_TYPE)
                     dialog.confirmText = "OK"
                     dialog.titleText = "Anda belum melakukan backup data $restoreName"
                 }
-        }catch (e: StorageException){
+        } catch (e: StorageException) {
             e.printStackTrace()
             Log.d("ERROR", e.message.toString())
         }
@@ -130,7 +126,7 @@ class Restore : AppCompatActivity() {
         val TEACHER_ID = "TEACHER_ID"
         try {
             val jsonDataString = readJsonFile(data)
-            if (jsonDataString == "[]"){
+            if (jsonDataString == "[]") {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = "Data $restoreName kosong"
                 dialog.confirmText = "OK"
@@ -154,7 +150,7 @@ class Restore : AppCompatActivity() {
 
                 database.use {
                     val insert = insert(Classroom.TABLE_CLASSROOM, null, contentValue)
-                    if(insert > 0){
+                    if (insert > 0) {
                         dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                         dialog.titleText = "Data $restoreName berhasil di restore"
                         dialog.confirmText = "OK"
@@ -179,7 +175,7 @@ class Restore : AppCompatActivity() {
         val TEACHER_ID = "TEACHER_ID"
         try {
             val jsonDataString = readJsonFile(data)
-            if (jsonDataString == "[]"){
+            if (jsonDataString == "[]") {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = "Data $restoreName kosong"
                 dialog.confirmText = "OK"
@@ -198,7 +194,7 @@ class Restore : AppCompatActivity() {
 
                 database.use {
                     val insert = insert(Student.TABLE_STUDENT, null, contentValue)
-                    if (insert > 0){
+                    if (insert > 0) {
                         dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                         dialog.titleText = "Data $restoreName berhasil di restore"
                         dialog.confirmText = "OK"
@@ -225,7 +221,7 @@ class Restore : AppCompatActivity() {
         val TEACHER_ID = "TEACHER_ID"
         try {
             val jsonDataString = readJsonFile(data)
-            if (jsonDataString == "[]"){
+            if (jsonDataString == "[]") {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = "Data $restoreName kosong"
                 dialog.confirmText = "OK"
@@ -246,7 +242,7 @@ class Restore : AppCompatActivity() {
 
                 database.use {
                     val insert = insert(Absent.TABLE_ABSENT, null, contentValue)
-                    if (insert > 0){
+                    if (insert > 0) {
                         dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                         dialog.titleText = "Data $restoreName berhasil di restore"
                         dialog.confirmText = "OK"
@@ -279,7 +275,7 @@ class Restore : AppCompatActivity() {
         val TEACHER_ID = "TEACHER_ID"
         try {
             val jsonDataString = readJsonFile(data)
-            if (jsonDataString == "[]"){
+            if (jsonDataString == "[]") {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = "Data $restoreName kosong"
                 dialog.confirmText = "OK"
@@ -315,7 +311,7 @@ class Restore : AppCompatActivity() {
 
                 database.use {
                     val insert = insert(Score.TABLE_SCORE, null, contentValue)
-                    if (insert > 0){
+                    if (insert > 0) {
                         dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                         dialog.titleText = "Data $restoreName berhasil di restore"
                         dialog.confirmText = "OK"
@@ -337,7 +333,7 @@ class Restore : AppCompatActivity() {
         val TEACHER_ID: String = "TEACHER_ID"
         try {
             val jsonDataString = readJsonFile(data)
-            if (jsonDataString == "[]"){
+            if (jsonDataString == "[]") {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = "Data $restoreName kosong"
                 dialog.confirmText = "OK"
@@ -353,7 +349,7 @@ class Restore : AppCompatActivity() {
 
                 database.use {
                     val insert = insert(Category.TABLE_CATEGORY, null, contentValue)
-                    if (insert > 0){
+                    if (insert > 0) {
                         dialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                         dialog.titleText = "Data $restoreName berhasil di restore"
                         dialog.confirmText = "OK"
@@ -368,8 +364,9 @@ class Restore : AppCompatActivity() {
         }
     }
 
-    private fun isNetworkConnected(): Boolean{
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun isNetworkConnected(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo.isConnected
     }
 }

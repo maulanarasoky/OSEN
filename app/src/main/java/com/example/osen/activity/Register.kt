@@ -3,7 +3,6 @@ package com.example.osen.activity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
@@ -87,7 +86,7 @@ class Register : AppCompatActivity() {
                 }
             } else {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
-                dialog.titleText = insert.exception?.message
+                dialog.titleText = "Email Sudah Terdaftar"
             }
         }
         dialog.show()

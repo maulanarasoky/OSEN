@@ -13,9 +13,9 @@ import com.example.osen.activity.ClassDetails
 import com.example.osen.model.Classroom
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.class_list.*
-import org.jetbrains.anko.startActivity
 
-class ClassList(private val activity: Activity, private val items: List<Classroom>) : RecyclerView.Adapter<ClassList.ViewHolder>() {
+class ClassList(private val activity: Activity, private val items: List<Classroom>) :
+    RecyclerView.Adapter<ClassList.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.class_list, parent, false)

@@ -10,13 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.osen.R
-import com.example.osen.activity.MainActivity
 import com.example.osen.adapter.ClassList
 import com.example.osen.database.database
 import com.example.osen.interfaces.MyAsyncCallback
 import com.example.osen.model.Classroom
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.db.classParser
@@ -70,7 +67,7 @@ class HomeFragment : Fragment(), MyAsyncCallback {
         }
     }
 
-    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<Void, Unit, Unit>(){
+    inner class DemoAsync(listener: MyAsyncCallback) : AsyncTask<Void, Unit, Unit>() {
 
         private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
 

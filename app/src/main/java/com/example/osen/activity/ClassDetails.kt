@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.view.isEmpty
 import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +26,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_class_details.*
 import org.jetbrains.anko.db.*
-import java.io.File
 import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
@@ -312,7 +309,7 @@ class ClassDetails : AppCompatActivity(), MyAsyncCallback {
         }
     }
 
-    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<Void, Unit, Unit>(){
+    inner class DemoAsync(listener: MyAsyncCallback) : AsyncTask<Void, Unit, Unit>() {
 
         private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
 
@@ -379,7 +376,7 @@ class ClassDetails : AppCompatActivity(), MyAsyncCallback {
 
         showStudent()
 
-        if (listStudent.isEmpty()){
+        if (listStudent.isEmpty()) {
             linear4.visibility = View.GONE
         }
 

@@ -29,9 +29,9 @@ import java.io.IOException
 import java.io.OutputStreamWriter
 import java.util.*
 
-class AutoBackup: BroadcastReceiver() {
+class AutoBackup : BroadcastReceiver() {
 
-    companion object{
+    companion object {
         const val TYPE_BACKUP_CLASSES = "TYPE_BACKUP_CLASSES"
         const val TYPE_BACKUP_STUDENTS = "TYPE_BACKUP_STUDENTS"
         const val TYPE_BACKUP_ABSENTS = "TYPE_BACKUP_ABSENTS"
@@ -53,31 +53,35 @@ class AutoBackup: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("CONTEXT", context.toString())
-        if(context != null){
+        if (context != null) {
             auth = FirebaseAuth.getInstance()
             storage = FirebaseStorage.getInstance().reference
             val type = intent?.getStringExtra(EXTRA_TYPE)
-            when(type){
+            when (type) {
                 TYPE_BACKUP_CLASSES -> {
                     export(context, Classroom.TABLE_CLASSROOM, "Osen_Classes.json")
-                    showNotif(context,"Data kelas Osen berhasil di backup", ID_BACKUP_CLASSES)
+                    showNotif(context, "Data kelas Osen berhasil di backup", ID_BACKUP_CLASSES)
                     Log.d("BACKUP", "BACKUP AKTIF")
                 }
                 TYPE_BACKUP_STUDENTS -> {
                     export(context, Student.TABLE_STUDENT, "Osen_Students.json")
-                    showNotif(context,"Data murid Osen berhasil di backup", ID_BACKUP_STUDENTS)
+                    showNotif(context, "Data murid Osen berhasil di backup", ID_BACKUP_STUDENTS)
                 }
                 TYPE_BACKUP_ABSENTS -> {
                     export(context, Absent.TABLE_ABSENT, "Osen_Absents.json")
-                    showNotif(context,"Data absen Osen berhasil di backup", ID_BACKUP_ABSENTS)
+                    showNotif(context, "Data absen Osen berhasil di backup", ID_BACKUP_ABSENTS)
                 }
                 TYPE_BACKUP_SCORES -> {
                     export(context, Score.TABLE_SCORE, "Osen_Scores.json")
-                    showNotif(context,"Data nilai Osen berhasil di backup", ID_BACKUP_SCORES)
+                    showNotif(context, "Data nilai Osen berhasil di backup", ID_BACKUP_SCORES)
                 }
                 TYPE_BACKUP_CATEGORIES -> {
                     export(context, Category.TABLE_CATEGORY, "Osen_Categories.json")
-                    showNotif(context,"Data kategori Osen berhasil di backup", ID_BACKUP_CATEGORIES)
+                    showNotif(
+                        context,
+                        "Data kategori Osen berhasil di backup",
+                        ID_BACKUP_CATEGORIES
+                    )
                 }
                 else -> {
                     Log.d("ERROR", "ERROR BACK UP")
@@ -86,7 +90,7 @@ class AutoBackup: BroadcastReceiver() {
         }
     }
 
-    private fun showNotif(context: Context, message: String, notifId: Int){
+    private fun showNotif(context: Context, message: String, notifId: Int) {
         val CHANNEL_ID = "channel_01"
         val CHANNEL_NAME = "AlarmManager channel"
 
@@ -130,7 +134,7 @@ class AutoBackup: BroadcastReceiver() {
             channel.enableVibration(true)
             channel.vibrationPattern = longArrayOf(1000, 1000, 1000, 1000, 1000)
             builder.setChannelId(CHANNEL_ID)
-            notificationManager?.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(channel)
         }
 
         val notification = builder.build()
@@ -138,7 +142,7 @@ class AutoBackup: BroadcastReceiver() {
         notificationManager.notify(notifId, notification)
     }
 
-    fun setAutoBackup(context: Context, type: String, id: Int){
+    fun setAutoBackup(context: Context, type: String, id: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val intent = Intent(context, AutoBackup::class.java)
@@ -150,10 +154,15 @@ class AutoBackup: BroadcastReceiver() {
         calendar.set(Calendar.SECOND, 0)
 
         val pendingIntent = PendingIntent.getBroadcast(context, id, intent, 0)
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
     }
 
-    fun cancelAutoBackup(context: Context, id: Int){
+    fun cancelAutoBackup(context: Context, id: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AutoBackup::class.java)
         val pendingIntent = PendingIntent.getBroadcast(context, id, intent, 0)
@@ -204,7 +213,7 @@ class AutoBackup: BroadcastReceiver() {
                 FileProvider.getUriForFile(context, "com.example.osen.fileprovider", fileLocation)
             val folder = storage.child("${auth.currentUser?.email}/${fileName}")
             folder.putFile(path)
-                .addOnSuccessListener{
+                .addOnSuccessListener {
                     Log.d("FIREBASE", "BERHASIL")
                 }
                 .addOnFailureListener {

@@ -557,7 +557,7 @@ class AddClassroom : AppCompatActivity(), MyAsyncCallback {
         }
     }
 
-    inner class DemoAsync(listener: MyAsyncCallback): AsyncTask<String, Unit, Unit>(){
+    inner class DemoAsync(listener: MyAsyncCallback) : AsyncTask<String, Unit, Unit>() {
 
         private val myListener: WeakReference<MyAsyncCallback> = WeakReference(listener)
 

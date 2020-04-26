@@ -1,7 +1,6 @@
 package com.example.osen.activity
 
 import android.os.Bundle
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.osen.R
@@ -52,7 +51,7 @@ class Login : AppCompatActivity() {
                 }
             } else {
                 dialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
-                dialog.titleText = check.exception?.message
+                dialog.titleText = "Password Salah"
             }
         }
         dialog.show()
